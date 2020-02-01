@@ -102,7 +102,7 @@ source ~/.bashrc
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-conda create -n seqscore python=3.7 anaconda pandas=0.25.3 numpy=1.17.3 sklearn=0.21.3
+conda create -n seqscore python=3.7 anaconda
 ```
 Finally activate the environment before running the algorithm:
 
