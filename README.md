@@ -47,12 +47,12 @@ Additional Options:
 
 	--out		path that specifies a file for the output of the predictions
 
-#### Example 1: Only with the FastQC report summaries
+#### Example 1: Only with the FastQC report summaries using the model for paired-ended ChIP-seq
 ```
-python seqQscorer.py --spec human --assay ChIP-seq --raw ./example_dataset/FastQC/read1_summaries/
+python seqQscorer.py --spec human --assay ChIP-seq --rt paired-ended --raw ./example_dataset/FastQC/read1_summaries/
 ```
 
-#### Example 2: Only with the Bowtie2 mapping statistics and using also the model for paired-end sequencing
+#### Example 2: Only with the Bowtie2 mapping statistics
 ```
 python seqQscorer.py --spec human --assay ChIP-seq  --rt paired-ended --map ./example_dataset/bowtie/mapping_statistics/
 ```
