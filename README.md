@@ -1,6 +1,6 @@
 # Machine Learning Quality Assessment of NGS Data
 
-seqQscorer is a python implementation that handles quality statistics or report summaries (quality features) as input to calculate a probability of an input sample to be of low quality. This probability is calculated with pre-trained classification models. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/768713v1). 
+seqQscorer is a python implementation that handles quality statistics or report summaries (quality features) as input to calculate a probability of an input sample to be of low quality. This probability is calculated with pre-trained classification models. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/768713v2). 
 
 The following Figure describes as well the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model depending on the experimental context (species or assay) and the quality features that are provided by the user. So far only the best models Random Forest are publicly available in this repository.
 
