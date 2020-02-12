@@ -73,12 +73,12 @@ It is necessary to provide at least one feature type (RAW, MAP, LOC, or TSS), ho
 
 Especially when seqQscorer is applied to a dataset containing files from different assays and species, it could be of interest to use a more generic model. Even though it was not possible to evaluate the performance on data from other assays or species, it is still possible to use seqQscorer especially when using FastQC and / or the mapping statistics, as those feature sets were less varying between the assays.
 
-##### Required python packages and the version used:
+##### Required python packages and the version used for testing:
 
-  	python 3.7
-  	numpy 1.17.3
-  	pandas 0.25.3
-  	sklearn 0.21.3
+  	python (v3.7)
+  	numpy (v1.17.3)
+  	pandas (v0.25.3)
+  	sklearn (v0.21.3)
 
 Other versions might be compatible as well. In case it is not running with your python installation, the easiest is to create a conda envirnment with the following steps and running the tool within this environment.
 
