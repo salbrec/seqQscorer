@@ -80,7 +80,7 @@ Especially when seqQscorer is applied to a dataset containing files from differe
 - pandas (v0.25.3)
 - sklearn (v0.21.3)
 
-Other versions might be compatible as well. In case it is not running with your python installation, the easiest is to create a conda envirnment with the following steps and running the tool within this environment.
+Other versions might be compatible as well. In case it is not running with your python installation, the easiest is to create a conda envirnment with the following steps and running the tool within this environment. Installation commands are executed on a Linux terminal and require not more than 15 minutes.
 
 ##### Installation with ANACONDA  
 
