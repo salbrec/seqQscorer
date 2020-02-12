@@ -108,3 +108,9 @@ Finally activate the environment before running the algorithm:
 
 `conda activate seqscore`
 
+The implementation was tested on:
+- Ubuntu 16.04.6 LTS (Xenial Xerus)
+- Ubuntu 18.04.3 LTS (Bionic Beaver)
+- CentOS Linux 7 (Core)
+
+
