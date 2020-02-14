@@ -32,11 +32,6 @@ tpm_data_file = './%s/featureCounts/tpm.tsv'%(geo_id)
 sra_data_file = './%s/SRA_list_comp.tsv'%(geo_id)
 quality_probs = './%s/quality_prbabilities.tsv'%(geo_id)
 
-geo_id = 'GSE126848' # TODO
-tpm_data_file = '../../../../machine_learning/application/GSE126848/featureCounts/tpm.tsv' # TODO
-sra_data_file = '../../../../machine_learning/application/GSE126848/SRA_list_comp.tsv' # TODO
-quality_probs = '../../../../machine_learning/application/GSE126848/quality/onlyRF/setting/all.tsv' # TODO
-
 # read in the data needed: TPM values, SRA metadata, quality probabilities
 tpm_data = pd.read_csv(tpm_data_file, sep='\t')
 sra_data = pd.read_csv(sra_data_file, sep='\t')
