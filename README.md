@@ -8,7 +8,7 @@ From a comprehensive feature analysis, done for this study, we derived explorato
 
 Furthermore, a description is provided for the application of seqQscorer to an example, also available in this repository. This example includes 8 FastQ files from two paired-end ChIP-seq experiments from ENCODE: ENCSR931HNY and ENCSR568PGX. Scripts and an explanation for the quality feature preprocessing can be found [here](example_dataset/).
 
-<img src="figures/workflow.png" width="300">
+<img src="figures/workflow.png" width="400">
 
 ## Applying the tool to preprocessed data
 
