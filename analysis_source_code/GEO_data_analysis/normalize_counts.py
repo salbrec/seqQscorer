@@ -21,7 +21,7 @@ import numpy as np
 
 geo_id = argv[1]
 
-# load the counts and gene annotations downloaded from biomart
+# load the counts and the biomart gene annotations
 data = pd.read_csv('../%s/featureCounts/counts_TP.tsv'%(geo_id), sep='\t')
 genes = pd.read_csv('gene_result.txt', sep='\t')
 
@@ -31,9 +31,9 @@ wc = 0
 for index, row in genes.iterrows():
 	l = np.nan
 	try:
-		gene_start = int(row['end_position_on_the_genomic_accession'])
-		gene_end = int(row['start_position_on_the_genomic_accession']
-		l = int(gene_start - gene_end)
+		gene_start = int(row['start_position_on_the_genomic_accession'])
+		gene_end = int(row['end_position_on_the_genomic_accession'])
+		l = int(gene_end - gene_start)
 	except:
 		wc += 1
 	lens.append(l)

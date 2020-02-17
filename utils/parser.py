@@ -1,3 +1,28 @@
+"""Parser utils
+
+This script provides functions used by seqQscorer to parse input files.
+
+Methods
+-------
+
+get_FastQC_features(feature_file_path)
+	parses the RAW features from the FastQC tool
+parse_BowtieSE(lines)
+	parses the MAP features from Bowtie2 from single-end sequencing samples
+parse_BowtiePE(lines)
+	parses the MAP features from Bowtie2 from paired-end sequencing samples
+get_Bowtie_features(feature_file_path)
+	directly used by seqQscorer, parses Bowtie2 input and defines the run type
+get_readsAnno_features(feature_file_path)
+	parses the LOC features from ChIPseeker
+get_TSS_features(feature_file_path)
+	parses the TSS features from ChIPpeakAnno
+
+date:	2019-05-12
+author:	Steffen Albrecht
+
+"""
+
 import os
 import numpy as np
 import pandas as pd

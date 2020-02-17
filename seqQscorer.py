@@ -1,3 +1,14 @@
+"""Machine Learning Quality Assessment of NGS Data
+
+Main script for seqQscorer. "python seqQscorer.py --help" will display
+a formatted help text on the console. A comprehensive description is provided
+in the GitHub README that includes examples as well.
+
+date:	2019-05-12
+author:	Steffen Albrecht
+
+"""
+
 from sys import *
 import os
 import pickle
@@ -25,6 +36,7 @@ features = []
 
 out_file_path = None
 
+# parse command line arguments
 script_directory = './'
 if argv[0].find('/') >= 0:
 	script_directory = argv[0][: - argv[0][::-1].find('/')]
@@ -123,7 +135,7 @@ if not os.path.exists(best_model_file_path):
 	for bow in ['MAPs', 'MAPp']:
 		if bow in features:
 			features.remove(bow)
-	features.append('MAPm')
+			features.append('MAPm')
 	species, assay, run_type = None, None, None
 	case = '%s_%s_%s_%s'%(str(species), str(assay), str(run_type), '-'.join(features))
 	best_model_file_path = '%smodels/%s.model'%(script_directory, case)

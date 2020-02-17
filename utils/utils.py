@@ -1,4 +1,20 @@
-import random
+"""seqQscorer utils
+
+Util functions used by seqQscorer.
+
+Methods
+-------
+
+get_path_info()
+	given a file path, this function extracts the files directory, the 
+	base file name, and its ending
+get_help_text()
+	returns a formatted string describing the seqQscorer help text
+
+date:	2019-05-12
+author:	Steffen Albrecht
+
+"""
 
 def get_path_info(file_path):
 	if file_path.find('/') < 0:
@@ -9,17 +25,6 @@ def get_path_info(file_path):
 		file_name_ending = file_path[-file_path[::-1].find('/'):]
 	file_name = file_name_ending[:file_name_ending.find('.')]
 	return folder, file_name_ending, file_name
-
-def filter_50_50(data, seed=None):
-	rev_loc = list(data['status'] == 1)
-	rev_iloc = list(filter(lambda x: rev_loc[x], range(len(rev_loc))))
-	rel_loc = list(data['status'] == 0)
-	rel_iloc = list(filter(lambda x: rel_loc[x], range(len(rel_loc))))
-	balance = min(len(rev_iloc), len(rel_iloc))
-	if seed != None:
-		random.seed(seed)
-	rows = random.sample(rel_iloc, balance) + random.sample(rev_iloc, balance)
-	return data.iloc[rows]
 
 def get_help_text():
 	return '''

@@ -1,8 +1,8 @@
-"""With experiment differences
+"""Within experiment differences
 
 This script performs the analysis for the within-experiment differences. 
 First, experiments are identified having both released and revoked files. 
-Then a classification model is trained without a set of files from the 
+Then a classification model is trained without the set of files from the 
 same experiment. This model is used to calculate a class probability for 
 the files that were excluded before. A boxplot, showing the distribution 
 of these probabilities for released and revoked files, is directly created. 
@@ -87,7 +87,7 @@ for setting in settings:
 						  data.columns.values))
 		classification_feature_cols += col_names
 
-	# delete those samples that have no value at all for a given quality metric
+	# delete samples that have no value at all for one of the feature set
 	# impute missing values
 	defining_the_set_features = short_feature_names
 	defining_the_set_features = ['FQC']

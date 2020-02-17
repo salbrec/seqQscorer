@@ -1,13 +1,13 @@
 """Cross-species generalization
 
 Slightly differs to the main grid search. For this grid, XG-Boost 
-was excluded because of problems with the serialization
+was excluded because of problems with the serialization.
 
 Methods
 -------
 
 get_grid()
-	defines the algorithm list and all parameters used within grid search
+	defines the algorithm list and all parameters used within the grid search
 
 date:	2019-04-08
 author:	Steffen Albrecht

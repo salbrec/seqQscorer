@@ -2,13 +2,13 @@
 
 Within this script, the predictive performance of single features is evaluated
 by the area under ROC curve. Later the one-feature performance is compared to
-the multi-feature performance achieved by machine learning algorithms 
+the multi-feature performance achieved by machine learning algorithms.
 
 Methods
 -------
 
 print_nice_table()
-	function that prints a formated table on the console
+	function that prints a formatted table on the console
 get_auROC(values_raw, labels)
 	function that calculates the area under ROC curve
 
@@ -46,9 +46,9 @@ def get_auROC(values_raw, labels):
 
 feature_abbr_ls, feature_abbr_sl = utils.get_abbr_maps()
 
-# used to manually select the different settings, settings
-# with the same run type can be applied together. Tables were
-# manually merged later 
+# used to manually select the different settings. 
+# settings with the same run type can be applied together.
+# tables were manually merged later 
 settings = []
 #settings.append(('None', 'None', 'None'))
 #settings.append(('human', 'RNA-seq', 'single-ended'))
@@ -78,13 +78,13 @@ for setting in settings:
 	metrics.append('RA')
 	metrics.append('TSS')
 	all_columns = []
-	# collect all column names representing the feature names
+	# collect all column names that represent the feature names
 	for short_name in metrics:
 		long_name = feature_abbr_sl[short_name]
 		col_names = list(filter(lambda x: x[:len(long_name)] == long_name, 
 						  data.columns.values))
 		all_columns += col_names
-	# fromat a string that describes the surrent setting
+	# fromat a string that describes the current setting
 	case = '%s %s (%d)'%(organism.title(), assay, data.shape[0])
 	cases.append(case)
 	auROCs[case] = {}

@@ -3,7 +3,6 @@
 A grid search applied to the datasets, specific for this analysis
 to find the best performing classification model
 
-
 Parameters
 ----------
 assay : str

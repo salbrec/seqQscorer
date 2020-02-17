@@ -1,14 +1,13 @@
 """Generic model performance
 
 Within this script, the predictive performance of the generic model is
-evaluated when it is applied to subsets specific the different
-assay-species specific subsets.
+evaluated when it is applied to the assay-species specific subsets.
 
 Methods
 -------
 
 print_nice_table()
-	function that prints a formated table on the console
+	function that prints a formatted table on the console
 
 date:	2019-06-10
 author:	Steffen Albrecht
@@ -126,13 +125,9 @@ for features in feature_sets:
 	for col in gs_feature_cols:
 		data[col] = imp.fit_transform(data[[col]]).ravel()
 	
-	# load the generic model depending specific to the the feature set
+	# load the generic model depending on the given feature sets
 	model_file_path = './generic_models/None_None_None_%s.model'%(features) 
 	classifier = pickle.load(open(model_file_path, 'rb'))
-	
-	
-	# intiate the objects needed by the grid search
-	tenFold = StratifiedKFold(n_splits=10, random_state=the_RS, shuffle=True)
 	
 	# separate feature values and class values
 	X = np.array(data.iloc[:, [True if col in gs_feature_cols else False 
@@ -140,6 +135,7 @@ for features in feature_sets:
 	y = np.array(data['status'])
 	
 	# initialize and run the ten-fold cross-validation
+	tenFold = StratifiedKFold(n_splits=10, random_state=the_RS, shuffle=True)
 	trues = dict((combi, []) for combi in combis)
 	prob_real = dict((combi, {'prob':[], 'real':[]}) for combi in combis)
 	probas = cross_val_predict(classifier, X=X, y=y, 

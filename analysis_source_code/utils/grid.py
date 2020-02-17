@@ -13,7 +13,6 @@ author:	Steffen Albrecht
 
 """
 
-# classification algorithms:
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression

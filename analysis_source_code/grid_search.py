@@ -1,7 +1,7 @@
 """Grid Search
 
 This script runs the grid search for one of the ten classification algorithms
-and for all algorithm-specific parameter setting combinations
+and for all algorithm-specific parameter setting combinations.
 
 Parameters
 ----------
@@ -13,10 +13,11 @@ runType : str
 	single-ended, paired-ended, or None
 features : str
 	abbreviations for feature sets separated by "-"
-	FQC, [BowM, BowS, BowP], RA, TSS
+	FQC, [BowM,BowS,BowP], RA, TSS (these were changed when writing the paper)
+	new names: RAW, MAP, LOC, TSS respectively
 clf_setting : str
 	classifier and feature selection setting separated by "-"
-		classifier code: e.g. RFC for RandomForest
+		classifier code: e.g. RFC for RandomForestClassifier
 		feature selection method: chi2 or None
 		percentage of features to keep: 100, 75, 50, or 25
 
@@ -24,6 +25,7 @@ clf_setting : str
 	runs a small grid for testing
 -cores n_cores : int (optional)
 	to specify the number of cores used to run the grid search
+	by default 64 cores according to our HPC environment
 
 date:	2019-02-10
 author:	Steffen Albrecht
@@ -68,7 +70,7 @@ global log_str
 log_str = '%s\n\n'%(' '.join(argv[1:]))
 feature_selection_methods = {'chi2': chi2}
 
-# command line arguments
+# parse command line arguments
 organism = argv[1]
 assay = argv[2]
 runType = argv[3]
@@ -78,7 +80,7 @@ clf = clf_setting.split('-')[0]
 fs_method = clf_setting.split('-')[1]
 fs_K = int(clf_setting.split('-')[2])
 
-# parse optional command line parameters
+# parse optional command line arguments
 testing_mode = '-test' in argv
 n_cores = 1 if testing_mode else 64
 for i in range(len(argv)):
@@ -99,7 +101,7 @@ data = pickle.load(open('./datasets/%s_%s_%s'%(assay,organism,runType),'rb'))
 
 # split short names of feature sets into a list 
 short_feature_names = features.split('-')
-# collect relevant column names used within grid search
+# collect relevant column names used within the grid search
 gs_feature_cols = []
 for short_name in short_feature_names:
 	long_name = feature_abbr_sl[short_name]
@@ -112,12 +114,12 @@ revoked = len(list(filter(lambda x: x == 1, list(data['status']))))
 released = len(list(filter(lambda x: x == 0, list(data['status']))))
 n_samples = data.shape[0]
 
-## initialize the objects needed by the grid search
+# initialize the objects needed by the grid search
 tenFold = StratifiedKFold(n_splits=10, random_state=the_RS, shuffle=True)
 param_grids = param_grid
 scorer = ml_utils.get_scorer_dict()
 
-# simplify the whole grid search (testing)
+# simplify the whole grid search (for testing)
 if testing_mode:
 	tenFold = StratifiedKFold(n_splits=3, random_state=the_RS, shuffle=True)
 	param_grids = param_grid_test

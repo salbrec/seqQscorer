@@ -1,7 +1,7 @@
 """Cross-species generalization
 
 Based on the best performing model and the different testing sets, this
-script validates the model on the set of samples from the "unseen species".
+script validates the models on the set of samples from the "unseen species".
 Predictive performance is evaluated by ROC curves that are also plotted.
 
 date:	2019-04-08

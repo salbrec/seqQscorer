@@ -1,7 +1,7 @@
 """Cross-species generalization
 
 Within this script, the 5-fold cross-validation training and testing 
-sets are created and serialized 
+sets are created and serialized.
 
 Parameters
 ----------
@@ -67,8 +67,7 @@ for organism in organisms:
 	if run_type != 'None':
 		data = data.loc[data['runType'] == run_type]
 	
-	# delete those samples that have no value at all for a given quality metric
-	# the setting "all_features_avail" might be interesting here
+	# delete those samples that have no value at all for a given feature set
 	defining_the_set_features = ['FQC']
 	if run_type == 'None':
 		defining_the_set_features.append('BowM')
