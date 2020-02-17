@@ -14,7 +14,7 @@ Furthermore, a description is provided for the application of seqQscorer to an e
 
 ## Applying the tool to preprocessed data
 
-The tool runs within a Linnux terminal and can be applied either to a single file or to a directory containing multiple files. These are the options of seqQscorer, followed by some examples:
+The tool runs within a Linux terminal and can be applied either to a single file or to a directory containing multiple files. These are the options of seqQscorer, followed by some examples:
 
 Display the help text:
 	
