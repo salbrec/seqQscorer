@@ -132,10 +132,7 @@ if not os.path.exists(best_model_file_path):
 	message += 'A specialized model for this setting is not available,\n'
 	message += 'the generic model is used to proceed.\n'
 	print(message)
-	for bow in ['MAPs', 'MAPp']:
-		if bow in features:
-			features.remove(bow)
-			features.append('MAPm')
+	features = ['MAPm' if f in ['MAPs', 'MAPp'] else f for f in features]
 	species, assay, run_type = None, None, None
 	case = '%s_%s_%s_%s'%(str(species), str(assay), str(run_type), '-'.join(features))
 	best_model_file_path = '%smodels/%s.model'%(script_directory, case)
