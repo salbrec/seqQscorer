@@ -29,9 +29,9 @@ feature_path['bowtie'] = None
 feature_path['readsAnno'] = None
 feature_path['tss'] = None
 
-species = None
-assay = None
-run_type = None
+species = 'None'
+assay = 'None'
+run_type = 'None'
 features = []
 
 out_file_path = None
@@ -60,7 +60,7 @@ if '--raw' in argv:
 
 if '--map' in argv:
 	feature_path['bowtie'] = argv[ argv.index('--map') + 1 ]
-	if run_type == None:
+	if run_type != 'single-ended' and run_type != 'paired-ended':
 		features.append('MAPm')
 	if run_type == 'single-ended':
 		features.append('MAPs')
