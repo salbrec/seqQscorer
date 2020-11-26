@@ -1,0 +1,12 @@
+PASS	Basic Statistics	ENCFF677ULQ.fastq.gz
+PASS	Per base sequence quality	ENCFF677ULQ.fastq.gz
+WARN	Per tile sequence quality	ENCFF677ULQ.fastq.gz
+PASS	Per sequence quality scores	ENCFF677ULQ.fastq.gz
+WARN	Per base sequence content	ENCFF677ULQ.fastq.gz
+FAIL	Per sequence GC content	ENCFF677ULQ.fastq.gz
+PASS	Per base N content	ENCFF677ULQ.fastq.gz
+PASS	Sequence Length Distribution	ENCFF677ULQ.fastq.gz
+PASS	Sequence Duplication Levels	ENCFF677ULQ.fastq.gz
+WARN	Overrepresented sequences	ENCFF677ULQ.fastq.gz
+PASS	Adapter Content	ENCFF677ULQ.fastq.gz
+FAIL	Kmer Content	ENCFF677ULQ.fastq.gz
