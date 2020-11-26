@@ -199,7 +199,7 @@ python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx 
 After deriving the feature sets the application of seqQscorer can be as simple as the following line. Check out the parameters that allow you to specify the feature sets used and especially the classification model that is applied.
 
 ```
-python seqQscorer.py --indir ./pp_examples/
+python seqQscorer.py --indir ./feature_set_examples/
 ```
 
 By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. However, depending on the data that was available for our investigations, some specialized model are available. You can specify the model with the paramters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve). The specialized models, available for all feature set combinations out of RAW, MAP, LOC, and TSS are: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
