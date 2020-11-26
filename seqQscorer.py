@@ -47,6 +47,7 @@ argsParser.add_argument('--noLOC', action='store_true', help='Ignore all LOC fea
 argsParser.add_argument('--noTSS', action='store_true', help='Ignore all TSS features.')
 argsParser.add_argument('--noFS', action='store_true', help='Switch off feature selection. (has only an impact if the best performance was achieved with chi2 or RFE)')
 argsParser.add_argument('--bestCalib', action='store_true', help='Classifier setting is used that achieved the lowest brier score, hence the best calibration of the probabilities.')
+argsParser.add_argument('--peaktype', '-pt', type=str, default=None, choices=['narrow','broad'], help='Optionally specify the peak-type for ChIP-seq data.')
 argsParser.add_argument('--probOut', '-po', type=str, default=None,
 						help='To specify an output file for the probabilities. Output will be tab-separated.')
 argsParser.add_argument('--compOut', '-co', type=str, default=None,
@@ -76,6 +77,13 @@ fs_suffix = '_noFS' if args.noFS else ''
 
 # initiate the classification model and other data needed
 species, assay, run_type = args.species, args.assay, args.runtype
+
+if args.peaktype != None:
+	if args.assay != 'ChIP-seq' or args.runtype != 'single-ended':
+		raise myExceptions.WrongSettingException(
+			'Peak-type specification can only be used for single-ended ChIP-seq.')
+	assay = args.peaktype + assay
+
 best_clf, feature_selection, selection, parameters, auROC, brier = utils.get_best_classifier(utils_dir, species, assay, 
 															run_type, feature_sets, fs_suffix, model_sel_metric)
 
@@ -100,7 +108,6 @@ if args.model != None:
 	except:
 		raise myExceptions.IncorrectModelException(
 			'The provided model from file "%s" could not be loaded.'%(model_file_path))
-
 
 # load median values organized by subset, needed to impute missing values
 medians = pickle.load(open('%sutils/medians.dict'%(script_dir), 'rb'))
