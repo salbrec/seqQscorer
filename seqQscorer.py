@@ -14,183 +14,274 @@ import os
 import pickle
 import pandas as pd
 import numpy as np
+import json
 import random
 import argparse
-from sklearn.impute import SimpleImputer
+
+import warnings
+warnings.filterwarnings("ignore")
 
 # import project utils
-import utils.parser as parser
 import utils.Exceptions as myExceptions
 import utils.utils as utils
-
-feature_path = {}
-feature_path['fastqc'] = None
-feature_path['bowtie'] = None
-feature_path['readsAnno'] = None
-feature_path['tss'] = None
-
-species = 'None'
-assay = 'None'
-run_type = 'None'
-features = []
-
-out_file_path = None
+import utils.parser as parser
 
 # parse command line arguments
-script_directory = './'
+script_dir = './'
 if argv[0].find('/') >= 0:
-	script_directory = argv[0][: - argv[0][::-1].find('/')]
+	script_dir = argv[0][: - argv[0][::-1].find('/')]
+utils_dir = '%sutils/'%(script_dir)
 
-if '--help' in argv:
-	print(utils.get_help_text())
-	raise SystemExit(0)
+argsParser = argparse.ArgumentParser(description='seqQscorer - A machine learning application for quality assessment of NGS data')
+argsParser.add_argument('--indir', '-i', type=str, required=True, help='Input directory containing the feature set files')
+argsParser.add_argument('--species', '-s', type=str, default='generic', 
+						choices=['generic','human', 'mouse'],  help='Species specifying the model used.')
+argsParser.add_argument('--assay', '-a', type=str, default='generic', 
+						choices=['generic','ChIP-seq','DNase-seq','RNA-seq'], help='Assay specifying the model used.')
+argsParser.add_argument('--runtype', '-r', type=str, default='generic',
+						choices=['generic','single-ended','paired-ended'], help='Run-Type specifying the model used.')
+argsParser.add_argument('--model', '-m', type=str, default=None, help='Path to a serialized model, trained on own data. If used, the parameters --species, --assay, and --runtype have no impact on the classification model.')
+argsParser.add_argument('--noRAW', action='store_true', help='Ignore all RAW features.')
+argsParser.add_argument('--noMAP', action='store_true', help='Ignore all MAP features.')
+argsParser.add_argument('--noLOC', action='store_true', help='Ignore all LOC features.')
+argsParser.add_argument('--noTSS', action='store_true', help='Ignore all TSS features.')
+argsParser.add_argument('--noFS', action='store_true', help='Switch off feature selection. (has only an impact if the best performance was achieved with chi2 or RFE)')
+argsParser.add_argument('--bestCalib', action='store_true', help='Classifier setting is used that achieved the lowest brier score, hence the best calibration of the probabilities.')
+argsParser.add_argument('--probOut', '-po', type=str, default=None,
+						help='To specify an output file for the probabilities. Output will be tab-separated.')
+argsParser.add_argument('--compOut', '-co', type=str, default=None,
+						help='To specify an out file for the comprehensive output. Output will be kind of tab-separated.')
+argsParser.add_argument('--inputOut', '-io', type=str, default=None,
+						help='To specify an out file that will contain the parsed input. Output will be tab-separated.')
+args = argsParser.parse_args()
 
-if '--rt' in argv:
-	run_type = argv[ argv.index('--rt') + 1 ]
+if not os.path.isdir(args.indir):
+	raise myExceptions.WrongFeatureInputException(
+						'"%s" is not a directory'%(args.indir))
 
-if '--spec' in argv:
-	species = argv[ argv.index('--spec') + 1 ]
+feature_sets = ['RAW','MAP','LOC','TSS']
 
-if '--assay' in argv:
-	assay = argv[ argv.index('--assay') + 1 ]
+# restrict feature sets used according to given optional parameters
+if args.noRAW:
+	feature_sets.remove('RAW')
+if args.noMAP:
+	feature_sets.remove('MAP')
+if args.noLOC:
+	feature_sets.remove('LOC')
+if args.noTSS:
+	feature_sets.remove('TSS')
 
-if '--raw' in argv:
-	feature_path['fastqc'] = argv[ argv.index('--raw') + 1 ]
-	features.append('RAW')
+model_sel_metric = 'brier' if args.bestCalib else 'auROC'
+fs_suffix = '_noFS' if args.noFS else ''
 
-if '--map' in argv:
-	feature_path['bowtie'] = argv[ argv.index('--map') + 1 ]
-	if run_type != 'single-ended' and run_type != 'paired-ended':
-		features.append('MAPm')
-	if run_type == 'single-ended':
-		features.append('MAPs')
-	if run_type == 'paired-ended':
-		features.append('MAPp')
+# initiate the classification model and other data needed
+species, assay, run_type = args.species, args.assay, args.runtype
+best_clf, feature_selection, selection, parameters, auROC, brier = utils.get_best_classifier(utils_dir, species, assay, 
+															run_type, feature_sets, fs_suffix, model_sel_metric)
 
-if '--loc' in argv:
-	feature_path['readsAnno'] = argv[ argv.index('--loc') + 1 ]
-	features.append('LOC')
-
-if '--tss' in argv:
-	feature_path['tss'] = argv[ argv.index('--tss') + 1 ]
-	features.append('TSS')
-
-if '--out' in argv:
-	out_file_path = argv[ argv.index('--out') + 1 ]
-
-# collect all file paths for the given input
-feature_files = {}
-for feature_type in feature_path.keys():
-	path = feature_path[feature_type]
-	if path == None:
-		continue
-	feature_files[feature_type] = []
-	if os.path.isdir(path):
-		for subdir, dirs, files in os.walk(path):
-			for feature_file in files:
-				if os.path.isfile(path + feature_file):
-					feature_files[feature_type].append(path + feature_file)
-				else:
-					raise myExceptions.WrongFeatureInputException(
-						'"%s" in directory "%s" is not a file.'%(
-							feature_file, path))
-	else:
-		if os.path.isfile(path):
-			feature_files[feature_type].append(path)
-		else:
-			raise myExceptions.WrongFeatureInputException(
-				'"%s" is neither a file nor a directory.'%(path))
-
-# initialize the specific parser functions
-parsers = {}
-parsers['fastqc'] = parser.get_FastQC_features
-parsers['bowtie'] = parser.get_Bowtie_features
-parsers['readsAnno'] = parser.get_readsAnno_features
-parsers['tss'] = parser.get_TSS_features
-
-# parse the given input files to extract all feature values
-all_IDs = set()
-all_feature_names = set()
-fileID_features = {}
-for feature_type, file_paths in feature_files.items():
-	for feature_file in file_paths:
-		folder, file_name_ending, fileID = utils.get_path_info(feature_file)
-		if not fileID in fileID_features:
-			fileID_features[fileID] = {}
-		temp_features = parsers[feature_type](feature_file)
-		all_IDs.add(fileID)
-		all_feature_names |= set(temp_features.keys())
-		fileID_features[fileID].update(temp_features)
-
-# load the appropriate model
-case = '%s_%s_%s_%s'%(str(species), str(assay), str(run_type), '-'.join(features))
-best_model_file_path = '%smodels/%s.model'%(script_directory, case)
-if not os.path.exists(best_model_file_path):
+if best_clf == None:
 	message = '''\nPlease check the given setting:
 	assay:\t\t%s\n\tspecies:\t%s\n\trun-type:\t%s\n'''%(assay, species, run_type)
-	message += '\tfeature sets:\t%s\n'%('-'.join(features))
+	message += '\tfeature sets:\t%s\n'%('-'.join(feature_sets))
 	message += 'A specialized model for this setting is not available,\n'
 	message += 'the generic model is used to proceed.\n'
 	print(message)
-	features = ['MAPm' if f in ['MAPs', 'MAPp'] else f for f in features]
-	species, assay, run_type = None, None, None
-	case = '%s_%s_%s_%s'%(str(species), str(assay), str(run_type), '-'.join(features))
-	best_model_file_path = '%smodels/%s.model'%(script_directory, case)
+	species, assay, run_type = 'generic', 'generic', 'generic'
 
-# prepare a pandas DataFrame containing the input data
-all_feature_names = sorted(list(all_feature_names), reverse=True)
-input_data = dict((feature_name, []) for feature_name in all_feature_names) 
-input_data['accession'] = []
-for accession in fileID_features:
-	input_data['accession'].append(accession)
-	for feature_name in all_feature_names:
-		input_data[feature_name].append(fileID_features[accession].get(feature_name, np.nan))
-input_data = pd.DataFrame(input_data)
+application_case = '%s_%s_%s_%s'%(species, assay, run_type, '-'.join(feature_sets))
+application_case += '_%s%s'%(model_sel_metric, fs_suffix)
+model_file_path = '%smodels/%s.model'%(script_dir, application_case)
+
+if args.model != None:
+	print('An external model is provided.')
+	model_file_path = args.model
+	try: 
+		pickle.load(open(model_file_path, 'rb'))
+	except:
+		raise myExceptions.IncorrectModelException(
+			'The provided model from file "%s" could not be loaded.'%(model_file_path))
+
 
 # load median values organized by subset, needed to impute missing values
-medians = pickle.load(open('%sutils/medians.dict'%(script_directory), 'rb'))
-medians = medians[str(species)][str(assay)][str(run_type)]
+medians = pickle.load(open('%sutils/medians.dict'%(script_dir), 'rb'))
+medians = medians[species][assay][run_type]
 
-# define all columns that are considered as features
-feature_abbr_sl = {'RAW': 'FastQC', 'MAPs': 'BowtieSE',
-				   'MAPp': 'BowtiePE', 'MAPm': 'BowtieMI',
-				   'LOC': 'readsAnno', 'TSS': 'TSS'}
-feature_cols = []
-for short_name in features:
-	long_name = feature_abbr_sl[short_name]
-	col_names = list(filter(lambda x: x[:len(long_name)] == long_name, medians.keys()))
-	feature_cols += col_names
-feature_cols = sorted(feature_cols) # the sorting is also done in the grid search 
+# parse given input files
+input_data, feature_columns = parser.generate_input_data(args.indir, feature_sets, run_type, medians)
 
-# search for missing features
-missing_features = list(filter(lambda x: not x in input_data.columns, feature_cols))
-for feature in missing_features:
-	median = medians[feature]
-	print('\nWarning: No values at all for the following feature:')
-	print('\t%s'%(feature))
-	print('\nFeature was imputed for all samples with its mean value: "%s"\n'%(str(median)))
-	input_data[feature] = input_data.shape[0] * median
-input_data = input_data[feature_cols + ['accession']]
+# if the particula model is used for the very first time, it is trained and serialized
+best_clf, feature_selection, selection, parameters, auROC, brier = utils.get_best_classifier(utils_dir, 
+																	 species, assay, run_type, feature_sets, 
+																	 fs_suffix, model_sel_metric)
 
-# imputation of missing values by the median value
-for feature in feature_cols:
-	input_data[feature] = [medians[feature] if np.isnan(value) else value for value in input_data[feature]]
+if not os.path.exists(model_file_path) and args.model == None:
+	print('\nThe required model was not used so far.')
+	print('It needs to be trained and serialized...')
+	
+	clf = utils.get_clf_algos()[best_clf]
+	if not best_clf in ['GNB','KNN']:
+		parameters['random_state'] = 1
+	
+	clf_setup = clf.set_params(**parameters)
+	
+	data_file_path = '%sutils/datasets/%s_%s_%s.tsv'%(script_dir, assay, species, run_type)
+	train_data = pd.read_csv(data_file_path, sep='\t')
+	
+	y = np.array(train_data['status'])
+	train_data = train_data[feature_columns]
+	if selection != None:
+		train_data = train_data.loc[:,selection]
+	X = np.array(train_data)
+	
+	model = clf_setup.fit(X,y)
+	pickle.dump(model, open(model_file_path, 'wb'))
+	
+	print('... training and serialization is done!')
+	print('The model is instantly available from now!')
+
+# load the model
+model = pickle.load(open(model_file_path, 'rb'))
+
+# prepare input data format
+input_values = input_data[feature_columns]
+if selection != None:
+	input_values = input_values.loc[:,selection]
 
 # apply model on given samples to get the probabilities
-model = pickle.load(open(best_model_file_path, 'rb'))
-probabilities = model.predict_proba(input_data[feature_cols])
-fileIDs = list(input_data['accession'])
+probabilities = model.predict_proba(np.array(input_values))
+fileIDs = list(input_data['sampleID'])
 fileID_score = list(zip(fileIDs, [prob[1] for prob in probabilities]))
 
+print('\nThe best predictive performance was achived by %s'%(utils.clf_full_names(best_clf)))
+print('%s feature selection is applied (using %s%s of the features)'%(
+	tuple(feature_selection.split('-') + ['%'])))
+print('Within the cross-validated gird search this model achived:')
+print('\tauROC: %s'%(auROC))
+print('\tBrier: %s'%(brier))
+print('\nThe model used, achieved these measures for different decision thresholds applied\non the probabilities within the grid-search (ten-fold cross-validation):')
+table = utils.read_in_measure_table(utils_dir, species, assay, run_type, 
+									feature_sets, fs_suffix, model_sel_metric)
+utils.print_nice_table(table)
+print('')
+
 # print the scores to the console
+probas_str = ''
 for fileID, score in sorted(fileID_score, key=lambda x: x[1]):
+	probas_str += '%s\t%f\n'%(fileID, score)
 	print(fileID, '%.3f '%(score), '(probability for being of low quality)', sep='\t')
 
-# write scores to file
-if out_file_path != None:
-	with open(out_file_path, 'w') as f:
-		for fileID, score in sorted(fileID_score, key=lambda x: x[1]):
-			f.write('%s\t%f\t(probability for being of low quality)\n'%(fileID, score))
+# write probabilities to file if a file-path is given
+if args.probOut != None:
+	try:
+		open(args.probOut, 'w').write(probas_str)
+	except:
+		raise myExceptions.WrongOutputFileException(
+			'Unable to write the probabilities to file!')
+
+# write comprehensive output to file if a file-path is given
+if args.compOut != None:
+	comp_out  = 'Model trained by: %s\n'%(utils.clf_full_names(best_clf))
+	comp_out += '%s feature selection applied\n'%(feature_selection.split('-')[0])
+	comp_out += '%s %s of the features are used\n'%(feature_selection.split('-')[1], '%')
+	comp_out += 'auROC: %s\n'%(auROC)
+	comp_out += 'Brier: %s\n\n'%(brier)
+	comp_out += 'Metric table:\n'
+	for row in table:
+		comp_out += '\t'.join(row) + '\n'
+	comp_out += '\n' + probas_str
+	
+	try:
+		open(args.compOut, 'w').write(comp_out)
+	except:
+		raise myExceptions.WrongOutputFileException(
+			'Unable to write the comprehensive output to file!')
+
+# write the parsed input into a file, if a pth is given
+if args.inputOut != None:
+	try:
+		input_data.to_csv(args.inputOut, sep='\t', index=False)
+	except:
+		raise myExceptions.WrongOutputFileException(
+			'Unable to write the parsed input to file')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

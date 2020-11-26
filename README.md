@@ -1,88 +1,265 @@
 # Machine Learning Quality Assessment of NGS Data
 
-seqQscorer is a python implementation that handles quality statistics or report summaries (quality features) as input to calculate a probability of an input sample to be of low quality. This probability is calculated with pre-trained classification models. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/768713v2). 
+seqQscorer is a python implementation that handles quality statistics or report summaries (quality features) as input to calculate a probability of an input NGS sample to be of low quality. This probability is calculated with pre-trained classification models. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/768713v2). 
 
-The following Figure describes as well the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model depending on the experimental context (species or assay) and the quality features that are provided by the user. The best Random Forest models are publicly available in this repository.
+The following Figure describes the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model. The optimization depends on the experimental context (species or assay) and the quality features that are provided by the user. Already computed classification models are not available in the github. However, the software conatins settings for an over all well-performing genereic model and multiple more specialized model, that can be trained with the ENCODE data or new data. The first time a model is needed, it is trained and serialized into the folder `models`. Afterwards it is not necessary to compute it again. Note, seqQscorer trains models on the preprocessed ENCODE data (in utils) as described in the article.
 
-From a comprehensive feature analysis, done for this study, we derived exploratory statistics. These statistics can be used as [guidelines](statistical_guidelines/) for scientists doing quality control of NGS data. 
-
-Furthermore, a description is provided for the application of seqQscorer to an example, also available in this repository. This example includes 8 FastQ files from two paired-end ChIP-seq experiments from ENCODE: ENCSR931HNY and ENCSR568PGX. Scripts and an explanation for the quality feature preprocessing can be found [here](example_dataset/).
+Additionally the script `deriveFeatureSets.py` is available in this repository. It allows the user to preprocess all quality feature sets that are needed to properly run seqQscorer and provides the results in an already readable way for seqQscorer. An example for its usage is provided below. 
 
 <img src="figures/workflow.png" width="850">
 
-## Applying the tool to preprocessed data
+## Software installation
 
-The tool runs within a Linux terminal and can be applied either to a single file or to a directory containing multiple files. These are the options of seqQscorer, followed by some examples:
+Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually. For both it is of course necessary to clone this repository:
 
-Display the help text:
-	
-	--help		Print this help text and exit
-	
-These options describe the experimental setting of the data 
-that is provided by the user:
-	
-	--spec		defines the organism of the given data
-			"human" or "mouse" are available, by default it is "None"
-	
-	--assay		defines the assay of the given data
-			"ChIP-seq", "DNase-seq", and "RNA-seq" are available, by default it is "None"
-	
-	--rt		defines the run-type used in the given data
-			"single-ended" or "paired-ended", by default it is "None"
-	
-These options specify the directories containing the statistics 
-or report summaries describing the data:
-
-	--raw		path to the file or directory for the FastQC report(s)
-	
-	--map		path to the file or directory for the Bowtie2 mapping statistic(s)
-	
-	--loc		path to the file or directory for the location features (ChIPseeker)
-	
-	--tss		path to the file or directory for the TSS features (ChIPpeakAnno)
-
-Additional Options:
-
-	--out		path that specifies a file for the output of the predictions
-
-#### Example 1: Only with the FastQC report summaries using the model for paired-ended ChIP-seq
 ```
-python seqQscorer.py --spec human --assay ChIP-seq --rt paired-ended --raw ./example_dataset/FastQC/read1_summaries/
+git clone https://gitlab.rlp.net/salbrec/newqscorer.git
 ```
 
-#### Example 2: Only with the Bowtie2 mapping statistics
+We also listed all commands (bottom of this README) that were ran starting from an Anaconda installation on a Linux OS. 
+
+However, for the start with docker, please open a Linux terminal and run the following commands to first install docker, then pulling the image, and finally running the image.
+
 ```
-python seqQscorer.py --spec human --assay ChIP-seq  --rt paired-ended --map ./example_dataset/bowtie/mapping_statistics/
+sudo apt-get install docker
+sudo apt-get install docker.io 
+
+sudo docker login # here I actually don't know if it is necessary to have a docker account
+
+TODO: update the docker!!!
+
+sudo docker pull salbrec/testing
+sudo docker run -i -t -v "/home/:/home/" salbrec/testing /bin/bash
+```
+## Installation with Docker Desktop on Windows
+
+To install Docker Desktop follow the instructions on their website:
+https://docs.docker.com/docker-for-windows/install/
+
+Use git from powershell to clone seqQscorer
+```
+git clone https://gitlab.rlp.net/salbrec/newqscorer.git newqscorer
+
+```
+To get the image and activate it is similar to Linux. 
+However it is advisable to only link the SeqQscorer folder.
+Docker mentions, that binding Windows Volumes can lead to performance drops and suggest to bind mounted folders from the linux filesystem in wsl rather than a folder on the windows filesystem.
+Both works fine and can be accessed via powershell from the windows side or from the bash from the Linux/WSL side.
+
+Below is an example from powershell, for linux just add sudo in front.
+```
+docker pull salbrec/testing
+docker run -i -t --name SeqQscorer -v "C:/Users/User/newqscorer:/newqscorer" salbrec/testing 
+```
+Now you can just change to the newqscorer folder and start usign the software!
+```
+(SeqQscorer) root@ xxx : cd newqscorer
+```
+In this example the SeqQscorer folder that is on windows is to find in the root of the docker image.
+The docker image is named SeqQscorer and can be invoked by this name in the future.
+You can copy files from the windows side (like your fastq's) and compute from the docker side.
+
+Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for windows also needs to be done.
+
+## Testing the docker or your installation
+
+Change directory into the seqQscorer repository and run the usage information:
+
+```
+python deriveFeatureSets.py --help
+python seqQscorer.py --help
 ```
 
-#### Example 3: Involving all feature sets
-```
-python seqQscorer.py --spec human --assay ChIP-seq --rt paired-ended --raw ./example_dataset/FastQC/read1_summaries/ --map ./example_dataset/bowtie/mapping_statistics/ --loc ./example_dataset/reads_annotation/statistics/ --tss ./example_dataset/tss_annotation/statistics/
-```
+The expected output looks like this, for `python deriveFeatureSets.py --help`:
 
-#### Example 4: Applying seqQscorer on only one file
-```
-python seqQscorer.py --spec human --assay ChIP-seq --rt paired-ended --raw ./example_dataset/FastQC/read1_summaries/ENCFF165NJF.txt --map ./example_dataset/bowtie/mapping_statistics/ENCFF165NJF.txt --loc ./example_dataset/reads_annotation/statistics/ENCFF165NJF.tsv --tss ./example_dataset/tss_annotation/statistics/ENCFF165NJF.tsv
 ```
 
-#### Default Settings
+usage: deriveFeatureSets.py [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] --btidx
+                            BTIDX [--outdir OUTDIR] [--cores CORES]
+                            [--fastqc {1,2}] [--assembly {GRCh38,GRCm38}]
+                            [--gtf GTF]
 
-It is necessary to provide at least one feature type (RAW, MAP, LOC, or TSS), however for the options regarding the experimental setting, it is not necessary to provide this information, though it is recommended. By default, the assay, species, and run-type are set to `None`. Without specifying these options the classification model is loaded that was trained on the whole dataset containing all different types of data. 
+seqQscorer Preprocessing - derives feature sets needed leveraged by seqQscorer
 
-Especially when seqQscorer is applied to a dataset containing files from different assays and species, it could be of interest to use a more generic model. Even though it was not possible to evaluate the performance on data from other assays or species, it is still possible to use seqQscorer especially when using FastQC and / or the mapping statistics, as those feature sets were less varying between the assays.
+optional arguments:
+  -h, --help            show this help message and exit
+  --fastq1 FASTQ1, -f1 FASTQ1
+                        Input fastq file. Either the fastq file for a single-
+                        end sample or the fastq file for read 1 of a paired-
+                        end sample.
+  --fastq2 FASTQ2, -f2 FASTQ2
+                        In case of a paired-end sample, the fastq file for
+                        read 2.
+  --btidx BTIDX, -ix BTIDX
+                        Filename prefix for Bowtie2 Genome Index (minus
+                        trailing .X.bt2).
+  --outdir OUTDIR, -o OUTDIR
+                        Output directory. Default: "./feature_sets/"
+  --cores CORES, -c CORES
+                        Defines the number of processors (CPUs) to be used by
+                        bowtie2 and samtools. (drastically decreases runtime)
+  --fastqc {1,2}, -f {1,2}
+                        The fastq on which FastQC is applied on. Can
+                        optionally be selected for paired-end samples.
+  --assembly {GRCh38,GRCm38}, -a {GRCh38,GRCm38}
+                        Species assembly needed to define the gene structure /
+                        annotation used by the bioconductor functions. (has to
+                        be consistent with the species used in for Bowtie2)
+  --gtf GTF, -g GTF     File path for a gtf file to be used to get the LOC and
+                        TSS features. (--assembly will be ignored then)
 
-##### Required packages and the version used for testing:
 
-- python (v3.7)
-- numpy (v1.17.3)
-- pandas (v0.25.3)
-- sklearn (v0.21.3)
 
-Other versions might be compatible as well. In case it is not running with your python installation, the easiest is to create a conda envirnment with the following steps and running the tool within this environment. Installation commands are executed on a Linux terminal and require not more than 15 minutes.
+```
 
-##### Installation with ANACONDA  
+Expected output for `python seqQscorer.py --help`:
 
-First, install anaconda in case you do not have it in your linux machine. We highly recommend to install the most recent one.
+```
+
+usage: seqQscorer.py [-h] --indir INDIR [--species {generic,human,mouse}]
+                     [--assay {generic,ChIP-seq,DNase-seq,RNA-seq}]
+                     [--runtype {generic,single-ended,paired-ended}]
+                     [--model MODEL] [--noRAW] [--noMAP] [--noLOC] [--noTSS]
+                     [--noFS] [--bestCalib] [--probOut PROBOUT]
+                     [--compOut COMPOUT] [--inputOut INPUTOUT]
+
+seqQscorer - A machine learning application for quality assessment of NGS data
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --indir INDIR, -i INDIR
+                        Input directory containing the feature set files
+  --species {generic,human,mouse}, -s {generic,human,mouse}
+                        Species specifying the model used.
+  --assay {generic,ChIP-seq,DNase-seq,RNA-seq}, -a {generic,ChIP-seq,DNase-seq,RNA-seq}
+                        Assay specifying the model used.
+  --runtype {generic,single-ended,paired-ended}, -r {generic,single-ended,paired-ended}
+                        Run-Type specifying the model used.
+  --model MODEL, -m MODEL
+                        Path to a serialized model, trained on own data. If
+                        used, the parameters --species, --assay, and --runtype
+                        have no impact on the classification model.
+  --noRAW               Ignore all RAW features.
+  --noMAP               Ignore all MAP features.
+  --noLOC               Ignore all LOC features.
+  --noTSS               Ignore all TSS features.
+  --noFS                Switch off feature selection. (has only an impact if
+                        the best performance was achieved with chi2 or RFE)
+  --bestCalib           Classifier setting is used that achieved the lowest
+                        brier score, hence the best calibration of the
+                        probabilities.
+  --probOut PROBOUT, -po PROBOUT
+                        To specify an output file for the probabilities.
+                        Output will be tab-separated.
+  --compOut COMPOUT, -co COMPOUT
+                        To specify an out file for the comprehensive output.
+                        Output will be kind of tab-separated.
+  --inputOut INPUTOUT, -io INPUTOUT
+                        To specify an out file that will contain the parsed
+                        input. Output will be tab-separated.
+
+
+
+```
+
+
+## Preprocessing for fastq files
+
+You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference for the download from the official Bowtie2 webpage.
+If you would like to use a small example file right away within the docker, there is one here: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples are here for the paired-end test: `/var/examples/paired/`. Note, these are examples just for testing the installation, he files were reduced randomly and especially the paired-end example wont hav even 1M reads.
+
+All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
+
+```
+python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/GRCh38_noalt_as/GRCh38_noalt_as --assembly GRCh38
+```
+The results will be in the default output folder `./feature_sets/`, use `--outdir` to specify the destination of the feature sets.
+
+The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate especially the mapping.
+
+```
+python deriveFeatureSets.py --fastq1 /var/examples/paired/ENCFF310LVJ.fastq.gz --fastq2 /var/examples/paired/ENCFF410LTA_r2.fastq.gz
+--cores 4 --btidx ./utils/genome_index/mm10/mm10 --assembly GRCm38 --outdir ./mouse_pe/
+```
+
+### Preprocessing with own gene structure files
+
+The preprocessing procedure runs for the genome assemblies GRCh38 and GRCm38 which were used within the study. In case you would like to run everything with your own data for another species or an older human or mouse genome assembly, it is possible to use gtf files for the Bioconductor packages that derive the LOC and TSS features. 
+
+Since we ran into compatibility problems while implementing this option, we recommend to use an **NCBI** genome index for Bowtie2, downloaded from this website: [http://bowtie-bio.sourceforge.net/bowtie2/index.shtml](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml). 
+
+The gtf file should be downloaded from Ensembl via their FTP Download website: [https://www.ensembl.org/info/data/ftp/index.html](https://www.ensembl.org/info/data/ftp/index.html).
+
+With the index and gtf present, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
+
+```
+python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4
+```
+
+## Applying seqQscorer on preprocessed data
+
+After deriving the feature sets the application of seqQscorer can be as simple as the following line. Check out the parameters that allow you to specify the feature sets used and especially the classification model that is applied.
+
+```
+python seqQscorer.py --indir ./pp_examples/
+```
+
+By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. However, depending on the data that was available for our investigations, some specialized model are available. You can specify the model with the paramters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve). The specialized models, available for all feature set combinations out of RAW, MAP, LOC, and TSS are: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
+
+By default, seqQscorer uses all feature sets, but there are also parameters to be used if certain feature sets should be ignored.
+
+seqQscorer prints some interesting information to the console. With options such as `--probOut` and `--compOut` it is possible to save your results to a given file name.
+
+From our preprocessed grid search, we already defined algorithms and parameter settings that perfromed well on the different datasets. Some of them achieved the best performance when applied together with a feature selection method. However, if you want to switch off the feature selection, use `--noFS`. 
+
+By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
+
+## Training a new model on your labeled data
+
+The whole machine learning approach can also be used on new data. The most critical information needed are the quality labels. Having these, in best case manually curated, the following script can be used to train a classification model on your data:
+
+```
+python trainNewModel.py --indir ./train_new_dummies/ --labels ./dummy_labels.tsv --model ./test_model.model
+```
+
+A new model is trained on all samples provided. This model can as well be used with seqQscorer (`--model`). Additionally, a stratified 10-fold cross-validation is applied on the same input data to derive useful information about the model performance and different metrics for a varying decision threshold. This information is printed to the console.
+
+### Specify your Random Forest classifier
+
+Based on the ENCODE datasets we could define classifier-parameter combinations that trained the optimal models according to the data sepcification (species, assay, run-type). Furthermore, there is one generic model trained on the full dataset. By default the classifier-parameter setting for the generic model is used to train a new model on the user-provided data. Since this function will be used for completely different, ENCODE-independend data, we recommend to use this gneric setting, because it might be the best for generalization also across databases. However, other setting can be called by specifying the tuple (species, assay, run-type).
+
+A further parameter is implemented that can be used to force the usage of Random Forest, because it performed well in our study to classify NGS by quality. With `--useRF` the classifier setting can be specified with a ":"-separated string for the parameters criterion : maxDepth : maxFeatures : nTrees. See the following example run that uses the entropy criterion, no specification for the maximum depth, "auto" for maximum features, and 1000 trees (BTW the setting that trained the optimal generic model based on all feature sets in our grid search). 
+
+```
+python trainNewModel.py --indir ./train_new_dummies/ --labels ./dummy_labels.tsv --model ./test_model.model 
+--useRF entropy:None:auto:1000
+
+```
+
+## Manual insptection of single samples
+
+It is also possible to manually inspect the feature set of a given sample. The values of the single features are displayed in comparison to low and high quality files from our ENCODE data set. This provides a very precize orientation for defining the samples quality. The interactive python plot allows you to zoom in, in case the differentiation is very small. 
+
+The following examples will display the output table in the terminal.
+
+```
+python inspectSample.py --infile ./pp_examples/ENCFF165NJF.RAW
+python inspectSample.py --infile ./pp_examples/ENCFF165NJF.MAP
+python inspectSample.py --infile ./pp_examples/ENCFF165NJF.LOC
+python inspectSample.py --infile ./pp_examples/ENCFF165NJF.TSS
+```
+
+You might prefer running this to get the RAW table and all the three plots:
+
+```
+python inspectSampleAllFS.py -i ./pp_examples/ENCFF165NJF
+```
+
+!!! The whole inspect thingy will not run within the docker... Except you setup X11 forwarding... I didn't... The script **only** requires seaborn and matplotlib as non standard packages.
+
+## Installation with ANACONDA  
+
+First, install anaconda in case you do not have it in your linux machine. We recommend to use the one that is suggested here.
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
@@ -94,21 +271,39 @@ Accept licence and installation requirements with "return" and "yes", but follow
 source ~/.bashrc
 ```
 
-##### Create a conda environment `seqscore` with anaconda:
+Then create a conda environment and install the packages:
 
 ```
+conda create --name seqQscorer python=3.7 R=3.6
+
+conda activate seqQscorer
+
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-conda create -n seqscore python=3.7 anaconda
+
+conda install -c bioconda bowtie2=2.3.5.1
+conda install -c bioconda fastqc=0.11.9
+conda install -c bioconda samtools=1.9
+conda install -c bioconda bedtools=4.7.12
+
+# Within R run the following lines to install the R packages needed
+install.packages("BiocManager")
+BiocManager::install("ChIPseeker")
+BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
+BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
+BiocManager::install("ChIPpeakAnno")
+
+
+# These will run in the seqQscorer environment
+conda install -c anaconda scikit-learn=0.22.1
+conda install -c anaconda pandas=1.1.3
+conda install -c anaconda numpy=1.19.1
+conda install -c conda-forge terminaltables=3.1.0 
+
+conda install -c conda-forge matplotlib=3.3.2
+conda install -c anaconda seaborn=0.11.0
 ```
-Finally activate the environment before running the algorithm:
 
-`conda activate seqscore`
-
-The implementation was tested on:
-- Ubuntu 16.04.6 LTS (Xenial Xerus)
-- Ubuntu 18.04.3 LTS (Bionic Beaver)
-- CentOS Linux 7 (Core)
 
 
