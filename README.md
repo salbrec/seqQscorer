@@ -13,7 +13,7 @@ Additionally the script `deriveFeatureSets.py` is available in this repository. 
 Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually. For both it is of course necessary to clone this repository:
 
 ```
-git clone https://gitlab.rlp.net/salbrec/newqscorer.git
+git clone https://github.com/salbrec/seqQscorer.git
 ```
 
 We also listed all commands (bottom of this README) that were ran starting from an Anaconda installation on a Linux OS. 
@@ -24,12 +24,10 @@ However, for the start with docker, please open a Linux terminal and run the fol
 sudo apt-get install docker
 sudo apt-get install docker.io 
 
-sudo docker login # here I actually don't know if it is necessary to have a docker account
+sudo docker login
 
-TODO: update the docker!!!
-
-sudo docker pull salbrec/testing
-sudo docker run -i -t -v "/home/:/home/" salbrec/testing /bin/bash
+sudo docker pull salbrec/seqqdocker
+sudo docker run -i -t -v "/home/:/home/" salbrec/seqqdocker /bin/bash
 ```
 ## Installation with Docker Desktop on Windows
 
@@ -38,7 +36,7 @@ https://docs.docker.com/docker-for-windows/install/
 
 Use git from powershell to clone seqQscorer
 ```
-git clone https://gitlab.rlp.net/salbrec/newqscorer.git newqscorer
+git clone https://github.com/salbrec/seqQscorer.git
 
 ```
 To get the image and activate it is similar to Linux. 
@@ -49,11 +47,11 @@ Both works fine and can be accessed via powershell from the windows side or from
 Below is an example from powershell, for linux just add sudo in front.
 ```
 docker pull salbrec/testing
-docker run -i -t --name SeqQscorer -v "C:/Users/User/newqscorer:/newqscorer" salbrec/testing 
+docker run -i -t --name seqQscorer -v "C:/Users/User/seqQscorer:/seqQscorer" salbrec/seqqdocker 
 ```
 Now you can just change to the newqscorer folder and start usign the software!
 ```
-(SeqQscorer) root@ xxx : cd newqscorer
+(SeqQscorer) root@ xxx : cd seqQscorer
 ```
 In this example the SeqQscorer folder that is on windows is to find in the root of the docker image.
 The docker image is named SeqQscorer and can be invoked by this name in the future.
@@ -232,14 +230,12 @@ You can use our yml file `conda_env.yml` to create the conda environment with th
 Afterwards the R packages are installed by running thses lines within R.
 
 ```
-
 # Within R run the following lines to install the R packages needed
 install.packages("BiocManager")
 BiocManager::install("ChIPseeker")
 BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
 BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 BiocManager::install("ChIPpeakAnno")
-
 ```
 
 
