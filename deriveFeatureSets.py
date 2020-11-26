@@ -1,3 +1,14 @@
+"""Provides the full preprocessing needed for seqQscorer
+
+"python deriveFeatureSets.py --help" will display a formatted help text on 
+the console. A comprehensive description is provided in the GitHub README 
+that includes examples as well.
+
+date:	2020-11-26
+author:	Steffen Albrecht
+
+"""
+
 import os
 import sys
 import argparse

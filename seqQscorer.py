@@ -4,7 +4,7 @@ Main script for seqQscorer. "python seqQscorer.py --help" will display
 a formatted help text on the console. A comprehensive description is provided
 in the GitHub README that includes examples as well.
 
-date:	2019-05-12
+date:	2020-11-26
 author:	Steffen Albrecht
 
 """
