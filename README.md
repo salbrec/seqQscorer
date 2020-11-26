@@ -214,56 +214,13 @@ From our preprocessed grid search, we already defined algorithms and parameter s
 
 By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
 
-## Training a new model on your labeled data
-
-The whole machine learning approach can also be used on new data. The most critical information needed are the quality labels. Having these, in best case manually curated, the following script can be used to train a classification model on your data:
-
-```
-python trainNewModel.py --indir ./train_new_dummies/ --labels ./dummy_labels.tsv --model ./test_model.model
-```
-
-A new model is trained on all samples provided. This model can as well be used with seqQscorer (`--model`). Additionally, a stratified 10-fold cross-validation is applied on the same input data to derive useful information about the model performance and different metrics for a varying decision threshold. This information is printed to the console.
-
-### Specify your Random Forest classifier
-
-Based on the ENCODE datasets we could define classifier-parameter combinations that trained the optimal models according to the data sepcification (species, assay, run-type). Furthermore, there is one generic model trained on the full dataset. By default the classifier-parameter setting for the generic model is used to train a new model on the user-provided data. Since this function will be used for completely different, ENCODE-independend data, we recommend to use this gneric setting, because it might be the best for generalization also across databases. However, other setting can be called by specifying the tuple (species, assay, run-type).
-
-A further parameter is implemented that can be used to force the usage of Random Forest, because it performed well in our study to classify NGS by quality. With `--useRF` the classifier setting can be specified with a ":"-separated string for the parameters criterion : maxDepth : maxFeatures : nTrees. See the following example run that uses the entropy criterion, no specification for the maximum depth, "auto" for maximum features, and 1000 trees (BTW the setting that trained the optimal generic model based on all feature sets in our grid search). 
-
-```
-python trainNewModel.py --indir ./train_new_dummies/ --labels ./dummy_labels.tsv --model ./test_model.model 
---useRF entropy:None:auto:1000
-
-```
-
-## Manual insptection of single samples
-
-It is also possible to manually inspect the feature set of a given sample. The values of the single features are displayed in comparison to low and high quality files from our ENCODE data set. This provides a very precize orientation for defining the samples quality. The interactive python plot allows you to zoom in, in case the differentiation is very small. 
-
-The following examples will display the output table in the terminal.
-
-```
-python inspectSample.py --infile ./pp_examples/ENCFF165NJF.RAW
-python inspectSample.py --infile ./pp_examples/ENCFF165NJF.MAP
-python inspectSample.py --infile ./pp_examples/ENCFF165NJF.LOC
-python inspectSample.py --infile ./pp_examples/ENCFF165NJF.TSS
-```
-
-You might prefer running this to get the RAW table and all the three plots:
-
-```
-python inspectSampleAllFS.py -i ./pp_examples/ENCFF165NJF
-```
-
-!!! The whole inspect thingy will not run within the docker... Except you setup X11 forwarding... I didn't... The script **only** requires seaborn and matplotlib as non standard packages.
-
 ## Installation with ANACONDA  
 
 First, install anaconda in case you do not have it in your linux machine. We recommend to use the one that is suggested here.
 
 ```
-wget https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
-bash Anaconda3-2019.10-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+bash Anaconda3-2020.11-Linux-x86_64.sh
 
 ```
 Accept licence and installation requirements with "return" and "yes", but follow the instructions, you might like to change the directory for anaconda. After installation it is necessary to initialize conda with:
@@ -271,21 +228,10 @@ Accept licence and installation requirements with "return" and "yes", but follow
 source ~/.bashrc
 ```
 
-Then create a conda environment and install the packages:
+You can use our yml file `conda_env.yml` to create the conda environment with this call: `conda env create -f conda_env.yml`.
+Afterwards the R packages are installed by running thses lines within R.
 
 ```
-conda create --name seqQscorer python=3.7 R=3.6
-
-conda activate seqQscorer
-
-conda config --add channels defaults
-conda config --add channels conda-forge
-conda config --add channels bioconda
-
-conda install -c bioconda bowtie2=2.3.5.1
-conda install -c bioconda fastqc=0.11.9
-conda install -c bioconda samtools=1.9
-conda install -c bioconda bedtools=4.7.12
 
 # Within R run the following lines to install the R packages needed
 install.packages("BiocManager")
@@ -294,15 +240,6 @@ BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
 BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 BiocManager::install("ChIPpeakAnno")
 
-
-# These will run in the seqQscorer environment
-conda install -c anaconda scikit-learn=0.22.1
-conda install -c anaconda pandas=1.1.3
-conda install -c anaconda numpy=1.19.1
-conda install -c conda-forge terminaltables=3.1.0 
-
-conda install -c conda-forge matplotlib=3.3.2
-conda install -c anaconda seaborn=0.11.0
 ```
 
 
