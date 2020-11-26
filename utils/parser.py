@@ -31,7 +31,7 @@ global FastQC_value_map
 FastQC_value_map = {'FAIL': 0, 'WARN': 1, 'PASS': 2}
 
 
-def get_FastQC_features(feature_file_path):
+def get_RAW_features(feature_file_path):
 	features = {}
 	with open(feature_file_path, 'r') as feature_file:
 		for line in feature_file:
@@ -78,14 +78,14 @@ def parse_BowtiePE(lines):
 	features['BowtieSE_overall'] = features['BowtiePE_overall']
 	return features
 
-def get_Bowtie_features(feature_file_path):
+def get_MAP_features(feature_file_path):
 	lines = open(feature_file_path, 'r').read()
 	if 'concordantly' in lines and 'discordantly' in lines:
 		return parse_BowtiePE(lines)
 	else:
 		return parse_BowtieSE(lines)
 
-def get_readsAnno_features(feature_file_path):
+def get_LOC_features(feature_file_path):
 	features = {}
 	with open(feature_file_path, 'r') as f:
 		f.readline()
@@ -108,6 +108,79 @@ def get_TSS_features(feature_file_path):
 	return dict(zip(feature_names, feature_values))
 
 
+def generate_input_data(indir, feature_sets, run_type, medians):
+	print('Parsing input data...')
+	# initialize the specific parser functions
+	parsers = {}
+	parsers['RAW'] = get_RAW_features
+	parsers['MAP'] = get_MAP_features
+	parsers['LOC'] = get_LOC_features
+	parsers['TSS'] = get_TSS_features
+	
+	# parse input data and create an input data frame
+	if indir[-1] != '/':
+		indir += '/'
+	
+	parsed_input = {}
+	for subdir, dirs, files in os.walk(indir):
+		for feature_file in files:
+			file_path = indir + feature_file
+			sample_ID = feature_file[:-4]
+			feature_set = feature_file[-3:]
+			if os.path.exists(file_path):
+				if feature_file[-4:] in [ '.'+fs for fs in feature_sets ]:
+					if not sample_ID in parsed_input:
+						parsed_input[sample_ID] = {}
+					
+					features = parsers[feature_set](file_path)
+					parsed_input[sample_ID].update(features)
+	
+	feature_prefix = {'RAW': 'FastQC', 'MAP': 'BowtieMI',
+					'LOC': 'readsAnno', 'TSS': 'TSS'}
+	if run_type != 'generic':
+		feature_prefix['MAP'] = 'BowtieSE' if run_type == 'single-ended' else 'BowtiePE'
+
+	feature_cols = []
+	for abbr in feature_sets:
+		prefix = feature_prefix[abbr]
+		col_names = list(filter(lambda x: x[:len(prefix)] == prefix, medians.keys()))
+		feature_cols += col_names
+	feature_cols = sorted(feature_cols)
+	
+	missing = False
+	input_data = dict( (col, []) for col in ['sampleID'] + feature_cols )
+	for sample in parsed_input:
+		input_data['sampleID'].append(sample)
+		for col in feature_cols:
+			if col in parsed_input[sample]:
+				input_data[col].append(parsed_input[sample][col])
+			else:
+				missing = True
+				input_data[col].append(np.nan)
+				if col in feature_cols:
+					print('\nWarning! The feature "%s" is missing for %s'%(col, sample))
+	if missing:
+		print('\nMissing values will be imputed by median.')
+		print('However, you might check your input data.\n')
+	
+	input_data = pd.DataFrame(input_data)
+	input_data = input_data[['sampleID'] + feature_cols]
+	
+	# search for missing features
+	missing_features = list(filter(lambda x: not x in input_data.columns, feature_cols))
+	for feature in missing_features:
+		median = medians[feature]
+		print('\nWarning: No values at all for the following feature:')
+		print('\t%s'%(feature))
+		print('\nFeature was imputed for all samples with its median value: "%s"\n'%(str(median)))
+		input_data[feature] = input_data.shape[0] * median
+
+	# imputation of missing values by the median value
+	for feature in feature_cols:
+		input_data[feature] = [medians[feature] if np.isnan(value) else value for value in input_data[feature]]
+	
+	print('... input data loaded.\n')
+	return input_data, feature_cols
 
 
 

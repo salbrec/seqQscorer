@@ -19,3 +19,15 @@ class WrongSettingException(Exception):
     def __str__(self):
         return repr(self.value)
 
+class WrongOutputFileException(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+
+class IncorrectModelException(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+

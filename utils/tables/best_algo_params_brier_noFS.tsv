@@ -1,0 +1,195 @@
+generic_generic_generic_RAW	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "sqrt", "n_estimators": 1000}	0.814	0.166
+generic_generic_generic_MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": null, "n_estimators": 100}	0.819	0.164
+generic_generic_generic_LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "sqrt", "n_estimators": 500}	0.814	0.176
+generic_generic_generic_TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "sqrt", "n_estimators": 500}	0.759	0.200
+generic_generic_generic_RAW-MAP	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 500}	0.871	0.137
+generic_generic_generic_RAW-LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "log2", "n_estimators": 1000}	0.907	0.123
+generic_generic_generic_RAW-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 1000}	0.888	0.135
+generic_generic_generic_MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 1000}	0.918	0.115
+generic_generic_generic_MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 1000}	0.898	0.128
+generic_generic_generic_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "sqrt", "n_estimators": 500}	0.827	0.171
+generic_generic_generic_RAW-MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 100}	0.923	0.111
+generic_generic_generic_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 1000}	0.911	0.120
+generic_generic_generic_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 200}	0.904	0.124
+generic_generic_generic_MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.916	0.117
+generic_generic_generic_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 200}	0.924	0.113
+human_ChIP-seq_single-ended_RAW	MLP	No-100	all	{"alpha": 1e-05, "hidden_layer_sizes": [50, 10], "max_iter": 100, "solver": "lbfgs"}	0.814	0.164
+human_ChIP-seq_single-ended_MAP	MLP	No-100	all	{"alpha": 1e-06, "hidden_layer_sizes": [200, 100], "max_iter": 500, "solver": "lbfgs"}	0.826	0.161
+human_ChIP-seq_single-ended_LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 500}	0.791	0.186
+human_ChIP-seq_single-ended_TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 500}	0.695	0.220
+human_ChIP-seq_single-ended_RAW-MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "sqrt", "n_estimators": 1000}	0.843	0.150
+human_ChIP-seq_single-ended_RAW-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 1000}	0.897	0.128
+human_ChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.874	0.141
+human_ChIP-seq_single-ended_MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "sqrt", "n_estimators": 500}	0.900	0.126
+human_ChIP-seq_single-ended_MAP-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "log2", "n_estimators": 1000}	0.867	0.142
+human_ChIP-seq_single-ended_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 500}	0.800	0.182
+human_ChIP-seq_single-ended_RAW-MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 1000}	0.904	0.121
+human_ChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 1000}	0.884	0.133
+human_ChIP-seq_single-ended_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.891	0.130
+human_ChIP-seq_single-ended_MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.895	0.129
+human_ChIP-seq_single-ended_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.901	0.125
+human_ChIP-seq_paired-ended_RAW	ETC	No-100	all	{"criterion": "entropy", "max_depth": 3, "max_features": 4, "splitter": "random"}	0.644	0.221
+human_ChIP-seq_paired-ended_MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 500}	0.808	0.177
+human_ChIP-seq_paired-ended_LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 500}	0.813	0.177
+human_ChIP-seq_paired-ended_TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [10], "max_iter": 500, "solver": "lbfgs"}	0.757	0.199
+human_ChIP-seq_paired-ended_RAW-MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 500}	0.817	0.175
+human_ChIP-seq_paired-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 100, "subsample": 1.0}	0.829	0.169
+human_ChIP-seq_paired-ended_RAW-TSS	MLP	No-100	all	{"alpha": 1e-05, "hidden_layer_sizes": [50], "max_iter": 100, "solver": "lbfgs"}	0.789	0.184
+human_ChIP-seq_paired-ended_MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.2, "min_samples_split": 0.1, "n_estimators": 50, "subsample": 1.0}	0.846	0.165
+human_ChIP-seq_paired-ended_MAP-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "log2", "n_estimators": 500}	0.824	0.172
+human_ChIP-seq_paired-ended_LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 200, "subsample": 0.85}	0.849	0.160
+human_ChIP-seq_paired-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 50, "subsample": 1.0}	0.846	0.162
+human_ChIP-seq_paired-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "log2", "n_estimators": 500}	0.835	0.170
+human_ChIP-seq_paired-ended_RAW-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 100, "subsample": 1.0}	0.852	0.159
+human_ChIP-seq_paired-ended_MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 1.0}	0.864	0.155
+human_ChIP-seq_paired-ended_RAW-MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.85}	0.859	0.157
+mouse_ChIP-seq_single-ended_RAW	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 200, "subsample": 1.0}	0.951	0.069
+mouse_ChIP-seq_single-ended_MAP	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 5, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 50, "subsample": 0.85}	0.963	0.061
+mouse_ChIP-seq_single-ended_LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "log2", "n_estimators": 1000}	0.839	0.163
+mouse_ChIP-seq_single-ended_TSS	MLP	No-100	all	{"alpha": 0.01, "hidden_layer_sizes": [50], "max_iter": 1000, "solver": "lbfgs"}	0.851	0.149
+mouse_ChIP-seq_single-ended_RAW-MAP	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": "log2", "n_estimators": 100}	0.975	0.055
+mouse_ChIP-seq_single-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 200, "subsample": 1.0}	0.961	0.059
+mouse_ChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": "log2", "n_estimators": 100}	0.957	0.079
+mouse_ChIP-seq_single-ended_MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 1.0}	0.972	0.051
+mouse_ChIP-seq_single-ended_MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 1000}	0.968	0.063
+mouse_ChIP-seq_single-ended_LOC-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [5, 5], "max_iter": 3000, "solver": "lbfgs"}	0.886	0.126
+mouse_ChIP-seq_single-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 100, "subsample": 0.9}	0.975	0.051
+mouse_ChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": "log2", "n_estimators": 100}	0.974	0.058
+mouse_ChIP-seq_single-ended_RAW-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 200, "subsample": 1.0}	0.957	0.069
+mouse_ChIP-seq_single-ended_MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 200}	0.974	0.056
+mouse_ChIP-seq_single-ended_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.976	0.054
+human_DNase-seq_paired-ended_RAW	ETC	No-100	all	{"criterion": "entropy", "max_depth": 4, "max_features": 4, "splitter": "best"}	0.870	0.147
+human_DNase-seq_paired-ended_MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": null, "n_estimators": 100}	0.948	0.085
+human_DNase-seq_paired-ended_LOC	SVC	No-100	all	{"C": 10, "gamma": 1}	0.980	0.059
+human_DNase-seq_paired-ended_TSS	KNN	No-100	all	{"metric": "minkowski", "n_neighbors": 5, "weights": "distance"}	0.950	0.093
+human_DNase-seq_paired-ended_RAW-MAP	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 500}	0.958	0.085
+human_DNase-seq_paired-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 100, "subsample": 0.9}	0.994	0.037
+human_DNase-seq_paired-ended_RAW-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 1.0}	0.960	0.072
+human_DNase-seq_paired-ended_MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 100, "subsample": 0.9}	0.984	0.041
+human_DNase-seq_paired-ended_MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.85}	0.969	0.064
+human_DNase-seq_paired-ended_LOC-TSS	SVC	No-100	all	{"C": 10, "gamma": 1}	0.990	0.046
+human_DNase-seq_paired-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.9}	0.995	0.038
+human_DNase-seq_paired-ended_RAW-MAP-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [100, 50], "max_iter": 1500, "solver": "lbfgs"}	0.965	0.060
+human_DNase-seq_paired-ended_RAW-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 100, "subsample": 1.0}	0.987	0.041
+human_DNase-seq_paired-ended_MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.9}	0.984	0.046
+human_DNase-seq_paired-ended_RAW-MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.9}	0.989	0.039
+mouse_DNase-seq_paired-ended_RAW	MLP	No-100	all	{"alpha": 1e-05, "hidden_layer_sizes": [10], "max_iter": 1000, "solver": "lbfgs"}	0.903	0.125
+mouse_DNase-seq_paired-ended_MAP	MLP	No-100	all	{"alpha": 0.0001, "hidden_layer_sizes": [50], "max_iter": 1000, "solver": "lbfgs"}	0.942	0.063
+mouse_DNase-seq_paired-ended_LOC	SVC	No-100	all	{"C": 10, "gamma": 1}	0.996	0.024
+mouse_DNase-seq_paired-ended_TSS	SVC	No-100	all	{"C": 10, "gamma": 1}	0.977	0.036
+mouse_DNase-seq_paired-ended_RAW-MAP	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 1.0}	0.961	0.070
+mouse_DNase-seq_paired-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 0.85}	0.996	0.048
+mouse_DNase-seq_paired-ended_RAW-TSS	ETC	No-100	all	{"criterion": "entropy", "max_depth": 5, "max_features": 2, "splitter": "best"}	0.953	0.048
+mouse_DNase-seq_paired-ended_MAP-LOC	MLP	No-100	all	{"alpha": 0.0001, "hidden_layer_sizes": [10, 10], "max_iter": 3000, "solver": "lbfgs"}	0.988	0.030
+mouse_DNase-seq_paired-ended_MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 1.0}	0.988	0.036
+mouse_DNase-seq_paired-ended_LOC-TSS	SVC	No-100	all	{"C": 10, "gamma": 1}	1.000	0.024
+mouse_DNase-seq_paired-ended_RAW-MAP-LOC	SVC	No-100	all	{"C": 10, "gamma": 0.001}	0.992	0.034
+mouse_DNase-seq_paired-ended_RAW-MAP-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [100, 50], "max_iter": 100, "solver": "lbfgs"}	0.965	0.037
+mouse_DNase-seq_paired-ended_RAW-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 50, "subsample": 0.85}	0.986	0.040
+mouse_DNase-seq_paired-ended_MAP-LOC-TSS	SVC	No-100	all	{"C": 10, "gamma": 0.001}	0.996	0.033
+mouse_DNase-seq_paired-ended_RAW-MAP-LOC-TSS	SVC	No-100	all	{"C": 10, "gamma": 0.001}	0.996	0.032
+human_RNA-seq_single-ended_RAW	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 1000}	0.988	0.034
+human_RNA-seq_single-ended_MAP	ETC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": 3, "splitter": "best"}	0.965	0.035
+human_RNA-seq_single-ended_LOC	ETC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "splitter": "random"}	1.000	0.000
+human_RNA-seq_single-ended_TSS	MLP	No-100	all	{"alpha": 0.01, "hidden_layer_sizes": [50, 10], "max_iter": 1000, "solver": "lbfgs"}	0.950	0.061
+human_RNA-seq_single-ended_RAW-MAP	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 50, "subsample": 1.0}	1.000	0.027
+human_RNA-seq_single-ended_RAW-LOC	MLP	No-100	all	{"alpha": 0.01, "hidden_layer_sizes": [50, 10], "max_iter": 100, "solver": "lbfgs"}	1.000	0.006
+human_RNA-seq_single-ended_RAW-TSS	SVC	No-100	all	{"C": 10, "gamma": 0.01}	1.000	0.026
+human_RNA-seq_single-ended_MAP-LOC	ETC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": null, "splitter": "best"}	0.988	0.013
+human_RNA-seq_single-ended_MAP-TSS	ETC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": 2, "splitter": "random"}	0.988	0.013
+human_RNA-seq_single-ended_LOC-TSS	MLP	No-100	all	{"alpha": 0.01, "hidden_layer_sizes": [100, 50], "max_iter": 500, "solver": "lbfgs"}	1.000	0.013
+human_RNA-seq_single-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 0.9}	1.000	0.013
+human_RNA-seq_single-ended_RAW-MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 100, "subsample": 0.9}	1.000	0.018
+human_RNA-seq_single-ended_RAW-LOC-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [100], "max_iter": 1000, "solver": "lbfgs"}	1.000	0.014
+human_RNA-seq_single-ended_MAP-LOC-TSS	ETC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": null, "splitter": "best"}	0.978	0.022
+human_RNA-seq_single-ended_RAW-MAP-LOC-TSS	MLP	No-100	all	{"alpha": 0.001, "hidden_layer_sizes": [50], "max_iter": 100, "solver": "lbfgs"}	1.000	0.014
+human_mixedChIP-seq_single-ended_RAW	MLP	No-100	all	{"alpha": 0.001, "hidden_layer_sizes": [5, 5], "max_iter": 100, "solver": "lbfgs"}	0.790	0.171
+human_mixedChIP-seq_single-ended_MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 5, "max_features": null, "n_estimators": 1000}	0.829	0.161
+human_mixedChIP-seq_single-ended_LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": null, "n_estimators": 500}	0.755	0.199
+human_mixedChIP-seq_single-ended_TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 100}	0.720	0.211
+human_mixedChIP-seq_single-ended_RAW-MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 5, "max_features": "auto", "n_estimators": 500}	0.828	0.160
+human_mixedChIP-seq_single-ended_RAW-LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "auto", "n_estimators": 100}	0.890	0.133
+human_mixedChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": "log2", "n_estimators": 1000}	0.867	0.144
+human_mixedChIP-seq_single-ended_MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 200}	0.888	0.131
+human_mixedChIP-seq_single-ended_MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": null, "n_estimators": 200}	0.870	0.143
+human_mixedChIP-seq_single-ended_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 200}	0.782	0.190
+human_mixedChIP-seq_single-ended_RAW-MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "log2", "n_estimators": 500}	0.891	0.129
+human_mixedChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 100}	0.875	0.138
+human_mixedChIP-seq_single-ended_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 200}	0.888	0.133
+human_mixedChIP-seq_single-ended_MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 500}	0.889	0.133
+human_mixedChIP-seq_single-ended_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "log2", "n_estimators": 200}	0.890	0.131
+human_narrowChIP-seq_single-ended_RAW	RFC	No-100	all	{"criterion": "gini", "max_depth": 5, "max_features": "auto", "n_estimators": 200}	0.799	0.161
+human_narrowChIP-seq_single-ended_MAP	RFC	No-100	all	{"criterion": "entropy", "max_depth": 5, "max_features": null, "n_estimators": 200}	0.862	0.146
+human_narrowChIP-seq_single-ended_LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.757	0.198
+human_narrowChIP-seq_single-ended_TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 50, "subsample": 1.0}	0.712	0.214
+human_narrowChIP-seq_single-ended_RAW-MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": "auto", "n_estimators": 100}	0.861	0.145
+human_narrowChIP-seq_single-ended_RAW-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": "auto", "n_estimators": 100}	0.901	0.125
+human_narrowChIP-seq_single-ended_RAW-TSS	SVC	No-100	all	{"C": 10, "gamma": 0.1}	0.881	0.138
+human_narrowChIP-seq_single-ended_MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.903	0.123
+human_narrowChIP-seq_single-ended_MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": "auto", "n_estimators": 1000}	0.882	0.137
+human_narrowChIP-seq_single-ended_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.773	0.190
+human_narrowChIP-seq_single-ended_RAW-MAP-LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "log2", "n_estimators": 500}	0.909	0.120
+human_narrowChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": null, "n_estimators": 200}	0.886	0.131
+human_narrowChIP-seq_single-ended_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 200}	0.901	0.126
+human_narrowChIP-seq_single-ended_MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 5, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 1.0}	0.908	0.124
+human_narrowChIP-seq_single-ended_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.907	0.121
+human_broadChIP-seq_single-ended_RAW	ETC	No-100	all	{"criterion": "entropy", "max_depth": 2, "max_features": null, "splitter": "best"}	0.635	0.215
+human_broadChIP-seq_single-ended_MAP	ETC	No-100	all	{"criterion": "entropy", "max_depth": 3, "max_features": 2, "splitter": "random"}	0.802	0.183
+human_broadChIP-seq_single-ended_LOC	MLP	No-100	all	{"alpha": 0.001, "hidden_layer_sizes": [10], "max_iter": 500, "solver": "lbfgs"}	0.742	0.194
+human_broadChIP-seq_single-ended_TSS	KNN	No-100	all	{"metric": "euclidean", "n_neighbors": 8, "weights": "distance"}	0.786	0.182
+human_broadChIP-seq_single-ended_RAW-MAP	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.781	0.181
+human_broadChIP-seq_single-ended_RAW-LOC	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [10, 10], "max_iter": 500, "solver": "lbfgs"}	0.803	0.172
+human_broadChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": "log2", "n_estimators": 100}	0.827	0.168
+human_broadChIP-seq_single-ended_MAP-LOC	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [200, 100], "max_iter": 100, "solver": "lbfgs"}	0.823	0.181
+human_broadChIP-seq_single-ended_MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 100, "subsample": 1.0}	0.824	0.167
+human_broadChIP-seq_single-ended_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": null, "n_estimators": 1000}	0.774	0.194
+human_broadChIP-seq_single-ended_RAW-MAP-LOC	MLP	No-100	all	{"alpha": 1e-06, "hidden_layer_sizes": [5], "max_iter": 100, "solver": "lbfgs"}	0.875	0.161
+human_broadChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 100}	0.828	0.170
+human_broadChIP-seq_single-ended_RAW-LOC-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [100, 50], "max_iter": 3000, "solver": "lbfgs"}	0.806	0.167
+human_broadChIP-seq_single-ended_MAP-LOC-TSS	MLP	No-100	all	{"alpha": 1e-06, "hidden_layer_sizes": [10, 10], "max_iter": 1500, "solver": "sgd"}	0.840	0.163
+human_broadChIP-seq_single-ended_RAW-MAP-LOC-TSS	KNN	No-100	all	{"metric": "manhattan", "n_neighbors": 5, "weights": "distance"}	0.844	0.160
+mouse_mixedChIP-seq_single-ended_RAW	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 200, "subsample": 1.0}	0.960	0.077
+mouse_mixedChIP-seq_single-ended_MAP	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [500, 400], "max_iter": 100, "solver": "lbfgs"}	0.961	0.071
+mouse_mixedChIP-seq_single-ended_LOC	MLP	No-100	all	{"alpha": 1e-05, "hidden_layer_sizes": [5], "max_iter": 500, "solver": "lbfgs"}	0.805	0.179
+mouse_mixedChIP-seq_single-ended_TSS	MLP	No-100	all	{"alpha": 0.0001, "hidden_layer_sizes": [50], "max_iter": 500, "solver": "lbfgs"}	0.839	0.155
+mouse_mixedChIP-seq_single-ended_RAW-MAP	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 50, "subsample": 0.85}	0.965	0.066
+mouse_mixedChIP-seq_single-ended_RAW-LOC	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": null, "n_estimators": 500}	0.956	0.081
+mouse_mixedChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 10, "max_features": null, "n_estimators": 200}	0.954	0.083
+mouse_mixedChIP-seq_single-ended_MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 100, "subsample": 1.0}	0.962	0.067
+mouse_mixedChIP-seq_single-ended_MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 100, "subsample": 1.0}	0.956	0.070
+mouse_mixedChIP-seq_single-ended_LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": null, "n_estimators": 1000}	0.839	0.168
+mouse_mixedChIP-seq_single-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 200, "subsample": 1.0}	0.967	0.062
+mouse_mixedChIP-seq_single-ended_RAW-MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 0.9}	0.964	0.064
+mouse_mixedChIP-seq_single-ended_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "gini", "max_depth": 20, "max_features": null, "n_estimators": 1000}	0.949	0.085
+mouse_mixedChIP-seq_single-ended_MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": "auto", "n_estimators": 500}	0.954	0.069
+mouse_mixedChIP-seq_single-ended_RAW-MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 8, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 50, "subsample": 1.0}	0.967	0.064
+mouse_narrowChIP-seq_single-ended_RAW	ETC	No-100	all	{"criterion": "entropy", "max_depth": 5, "max_features": 4, "splitter": "random"}	0.945	0.062
+mouse_narrowChIP-seq_single-ended_MAP	MLP	No-100	all	{"alpha": 0.01, "hidden_layer_sizes": [10, 10], "max_iter": 1500, "solver": "lbfgs"}	0.957	0.060
+mouse_narrowChIP-seq_single-ended_LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.2, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 1.0}	0.836	0.167
+mouse_narrowChIP-seq_single-ended_TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [200, 100], "max_iter": 500, "solver": "lbfgs"}	0.850	0.162
+mouse_narrowChIP-seq_single-ended_RAW-MAP	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 200, "subsample": 0.85}	0.962	0.053
+mouse_narrowChIP-seq_single-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 100, "subsample": 1.0}	0.953	0.072
+mouse_narrowChIP-seq_single-ended_RAW-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 200}	0.954	0.074
+mouse_narrowChIP-seq_single-ended_MAP-LOC	ETC	No-100	all	{"criterion": "entropy", "max_depth": 2, "max_features": null, "splitter": "best"}	0.942	0.057
+mouse_narrowChIP-seq_single-ended_MAP-TSS	ETC	No-100	all	{"criterion": "gini", "max_depth": 1, "max_features": null, "splitter": "best"}	0.936	0.061
+mouse_narrowChIP-seq_single-ended_LOC-TSS	MLP	No-100	all	{"alpha": 0.001, "hidden_layer_sizes": [5, 5], "max_iter": 500, "solver": "lbfgs"}	0.843	0.158
+mouse_narrowChIP-seq_single-ended_RAW-MAP-LOC	RFC	No-100	all	{"criterion": "entropy", "max_depth": 5, "max_features": null, "n_estimators": 500}	0.961	0.053
+mouse_narrowChIP-seq_single-ended_RAW-MAP-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 10, "max_features": null, "n_estimators": 500}	0.962	0.058
+mouse_narrowChIP-seq_single-ended_RAW-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 5, "max_features": null, "n_estimators": 200}	0.944	0.079
+mouse_narrowChIP-seq_single-ended_MAP-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 0.85}	0.967	0.058
+mouse_narrowChIP-seq_single-ended_RAW-MAP-LOC-TSS	RFC	No-100	all	{"criterion": "entropy", "max_depth": 20, "max_features": null, "n_estimators": 200}	0.961	0.056
+mouse_broadChIP-seq_single-ended_RAW	ETC	No-100	all	{"criterion": "gini", "max_depth": 4, "max_features": 2, "splitter": "random"}	0.950	0.114
+mouse_broadChIP-seq_single-ended_MAP	ETC	No-100	all	{"criterion": "gini", "max_depth": 4, "max_features": 1, "splitter": "random"}	0.887	0.095
+mouse_broadChIP-seq_single-ended_LOC	SVC	No-100	all	{"C": 1, "gamma": 0.1}	0.825	0.164
+mouse_broadChIP-seq_single-ended_TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.1, "n_estimators": 50, "subsample": 1.0}	0.847	0.149
+mouse_broadChIP-seq_single-ended_RAW-MAP	ETC	No-100	all	{"criterion": "entropy", "max_depth": null, "max_features": 2, "splitter": "best"}	0.908	0.092
+mouse_broadChIP-seq_single-ended_RAW-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 3, "max_features": "log2", "min_samples_leaf": 0.1, "min_samples_split": 0.4, "n_estimators": 50, "subsample": 1.0}	0.850	0.146
+mouse_broadChIP-seq_single-ended_RAW-TSS	ETC	No-100	all	{"criterion": "gini", "max_depth": null, "max_features": 3, "splitter": "best"}	0.908	0.092
+mouse_broadChIP-seq_single-ended_MAP-LOC	ADT	No-100	all	{"base_estimator__criterion": "gini", "base_estimator__splitter": "random", "n_estimators": 2}	0.900	0.100
+mouse_broadChIP-seq_single-ended_MAP-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.1, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.2, "min_samples_split": 0.1, "n_estimators": 100, "subsample": 0.85}	1.000	0.095
+mouse_broadChIP-seq_single-ended_LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.2, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.2, "n_estimators": 50, "subsample": 0.9}	0.850	0.143
+mouse_broadChIP-seq_single-ended_RAW-MAP-LOC	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 3, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 50, "subsample": 0.85}	0.975	0.096
+mouse_broadChIP-seq_single-ended_RAW-MAP-TSS	MLP	No-100	all	{"alpha": 0.0001, "hidden_layer_sizes": [500, 400], "max_iter": 500, "solver": "lbfgs"}	0.975	0.061
+mouse_broadChIP-seq_single-ended_RAW-LOC-TSS	GBC	No-100	all	{"criterion": "friedman_mse", "learning_rate": 0.05, "loss": "deviance", "max_depth": 8, "max_features": "sqrt", "min_samples_leaf": 0.1, "min_samples_split": 0.30000000000000004, "n_estimators": 50, "subsample": 1.0}	0.900	0.131
+mouse_broadChIP-seq_single-ended_MAP-LOC-TSS	MLP	No-100	all	{"alpha": 1e-06, "hidden_layer_sizes": [10, 10], "max_iter": 100, "solver": "lbfgs"}	0.988	0.083
+mouse_broadChIP-seq_single-ended_RAW-MAP-LOC-TSS	MLP	No-100	all	{"alpha": 0.1, "hidden_layer_sizes": [10, 10], "max_iter": 1500, "solver": "lbfgs"}	0.950	0.093

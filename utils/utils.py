@@ -16,6 +16,24 @@ author:	Steffen Albrecht
 
 """
 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.tree import ExtraTreeClassifier
+
+import json
+from terminaltables import AsciiTable
+
+def print_nice_table(table):
+	print_table = AsciiTable(table)
+	print(print_table.table)
+
 def get_path_info(file_path):
 	if file_path.find('/') < 0:
 		folder = './'
@@ -26,56 +44,92 @@ def get_path_info(file_path):
 	file_name = file_name_ending[:file_name_ending.find('.')]
 	return folder, file_name_ending, file_name
 
-def get_help_text():
-	return '''
-seqQscorer - A machine learning application for quality assessment of NGS data
+def clf_full_names(abbr):
+	name_map = {'RFC':'Random Forest', 'MLP':'Multi-Layer Perceptron', 'GBC':'Gradient Boosting', 
+			 'LRN':'Logistic Regression', 'SVC':'Support Vector Machine', 'GNB':'Naive Bayes', 
+			 'ADT':'Adaboost with Decision Tree', 'ETC':'Randomized Decision Tree', 
+			 'KNN':'K-nearest Neighbor'}
+	return name_map[abbr]
 
-USAGE
+def get_best_classifier(utils_dir, species, assay, run_type, feature_sets, fs_suffix, metric):
+	case = '%s_%s_%s_%s'%(species, assay, run_type, '-'.join(feature_sets))
+	
+	classifier = None
+	feature_selection = None
+	selection_str = ''
+	selection = None
+	params = None
+	auROC = None
+	brier = None
+	table_file_path = '%stables/best_algo_params_%s%s.tsv'%(utils_dir, metric, fs_suffix)
+	with open(table_file_path, 'r') as f:
+		for line in f:
+			line = line.strip().split('\t')
+			if line[0] == case:
+				classifier = line[1]
+				feature_selection = line[2]
+				selection_str = line[3]
+				params = json.loads(line[4])
+				auROC = line[5]
+				brier = line[6]
+				break
+	
+	if feature_selection != 'No-100':
+		selection = [True if b == '1' else False for b in selection_str.split(',')]
+	
+	return classifier, feature_selection, selection, params, auROC, brier
 
-	python seqQscorer.py [options]
+def read_in_measure_table(utils_dir, species, assay, run_type, feature_sets, fs_suffix, metric):
+	setting = '%s_%s_%s'%(species, assay, run_type)
+	
+	table_str = None
+	table_file_path = '%stables/dec_threshold_tabs_%s%s.tsv'%(utils_dir, metric, fs_suffix)
+	with open(table_file_path, 'r') as f:
+		for line in f:
+			line = line.strip().split('\t')
+			if line[0] == setting and line[1] == '-'.join(feature_sets):
+				table_str = line[2]
+				break
+	table = []
+	for row in table_str.split('|'):
+		table.append( list(row.split(',')) )
+	return table
 
-DESCRIPTION
+def get_clf_algos():
+	algorithms = {}
+	algorithms['RFC'] = RandomForestClassifier(random_state=1)
+	algorithms['GBC'] = GradientBoostingClassifier(random_state=1)
+	algorithms['LRN'] = LogisticRegression(random_state=1)
+	algorithms['SVC'] = SVC(kernel='rbf', probability=True, random_state=1)
+	algorithms['GNB'] = GaussianNB()
+	algorithms['MLP'] = MLPClassifier(random_state=1)
+	DTC = DecisionTreeClassifier(random_state = 1, max_features = "auto", class_weight = "balanced",max_depth = None)
+	algorithms['ADT'] = AdaBoostClassifier(base_estimator = DTC)
+	algorithms['ETC'] = ExtraTreeClassifier(random_state=1)
+	return algorithms
 
-	The tool loads a pre-trained classification model to evaluate given
-	feature sets describing the quality of sequencing data. For each given sample
-	the model is applied to receive a probability of the sample to be of low quality. 
-	Depending on the path provided by the user, the tool can be used on a single 
-	sample or multiple samples contained in the given directory path(s).
-	
-	An example is provided in the git repository with a description in README. 
-	Visit "https://github.com/salbrec/seqQscorer" to get more details.
 
-OPTIONS
-	
-	--help		Print this help file and exit
-	
-	These options describe the experimental background of the data that is provided 
-	by the user. This information is used to load the appropriate classification 
-	model. When no information is provided for one ore more options, a more generalized 
-	model is loaded.
-	
-	--spec		defines the species of the given data
-			"human" or "mouse" are available
-	
-	--assay		defines the assay of the given data
-			"ChIP-seq", "DNase-seq", and "RNA-seq" are available
-	
-	--rt		defines the run-type used in the given data
-			"single-ended" or "paired-ended"
-	
-	These options specify the directories containing the statistics 
-	or report summaries describing the data:
-	
-	--raw		path to the file or directory for the FastQC report(s)
-	
-	--map		path to the file or directory for the Bowtie2 mapping statistic(s)
-	
-	--loc		path to the file or directory for the location features (ChIPseeker)
-	
-	--tss		path to the file or directory for the TSS features (ChIPpeakAnno)
-	
-	Additional options:
-	
-	--out		path, that specifies a file for the output of the predictions
-'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
