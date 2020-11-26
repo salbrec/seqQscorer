@@ -87,7 +87,7 @@ if args.peaktype != None:
 best_clf, feature_selection, selection, parameters, auROC, brier = utils.get_best_classifier(utils_dir, species, assay, 
 															run_type, feature_sets, fs_suffix, model_sel_metric)
 
-if best_clf == None:
+if best_clf == None and args.model == None:
 	message = '''\nPlease check the given setting:
 	assay:\t\t%s\n\tspecies:\t%s\n\trun-type:\t%s\n'''%(assay, species, run_type)
 	message += '\tfeature sets:\t%s\n'%('-'.join(feature_sets))
@@ -159,17 +159,18 @@ probabilities = model.predict_proba(np.array(input_values))
 fileIDs = list(input_data['sampleID'])
 fileID_score = list(zip(fileIDs, [prob[1] for prob in probabilities]))
 
-print('\nThe best predictive performance was achived by %s'%(utils.clf_full_names(best_clf)))
-print('%s feature selection is applied (using %s%s of the features)'%(
-	tuple(feature_selection.split('-') + ['%'])))
-print('Within the cross-validated gird search this model achived:')
-print('\tauROC: %s'%(auROC))
-print('\tBrier: %s'%(brier))
-print('\nThe model used, achieved these measures for different decision thresholds applied\non the probabilities within the grid-search (ten-fold cross-validation):')
-table = utils.read_in_measure_table(utils_dir, species, assay, run_type, 
-									feature_sets, fs_suffix, model_sel_metric)
-utils.print_nice_table(table)
-print('')
+if args.model == None:
+	print('\nThe best predictive performance was achived by %s'%(utils.clf_full_names(best_clf)))
+	print('%s feature selection is applied (using %s%s of the features)'%(
+		tuple(feature_selection.split('-') + ['%'])))
+	print('Within the cross-validated gird search this model achived:')
+	print('\tauROC: %s'%(auROC))
+	print('\tBrier: %s'%(brier))
+	print('\nThe model used, achieved these measures for different decision thresholds applied\non the probabilities within the grid-search (ten-fold cross-validation):')
+	table = utils.read_in_measure_table(utils_dir, species, assay, run_type, 
+										feature_sets, fs_suffix, model_sel_metric)
+	utils.print_nice_table(table)
+	print('')
 
 # print the scores to the console
 probas_str = ''
