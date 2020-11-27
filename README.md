@@ -2,7 +2,7 @@
 
 seqQscorer is a python implementation that handles quality statistics or report summaries (quality features) as input to calculate a probability of an input NGS sample to be of low quality. This probability is calculated with pre-trained classification models. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/768713v2). 
 
-The following Figure describes the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model. The optimization depends on the experimental context (species or assay) and the quality features that are provided by the user. Already computed classification models are not available in the github. However, the software conatins settings for an over all well-performing genereic model and multiple more specialized model, that can be trained with the ENCODE data or new data. The first time a model is needed, it is trained and serialized into the folder `models`. Afterwards it is not necessary to compute it again. Note, seqQscorer trains models on the preprocessed ENCODE data (in utils) as described in the article.
+The following figure describes the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model. The optimization depends on the experimental context (species or assay) and the quality features that are provided by the user. Already computed classification models are not available in the github repository. However, the software contains settings for an over all well-performing genereic model and multiple more specialized models, that can be trained with the ENCODE data given or new data. The first time a model is needed, it is trained and serialized into the folder `models`. Afterwards it is not necessary to compute it again. Note, seqQscorer trains models on the preprocessed ENCODE data (in utils) as described in the article.
 
 Just as a brief description for the feature sets. The *RAW* features are derived with FastQC and contain essentially its report summary. The *MAP* features are the mapping statistics from a Bowtie2 alignment. From this alignment, the feature sets *LOC* and *TSS* are derived that describe the distribution of reads in genomic regions with certain functionalities respectively the distribution of reads close to TSS positions. For the latter feature sets the Bioconductor packages ChIPseeker and ChIPpeakAnno are used.
 
@@ -12,13 +12,13 @@ Additionally the script `deriveFeatureSets.py` is available in this repository. 
 
 ## Software installation
 
-Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually (see further installation guides at the bottom of this README). To be up-to-date we recommend to clone the git repository outside the docker. Especially the seqQscorer script does not required non-standard python packages and some user might prefer to work outside the docker.
+Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually (see further installation guides at the bottom of this README). To be up-to-date we recommend to clone the git repository outside the docker. Especially the seqQscorer script does not require non-standard python packages and some users might prefer to work outside of docker.
 
 ```
 git clone https://github.com/salbrec/seqQscorer.git
 ```
 
-For the start with docker, please open a Linux terminal and run the following commands to first install docker, then pulling the image, and finally running the image.
+To start with docker, please open a Linux terminal and run the following commands to first install docker, then pull, and finally run the image.
 
 ```
 sudo apt-get install docker
@@ -134,8 +134,8 @@ optional arguments:
 
 ## Preprocessing for fastq files
 
-You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference for the download from the official Bowtie2 webpage.
-If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples for a paired-end test can be used from here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far away from a real NGS sample.
+You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference to the download from the official Bowtie2 webpage.
+If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Filees for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
 
@@ -144,7 +144,7 @@ python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz -
 ```
 The results will be in the default output folder `./feature_sets/`, use `--outdir` to specify the destination of the feature sets.
 
-The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate especially the mapping. In this example the feature set files are written to this folder: `./mouse_pe/`.
+The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate computation, especially the mapping. In this example the feature set files are written to this folder: `./mouse_pe/`.
 
 ```
 python deriveFeatureSets.py --fastq1 /var/examples/paired/ENCFF310LVJ.fastq.gz --fastq2 /var/examples/paired/ENCFF410LTA_r2.fastq.gz --cores 4 --btidx ./utils/genome_index/mm10/mm10 --assembly GRCm38 --outdir ./mouse_pe/
@@ -243,6 +243,10 @@ BiocManager::install("ChIPseeker")
 BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
 BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 ```
-
+### Installation with ANACONDA and MAMBA
+We also provide a yaml file that contains the necessary bioconductor packages. This can be installed in the same manner as above. However, yaml files of this length and in combination with bioconductor packages often lead to problems when using conda. Mamba is a front-end for conda, that circumvents these problems and thereby allows a simple installation with 
+`mamba env create -f conda_env_bioconductor.yml`
+To install mamba see their github page:
+https://github.com/mamba-org/mamba
 
 
