@@ -46,7 +46,7 @@ parser.add_argument('--fastq1', '-f1', type=str, required=True, help='Input fast
 parser.add_argument('--fastq2', '-f2', type=str, default=None, help='In case of a paired-end sample, the fastq file for read 2.')
 parser.add_argument('--btidx','-ix', type=str, required=True, help='Filename prefix for Bowtie2 Genome Index (minus trailing .X.bt2).')
 parser.add_argument('--outdir', '-o', type=str, default='./feature_sets/', help='Output directory. Default: "./feature_sets/"')
-parser.add_argument('--cores', '-c', type=int, default=None, help='Defines the number of processors (CPUs) to be used by bowtie2 and samtools. (drastically decreases runtime)')
+parser.add_argument('--cores', '-c', type=int, default=None, help='Defines the number of processors (CPUs) to be used by bowtie2 and samtools. (decreases runtime)')
 parser.add_argument('--fastqc', '-f', type=int, default=1, choices=[1, 2], help='The fastq on which FastQC is applied on. Can optionally be selected for paired-end samples.')
 parser.add_argument('--assembly', '-a', type=str, default='GRCh38', choices=['GRCh38', 'GRCm38'], help='Species assembly needed to define the gene structure / annotation used by the bioconductor functions. (has to be consistent with the species used in for Bowtie2)')
 parser.add_argument('--gtf', '-g', type=str, default=None, help='File path for a gtf file to be used to get the LOC and TSS features. (--assembly will be ignored then)')
