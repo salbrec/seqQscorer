@@ -4,21 +4,21 @@ seqQscorer is a python implementation that handles quality statistics or report 
 
 The following Figure describes the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model. The optimization depends on the experimental context (species or assay) and the quality features that are provided by the user. Already computed classification models are not available in the github. However, the software conatins settings for an over all well-performing genereic model and multiple more specialized model, that can be trained with the ENCODE data or new data. The first time a model is needed, it is trained and serialized into the folder `models`. Afterwards it is not necessary to compute it again. Note, seqQscorer trains models on the preprocessed ENCODE data (in utils) as described in the article.
 
+Just as a brief description for the feature sets. The *RAW* features are derived with FastQC and contain essentially its report summary. The *MAP* features are the mapping statistics from a Bowtie2 alignment. From this alignment, the feature sets *LOC* and *TSS* are derived that describe the distribution of reads in genomic regions with certain functionalities respectively the distribution of reads close to TSS positions. For the latter feature sets the Bioconductor packages ChIPseeker and ChIPpeakAnno are used.
+
 Additionally the script `deriveFeatureSets.py` is available in this repository. It allows the user to preprocess all quality feature sets that are needed to properly run seqQscorer and provides the results in an already readable way for seqQscorer. An example for its usage is provided below. 
 
 <img src="figures/workflow.png" width="850">
 
 ## Software installation
 
-Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually. For both it is of course necessary to clone this repository:
+Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually (see further installation guides at the bottom of this README). To be up-to-date we recommend to clone the git repository outside the docker. Especially the seqQscorer script does not required non-standard python packages and some user might prefer to work outside the docker.
 
 ```
 git clone https://github.com/salbrec/seqQscorer.git
 ```
 
-We also listed all commands (bottom of this README) that were ran starting from an Anaconda installation on a Linux OS. 
-
-However, for the start with docker, please open a Linux terminal and run the following commands to first install docker, then pulling the image, and finally running the image.
+For the start with docker, please open a Linux terminal and run the following commands to first install docker, then pulling the image, and finally running the image.
 
 ```
 sudo apt-get install docker
@@ -78,8 +78,6 @@ optional arguments:
   --gtf GTF, -g GTF     File path for a gtf file to be used to get the LOC and
                         TSS features. (--assembly will be ignored then)
 
-
-
 ```
 
 Expected output for `python seqQscorer.py --help`:
@@ -131,14 +129,13 @@ optional arguments:
                         To specify an out file that will contain the parsed
                         input. Output will be tab-separated.
 
-
 ```
 
 
 ## Preprocessing for fastq files
 
 You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference for the download from the official Bowtie2 webpage.
-If you would like to use a small example file right away within the docker, there are one here: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples are here for the paired-end test: `/var/examples/paired/`. Note, these are examples just for testing the installation, he files were reduced randomly and especially the paired-end example has only ~100k reads.
+If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples for a paired-end test can be used from here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far away from a real NGS sample.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
 
@@ -147,7 +144,7 @@ python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz -
 ```
 The results will be in the default output folder `./feature_sets/`, use `--outdir` to specify the destination of the feature sets.
 
-The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate especially the mapping.
+The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate especially the mapping. In this example the feature set files are written to this folder: `./mouse_pe/`.
 
 ```
 python deriveFeatureSets.py --fastq1 /var/examples/paired/ENCFF310LVJ.fastq.gz --fastq2 /var/examples/paired/ENCFF410LTA_r2.fastq.gz
@@ -162,7 +159,9 @@ Since we ran into compatibility problems while implementing this option, we reco
 
 The gtf file should be downloaded from Ensembl via their FTP Download website: [https://www.ensembl.org/info/data/ftp/index.html](https://www.ensembl.org/info/data/ftp/index.html).
 
-With the index and gtf present, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
+Of course, the Bowtie2 index and the gtf file have to represent data from the same genome assembly.
+
+Having the index and gtf, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
 
 ```
 python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4
@@ -176,15 +175,17 @@ After deriving the feature sets the application of seqQscorer can be as simple a
 python seqQscorer.py --indir ./feature_set_examples/
 ```
 
-By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. However, depending on the data that was available for our investigations, some specialized model are available. You can specify the model with the paramters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve). The specialized models, available for all feature set combinations out of RAW, MAP, LOC, and TSS are: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
+By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. Furthermore the generic model is the most reliable one as it was trained on the largest dataset. However, depending on the data that was available for our investigations, some specialized models are available. You can specify the model with the paramters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve). Besides the generic model, specialized models are available for all feature set combinations out of RAW, MAP, LOC, and TSS and for these specifications: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
 
 By default, seqQscorer uses all feature sets, but there are also parameters to be used if certain feature sets should be ignored.
 
 seqQscorer prints some interesting information to the console. With options such as `--probOut` and `--compOut` it is possible to save your results to a given file name.
 
-From our preprocessed grid search, we already defined algorithms and parameter settings that perfromed well on the different datasets. Some of them achieved the best performance when applied together with a feature selection method. However, if you want to switch off the feature selection, use `--noFS`. 
+From our preprocessed grid search, we already defined algorithms and parameter settings that perfromed well on the different datasets. Some of them achieved the best performance when applied together with a feature selection method. By default a preprocessed feature selection is applied when it was shown in the grid search that it improves the predictive performance. However, if you want to switch off the feature selection, use `--noFS`. 
 
 By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
+
+During our investigations we also analyzed the impact of peak-type specification. When seqQscorer is applied to ChIP-seq data homogeneous for narrow or broad peaks, we recommend to use the corresponding ChIP-seq model. For broad-peak data from human biosamples we recommend to further specify the model by peak-type. This can be done with the `--peaktype` option.
 
 ## Further installation guides
 
