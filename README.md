@@ -29,37 +29,9 @@ sudo docker login
 sudo docker pull salbrec/seqqdocker
 sudo docker run -i -t -v "/home/:/home/" salbrec/seqqdocker /bin/bash
 ```
-## Installation with Docker Desktop on Windows
+#### Check out further installation guides for running Docker with Windows 10 or creating your own conda environment (on the bottom of this README)
 
-To install Docker Desktop follow the instructions on their website:
-https://docs.docker.com/docker-for-windows/install/
-
-Use git from powershell to clone seqQscorer
-```
-git clone https://github.com/salbrec/seqQscorer.git
-
-```
-To get the image and activate it is similar to Linux. 
-However it is advisable to only link the SeqQscorer folder.
-Docker mentions, that binding Windows Volumes can lead to performance drops and suggest to bind mounted folders from the linux filesystem in wsl rather than a folder on the windows filesystem.
-Both works fine and can be accessed via powershell from the windows side or from the bash from the Linux/WSL side.
-
-Below is an example from powershell, for linux just add sudo in front.
-```
-docker pull salbrec/testing
-docker run -i -t --name seqQscorer -v "C:/Users/User/seqQscorer:/seqQscorer" salbrec/seqqdocker 
-```
-Now you can just change to the newqscorer folder and start usign the software!
-```
-(SeqQscorer) root@ xxx : cd seqQscorer
-```
-In this example the SeqQscorer folder that is on windows is to find in the root of the docker image.
-The docker image is named SeqQscorer and can be invoked by this name in the future.
-You can copy files from the windows side (like your fastq's) and compute from the docker side.
-
-Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for windows also needs to be done.
-
-## Testing the docker or your installation
+## Getting the first information from the software within your installation
 
 Change directory into the seqQscorer repository and run the usage information:
 
@@ -95,7 +67,7 @@ optional arguments:
                         Output directory. Default: "./feature_sets/"
   --cores CORES, -c CORES
                         Defines the number of processors (CPUs) to be used by
-                        bowtie2 and samtools. (drastically decreases runtime)
+                        bowtie2 and samtools. (decreases runtime)
   --fastqc {1,2}, -f {1,2}
                         The fastq on which FastQC is applied on. Can
                         optionally be selected for paired-end samples.
@@ -118,8 +90,9 @@ usage: seqQscorer.py [-h] --indir INDIR [--species {generic,human,mouse}]
                      [--assay {generic,ChIP-seq,DNase-seq,RNA-seq}]
                      [--runtype {generic,single-ended,paired-ended}]
                      [--model MODEL] [--noRAW] [--noMAP] [--noLOC] [--noTSS]
-                     [--noFS] [--bestCalib] [--probOut PROBOUT]
-                     [--compOut COMPOUT] [--inputOut INPUTOUT]
+                     [--noFS] [--bestCalib] [--peaktype {narrow,broad}]
+                     [--probOut PROBOUT] [--compOut COMPOUT]
+                     [--inputOut INPUTOUT]
 
 seqQscorer - A machine learning application for quality assessment of NGS data
 
@@ -146,6 +119,8 @@ optional arguments:
   --bestCalib           Classifier setting is used that achieved the lowest
                         brier score, hence the best calibration of the
                         probabilities.
+  --peaktype {narrow,broad}, -pt {narrow,broad}
+                        Optionally specify the peak-type for ChIP-seq data.
   --probOut PROBOUT, -po PROBOUT
                         To specify an output file for the probabilities.
                         Output will be tab-separated.
@@ -157,14 +132,13 @@ optional arguments:
                         input. Output will be tab-separated.
 
 
-
 ```
 
 
 ## Preprocessing for fastq files
 
 You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference for the download from the official Bowtie2 webpage.
-If you would like to use a small example file right away within the docker, there is one here: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples are here for the paired-end test: `/var/examples/paired/`. Note, these are examples just for testing the installation, he files were reduced randomly and especially the paired-end example wont hav even 1M reads.
+If you would like to use a small example file right away within the docker, there are one here: `/var/examples/single/ENCFF165NJF.fastq.gz`. Even smaller examples are here for the paired-end test: `/var/examples/paired/`. Note, these are examples just for testing the installation, he files were reduced randomly and especially the paired-end example has only ~100k reads.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
 
@@ -212,9 +186,41 @@ From our preprocessed grid search, we already defined algorithms and parameter s
 
 By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
 
-## Installation with ANACONDA  
+## Further installation guides
 
-First, install anaconda in case you do not have it in your linux machine. We recommend to use the one that is suggested here.
+### Installation with Docker Desktop on Windows
+
+To install Docker Desktop follow the instructions on their website:
+https://docs.docker.com/docker-for-windows/install/
+
+Use git from powershell to clone seqQscorer
+```
+git clone https://github.com/salbrec/seqQscorer.git
+
+```
+To get the image and activate it is similar to Linux. 
+However it is advisable to only link the SeqQscorer folder.
+Docker mentions, that binding Windows Volumes can lead to performance drops and suggest to bind mounted folders from the linux filesystem in wsl rather than a folder on the windows filesystem.
+Both works fine and can be accessed via powershell from the windows side or from the bash from the Linux/WSL side.
+
+Below is an example from powershell, for linux just add sudo in front.
+```
+docker pull salbrec/testing
+docker run -i -t --name seqQscorer -v "C:/Users/User/seqQscorer:/seqQscorer" salbrec/seqqdocker 
+```
+Now you can just change to the newqscorer folder and start usign the software!
+```
+(SeqQscorer) root@ xxx : cd seqQscorer
+```
+In this example the SeqQscorer folder that is on windows is to find in the root of the docker image.
+The docker image is named SeqQscorer and can be invoked by this name in the future.
+You can copy files from the windows side (like your fastq's) and compute from the docker side.
+
+Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for windows also needs to be done.
+
+### Installation with ANACONDA  
+
+First, install anaconda in case you do not have it in your linux machine. We recommend to use the one that is suggested here. For the installation of Anaconda run the following two lines in your terminal.
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
@@ -232,10 +238,10 @@ Afterwards the R packages are installed by running thses lines within R.
 ```
 # Within R run the following lines to install the R packages needed
 install.packages("BiocManager")
+BiocManager::install("ChIPpeakAnno")
 BiocManager::install("ChIPseeker")
 BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
 BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
-BiocManager::install("ChIPpeakAnno")
 ```
 
 
