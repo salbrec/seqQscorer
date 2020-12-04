@@ -205,7 +205,7 @@ Both works fine and can be accessed via powershell from the windows side or from
 
 Below is an example from powershell, for linux just add sudo in front.
 ```
-docker pull salbrec/testing
+docker pull salbrec/seqqdocker
 docker run -i -t --name seqQscorer -v "C:/Users/User/seqQscorer:/seqQscorer" salbrec/seqqdocker 
 ```
 Now you can just change to the newqscorer folder and start usign the software!
