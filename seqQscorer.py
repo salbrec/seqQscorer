@@ -33,7 +33,7 @@ if argv[0].find('/') >= 0:
 utils_dir = '%sutils/'%(script_dir)
 
 argsParser = argparse.ArgumentParser(description='seqQscorer - A machine learning application for quality assessment of NGS data')
-argsParser.add_argument('--indir', '-i', type=str, required=True, help='Input directory containing the feature set files')
+argsParser.add_argument('--indir', '-i', type=str, required=True, help='Input directory containing the feature set files. The feature set files are perfectly fomated by the script "deriveFeatures.py": the file names (until the ".") define the sample ID while the file endings define the corresponding feature set RAW, MAP, LOC, and TSS. By default seqQscorer applies the machine learning model to all samples from the given directory within milliseconds. However, it can be restricted to one sample using --sampleID.')
 argsParser.add_argument('--species', '-s', type=str, default='generic', 
 						choices=['generic','human', 'mouse'],  help='Species specifying the model used.')
 argsParser.add_argument('--assay', '-a', type=str, default='generic', 
@@ -54,6 +54,11 @@ argsParser.add_argument('--compOut', '-co', type=str, default=None,
 						help='To specify an out file for the comprehensive output. Output will be kind of tab-separated.')
 argsParser.add_argument('--inputOut', '-io', type=str, default=None,
 						help='To specify an out file that will contain the parsed input. Output will be tab-separated.')
+argsParser.add_argument('--noVerbose', '-nv', action='store_true', help='Turn off verboseness, without being quiet.')
+argsParser.add_argument('--seed', '-rs', type=int, default=1, help='Some classifiers apply randomization. Use --seed to make results reproducible. By default the seed 1 is used, set it to -1 if using a seed is not desired. For K-nearest neighbor and Naive Bayes the seed has no impact.')
+argsParser.add_argument('--sampleID', '-id', type=str, default=None,
+						help='Restrict application of seqQscorer to only one sample defined by the ID.')
+
 args = argsParser.parse_args()
 
 if not os.path.isdir(args.indir):
@@ -98,7 +103,7 @@ if best_clf == None and args.model == None:
 
 application_case = '%s_%s_%s_%s'%(species, assay, run_type, '-'.join(feature_sets))
 application_case += '_%s%s'%(model_sel_metric, fs_suffix)
-model_file_path = '%smodels/%s.model'%(script_dir, application_case)
+model_file_path = '%smodels/%s_%d.model'%(script_dir, application_case, args.seed)
 
 if args.model != None:
 	print('An external model is provided.')
@@ -114,7 +119,7 @@ medians = pickle.load(open('%sutils/medians.dict'%(script_dir), 'rb'))
 medians = medians[species][assay][run_type]
 
 # parse given input files
-input_data, feature_columns = parser.generate_input_data(args.indir, feature_sets, run_type, medians)
+input_data, feature_columns = parser.generate_input_data(args.indir, feature_sets, run_type, medians, args.noVerbose, args.sampleID)
 
 # if the particula model is used for the very first time, it is trained and serialized
 best_clf, feature_selection, selection, parameters, auROC, brier = utils.get_best_classifier(utils_dir, 
@@ -127,7 +132,8 @@ if not os.path.exists(model_file_path) and args.model == None:
 	
 	clf = utils.get_clf_algos()[best_clf]
 	if not best_clf in ['GNB','KNN']:
-		parameters['random_state'] = 1
+		if args.seed != -1:
+			parameters['random_state'] = args.seed
 	
 	clf_setup = clf.set_params(**parameters)
 	
@@ -141,10 +147,13 @@ if not os.path.exists(model_file_path) and args.model == None:
 	X = np.array(train_data)
 	
 	model = clf_setup.fit(X,y)
-	pickle.dump(model, open(model_file_path, 'wb'))
-	
-	print('... training and serialization is done!')
-	print('The model is instantly available from now!')
+	if args.seed != -1:
+		pickle.dump(model, open(model_file_path, 'wb'))
+		print('... training and serialization is done!')
+		print('The model is instantly available from now!')
+	else:
+		print('... training is done, but only reproducible models are serialized.')
+		print('Because no seed was used the model was not serialized.')
 
 # load the model
 model = pickle.load(open(model_file_path, 'rb'))

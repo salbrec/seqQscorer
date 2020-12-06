@@ -17,8 +17,11 @@ get_readsAnno_features(feature_file_path)
 	parses the LOC features from ChIPseeker
 get_TSS_features(feature_file_path)
 	parses the TSS features from ChIPpeakAnno
+generate_input_data(indir, feature_sets, run_type, medians, noVerbose)
+	given the input directory this function reads in the feature sets for 
+	all samples provided by the user
 
-date:	2019-05-12
+date:	2020-11-02
 author:	Steffen Albrecht
 
 """
@@ -108,7 +111,7 @@ def get_TSS_features(feature_file_path):
 	return dict(zip(feature_names, feature_values))
 
 
-def generate_input_data(indir, feature_sets, run_type, medians):
+def generate_input_data(indir, feature_sets, run_type, medians, noVerbose=True, restrict=None):
 	print('Parsing input data...')
 	# initialize the specific parser functions
 	parsers = {}
@@ -126,6 +129,9 @@ def generate_input_data(indir, feature_sets, run_type, medians):
 		for feature_file in files:
 			file_path = indir + feature_file
 			sample_ID = feature_file[:-4]
+			if restrict != None:
+				if restrict != sample_ID:
+					continue
 			feature_set = feature_file[-3:]
 			if os.path.exists(file_path):
 				if feature_file[-4:] in [ '.'+fs for fs in feature_sets ]:
@@ -157,9 +163,9 @@ def generate_input_data(indir, feature_sets, run_type, medians):
 			else:
 				missing = True
 				input_data[col].append(np.nan)
-				if col in feature_cols:
+				if col in feature_cols and not noVerbose:
 					print('\nWarning! The feature "%s" is missing for %s'%(col, sample))
-	if missing:
+	if missing and not noVerbose:
 		print('\nMissing values will be imputed by median.')
 		print('However, you might check your input data.\n')
 	
@@ -170,9 +176,10 @@ def generate_input_data(indir, feature_sets, run_type, medians):
 	missing_features = list(filter(lambda x: not x in input_data.columns, feature_cols))
 	for feature in missing_features:
 		median = medians[feature]
-		print('\nWarning: No values at all for the following feature:')
-		print('\t%s'%(feature))
-		print('\nFeature was imputed for all samples with its median value: "%s"\n'%(str(median)))
+		if not noVerbose:
+			print('\nWarning: No values at all for the following feature:')
+			print('\t%s'%(feature))
+			print('\nFeature was imputed for all samples with its median value: "%s"\n'%(str(median)))
 		input_data[feature] = input_data.shape[0] * median
 
 	# imputation of missing values by the median value

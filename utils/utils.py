@@ -10,8 +10,20 @@ get_path_info()
 	base file name, and its ending
 get_help_text()
 	returns a formatted string describing the seqQscorer help text
+clf_full_names(abbr)
+	given one of the abbreviations, this function returns the full name of
+	the algorithm. Used to clarify the terminal output
+get_best_classifier(utils_dir, species, assay, run_type, feature_sets, fs_suffix, metric)
+	given the user specifications from seqQscorer, this function parses a text table
+	in order to return the classifier and feature selection specifications that are most 
+	recommendable for the application
+read_in_measure_table(utils_dir, species, assay, run_type, feature_sets, fs_suffix, metric)
+	seqQscorer prints a table with machine learning evaluation measures for different decision 
+	thresholds. The source file with this information is parsed by this function
+def get_clf_algos()
+	this function creates and returns a dictionary of default classifier configuratons
 
-date:	2019-05-12
+date:	2020-11-10
 author:	Steffen Albrecht
 
 """

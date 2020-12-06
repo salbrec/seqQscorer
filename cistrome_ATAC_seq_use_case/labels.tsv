@@ -1,0 +1,800 @@
+sampleID	extreme	thresh2	thresh3	thresh4
+SRRsample000	1.0	1	1	1
+SRRsample001	1.0	1	1	1
+SRRsample002	1.0	1	1	1
+SRRsample003		1	1	1
+SRRsample004		1	1	1
+SRRsample005		1	1	1
+SRRsample006		1	1	1
+SRRsample007		1	1	1
+SRRsample008		1	1	1
+SRRsample009		1	1	1
+SRRsample010		1	1	1
+SRRsample011		1	1	1
+SRRsample012		0	1	1
+SRRsample013		0	1	1
+SRRsample014		0	1	1
+SRRsample015		0	1	1
+SRRsample016		0	1	1
+SRRsample017		0	1	1
+SRRsample018		0	1	1
+SRRsample019		0	1	1
+SRRsample020	1.0	1	1	1
+SRRsample021	1.0	1	1	1
+SRRsample022	1.0	1	1	1
+SRRsample023		1	1	1
+SRRsample024		1	1	1
+SRRsample025		1	1	1
+SRRsample026		1	1	1
+SRRsample027		1	1	1
+SRRsample028		1	1	1
+SRRsample029		1	1	1
+SRRsample030		1	1	1
+SRRsample031		1	1	1
+SRRsample032		1	1	1
+SRRsample033		1	1	1
+SRRsample034		1	1	1
+SRRsample035		1	1	1
+SRRsample036		1	1	1
+SRRsample037		1	1	1
+SRRsample038		1	1	1
+SRRsample039		1	1	1
+SRRsample040		1	1	1
+SRRsample041		1	1	1
+SRRsample042		1	1	1
+SRRsample043		1	1	1
+SRRsample044		1	1	1
+SRRsample045		1	1	1
+SRRsample046		1	1	1
+SRRsample047		1	1	1
+SRRsample048		1	1	1
+SRRsample049		1	1	1
+SRRsample050		1	1	1
+SRRsample051		1	1	1
+SRRsample052		1	1	1
+SRRsample053		1	1	1
+SRRsample054		1	1	1
+SRRsample055		1	1	1
+SRRsample056		1	1	1
+SRRsample057		1	1	1
+SRRsample058		1	1	1
+SRRsample059		1	1	1
+SRRsample060		1	1	1
+SRRsample061		1	1	1
+SRRsample062		1	1	1
+SRRsample063		1	1	1
+SRRsample064		1	1	1
+SRRsample065		1	1	1
+SRRsample066		1	1	1
+SRRsample067		1	1	1
+SRRsample068		1	1	1
+SRRsample069		1	1	1
+SRRsample070		1	1	1
+SRRsample071		1	1	1
+SRRsample072		1	1	1
+SRRsample073		1	1	1
+SRRsample074		1	1	1
+SRRsample075		1	1	1
+SRRsample076		1	1	1
+SRRsample077		1	1	1
+SRRsample078		1	1	1
+SRRsample079		1	1	1
+SRRsample080		1	1	1
+SRRsample081		1	1	1
+SRRsample082		1	1	1
+SRRsample083		0	1	1
+SRRsample084		0	1	1
+SRRsample085		0	1	1
+SRRsample086	1.0	1	1	1
+SRRsample087	1.0	1	1	1
+SRRsample088	1.0	1	1	1
+SRRsample089	1.0	1	1	1
+SRRsample090	1.0	1	1	1
+SRRsample091		0	1	1
+SRRsample092		0	1	1
+SRRsample093	1.0	1	1	1
+SRRsample094	1.0	1	1	1
+SRRsample095	1.0	1	1	1
+SRRsample096	1.0	1	1	1
+SRRsample097		1	1	1
+SRRsample098		1	1	1
+SRRsample099		1	1	1
+SRRsample100		1	1	1
+SRRsample101		0	1	1
+SRRsample102	1.0	1	1	1
+SRRsample103	1.0	1	1	1
+SRRsample104		0	1	1
+SRRsample105		0	1	1
+SRRsample106	1.0	1	1	1
+SRRsample107		0	1	1
+SRRsample108		0	1	1
+SRRsample109	1.0	1	1	1
+SRRsample110	1.0	1	1	1
+SRRsample111	1.0	1	1	1
+SRRsample112		0	1	1
+SRRsample113		0	1	1
+SRRsample114		0	1	1
+SRRsample115		0	1	1
+SRRsample116	1.0	1	1	1
+SRRsample117	1.0	1	1	1
+SRRsample118	1.0	1	1	1
+SRRsample119	1.0	1	1	1
+SRRsample120		0	1	1
+SRRsample121		0	1	1
+SRRsample122	1.0	1	1	1
+SRRsample123	1.0	1	1	1
+SRRsample124	1.0	1	1	1
+SRRsample125		0	0	1
+SRRsample126	1.0	1	1	1
+SRRsample127	1.0	1	1	1
+SRRsample128		0	0	1
+SRRsample129		0	1	1
+SRRsample130		0	1	1
+SRRsample131	1.0	1	1	1
+SRRsample132		1	1	1
+SRRsample133		1	1	1
+SRRsample134		1	1	1
+SRRsample135		0	0	1
+SRRsample136		0	1	1
+SRRsample137		0	1	1
+SRRsample138		0	1	1
+SRRsample139		0	1	1
+SRRsample140		1	1	1
+SRRsample141		1	1	1
+SRRsample142		1	1	1
+SRRsample143		1	1	1
+SRRsample144		0	0	1
+SRRsample145	1.0	1	1	1
+SRRsample146		1	1	1
+SRRsample147		1	1	1
+SRRsample148		1	1	1
+SRRsample149		1	1	1
+SRRsample150		1	1	1
+SRRsample151		1	1	1
+SRRsample152		1	1	1
+SRRsample153		1	1	1
+SRRsample154		1	1	1
+SRRsample155		1	1	1
+SRRsample156		1	1	1
+SRRsample157		1	1	1
+SRRsample158		1	1	1
+SRRsample159		1	1	1
+SRRsample160		1	1	1
+SRRsample161		1	1	1
+SRRsample162		1	1	1
+SRRsample163		1	1	1
+SRRsample164		1	1	1
+SRRsample165		1	1	1
+SRRsample166		1	1	1
+SRRsample167		0	0	1
+SRRsample168		0	0	1
+SRRsample169		0	1	1
+SRRsample170		0	0	1
+SRRsample171		0	0	1
+SRRsample172		0	0	1
+SRRsample173		0	0	1
+SRRsample174		0	1	1
+SRRsample175		0	0	1
+SRRsample176		0	0	1
+SRRsample177		0	0	1
+SRRsample178		0	1	1
+SRRsample179		0	1	1
+SRRsample180		0	0	1
+SRRsample181		1	1	1
+SRRsample182		1	1	1
+SRRsample183		1	1	1
+SRRsample184		1	1	1
+SRRsample185		1	1	1
+SRRsample186		1	1	1
+SRRsample187		1	1	1
+SRRsample188		1	1	1
+SRRsample189		1	1	1
+SRRsample190		1	1	1
+SRRsample191		1	1	1
+SRRsample192		1	1	1
+SRRsample193		1	1	1
+SRRsample194		1	1	1
+SRRsample195		1	1	1
+SRRsample196		1	1	1
+SRRsample197		1	1	1
+SRRsample198		1	1	1
+SRRsample199		1	1	1
+SRRsample200		1	1	1
+SRRsample201		1	1	1
+SRRsample202		1	1	1
+SRRsample203		1	1	1
+SRRsample204		1	1	1
+SRRsample205		1	1	1
+SRRsample206		1	1	1
+SRRsample207		1	1	1
+SRRsample208		1	1	1
+SRRsample209	0.0	0	0	0
+SRRsample210	0.0	0	0	0
+SRRsample211	0.0	0	0	0
+SRRsample212	0.0	0	0	0
+SRRsample213	0.0	0	0	0
+SRRsample214	0.0	0	0	0
+SRRsample215	0.0	0	0	0
+SRRsample216	0.0	0	0	0
+SRRsample217		0	0	1
+SRRsample218		0	0	1
+SRRsample219		0	1	1
+SRRsample220		1	1	1
+SRRsample221		0	0	1
+SRRsample222		0	1	1
+SRRsample223		0	0	1
+SRRsample224		0	0	1
+SRRsample225		0	0	1
+SRRsample226		0	0	1
+SRRsample227		0	0	1
+SRRsample228		0	0	1
+SRRsample229		0	0	1
+SRRsample230		1	1	1
+SRRsample231		0	0	1
+SRRsample232		0	0	1
+SRRsample233		0	0	1
+SRRsample234		0	0	1
+SRRsample235		0	0	1
+SRRsample236		1	1	1
+SRRsample237		0	0	1
+SRRsample238		0	0	1
+SRRsample239		0	0	1
+SRRsample240		0	0	1
+SRRsample241		0	1	1
+SRRsample242		0	0	1
+SRRsample243		0	0	1
+SRRsample244		1	1	1
+SRRsample245		0	1	1
+SRRsample246		0	0	1
+SRRsample247		1	1	1
+SRRsample248		0	0	1
+SRRsample249		0	0	1
+SRRsample250		0	0	1
+SRRsample251		0	0	1
+SRRsample252		0	0	1
+SRRsample253		0	0	1
+SRRsample254		0	0	1
+SRRsample255		0	0	1
+SRRsample256		0	0	1
+SRRsample257		0	0	1
+SRRsample258		0	0	1
+SRRsample259		0	1	1
+SRRsample260		0	0	1
+SRRsample261		0	0	1
+SRRsample262		0	0	1
+SRRsample263		0	0	1
+SRRsample264		0	0	1
+SRRsample265		0	0	1
+SRRsample266		0	0	1
+SRRsample267		0	0	1
+SRRsample268		0	0	1
+SRRsample269		0	0	1
+SRRsample270		0	0	1
+SRRsample271		0	0	1
+SRRsample272		0	1	1
+SRRsample273		0	0	1
+SRRsample274		0	0	1
+SRRsample275		0	0	1
+SRRsample276		0	0	1
+SRRsample277		0	0	1
+SRRsample278	0.0	0	0	0
+SRRsample279	0.0	0	0	0
+SRRsample280	1.0	1	1	1
+SRRsample281	1.0	1	1	1
+SRRsample282		1	1	1
+SRRsample283		0	0	1
+SRRsample284	0.0	0	0	0
+SRRsample285	0.0	0	0	0
+SRRsample286		1	1	1
+SRRsample287		1	1	1
+SRRsample288		1	1	1
+SRRsample289		1	1	1
+SRRsample290		1	1	1
+SRRsample291		1	1	1
+SRRsample292		1	1	1
+SRRsample293		1	1	1
+SRRsample294		0	0	1
+SRRsample295		0	0	1
+SRRsample296		0	1	1
+SRRsample297		0	1	1
+SRRsample298		0	1	1
+SRRsample299		0	1	1
+SRRsample300		0	1	1
+SRRsample301	1.0	1	1	1
+SRRsample302		0	1	1
+SRRsample303		0	1	1
+SRRsample304		0	1	1
+SRRsample305	1.0	1	1	1
+SRRsample306		0	1	1
+SRRsample307		0	1	1
+SRRsample308		1	1	1
+SRRsample309	0.0	0	0	0
+SRRsample310		0	0	1
+SRRsample311		0	0	1
+SRRsample312		1	1	1
+SRRsample313		1	1	1
+SRRsample314		0	0	1
+SRRsample315		1	1	1
+SRRsample316		1	1	1
+SRRsample317	0.0	0	0	0
+SRRsample318	0.0	0	0	0
+SRRsample319		1	1	1
+SRRsample320		1	1	1
+SRRsample321		1	1	1
+SRRsample322	0.0	0	0	0
+SRRsample323		1	1	1
+SRRsample324		0	0	1
+SRRsample325		1	1	1
+SRRsample326		1	1	1
+SRRsample327		1	1	1
+SRRsample328		1	1	1
+SRRsample329		1	1	1
+SRRsample330		1	1	1
+SRRsample331		1	1	1
+SRRsample332		1	1	1
+SRRsample333		1	1	1
+SRRsample334		1	1	1
+SRRsample335		1	1	1
+SRRsample336		1	1	1
+SRRsample337		1	1	1
+SRRsample338		1	1	1
+SRRsample339		1	1	1
+SRRsample340		1	1	1
+SRRsample341		1	1	1
+SRRsample342		1	1	1
+SRRsample343		1	1	1
+SRRsample344		1	1	1
+SRRsample345		1	1	1
+SRRsample346		1	1	1
+SRRsample347		1	1	1
+SRRsample348	0.0	0	0	0
+SRRsample349		1	1	1
+SRRsample350		1	1	1
+SRRsample351	0.0	0	0	0
+SRRsample352		1	1	1
+SRRsample353		0	1	1
+SRRsample354		0	1	1
+SRRsample355		0	0	1
+SRRsample356	0.0	0	0	0
+SRRsample357		1	1	1
+SRRsample358		0	0	1
+SRRsample359		1	1	1
+SRRsample360		1	1	1
+SRRsample361		1	1	1
+SRRsample362		1	1	1
+SRRsample363		1	1	1
+SRRsample364		1	1	1
+SRRsample365		1	1	1
+SRRsample366		1	1	1
+SRRsample367		1	1	1
+SRRsample368		1	1	1
+SRRsample369		1	1	1
+SRRsample370		1	1	1
+SRRsample371		1	1	1
+SRRsample372		1	1	1
+SRRsample373		1	1	1
+SRRsample374		1	1	1
+SRRsample375		1	1	1
+SRRsample376		1	1	1
+SRRsample377		1	1	1
+SRRsample378		1	1	1
+SRRsample379		1	1	1
+SRRsample380		1	1	1
+SRRsample381		1	1	1
+SRRsample382		1	1	1
+SRRsample383		1	1	1
+SRRsample384		1	1	1
+SRRsample385		1	1	1
+SRRsample386		1	1	1
+SRRsample387		1	1	1
+SRRsample388		1	1	1
+SRRsample389		1	1	1
+SRRsample390		1	1	1
+SRRsample391		1	1	1
+SRRsample392		1	1	1
+SRRsample393		1	1	1
+SRRsample394		1	1	1
+SRRsample395		1	1	1
+SRRsample396		1	1	1
+SRRsample397		1	1	1
+SRRsample398		1	1	1
+SRRsample399		1	1	1
+SRRsample400		1	1	1
+SRRsample401		1	1	1
+SRRsample402		1	1	1
+SRRsample403		1	1	1
+SRRsample404		1	1	1
+SRRsample405		1	1	1
+SRRsample406		1	1	1
+SRRsample407		1	1	1
+SRRsample408		1	1	1
+SRRsample409		1	1	1
+SRRsample410		1	1	1
+SRRsample411		1	1	1
+SRRsample412		1	1	1
+SRRsample413		1	1	1
+SRRsample414		1	1	1
+SRRsample415		1	1	1
+SRRsample416		1	1	1
+SRRsample417		1	1	1
+SRRsample418		1	1	1
+SRRsample419		1	1	1
+SRRsample420		1	1	1
+SRRsample421		1	1	1
+SRRsample422		1	1	1
+SRRsample423		1	1	1
+SRRsample424		1	1	1
+SRRsample425		1	1	1
+SRRsample426		1	1	1
+SRRsample427		1	1	1
+SRRsample428		1	1	1
+SRRsample429		1	1	1
+SRRsample430		1	1	1
+SRRsample431		1	1	1
+SRRsample432		1	1	1
+SRRsample433		1	1	1
+SRRsample434		1	1	1
+SRRsample435		1	1	1
+SRRsample436		1	1	1
+SRRsample437		1	1	1
+SRRsample438		1	1	1
+SRRsample439	0.0	0	0	0
+SRRsample440	0.0	0	0	0
+SRRsample441	0.0	0	0	0
+SRRsample442	0.0	0	0	0
+SRRsample443		0	0	1
+SRRsample444	0.0	0	0	0
+SRRsample445	0.0	0	0	0
+SRRsample446		0	1	1
+SRRsample447		1	1	1
+SRRsample448		1	1	1
+SRRsample449		0	1	1
+SRRsample450		0	1	1
+SRRsample451		0	1	1
+SRRsample452		0	1	1
+SRRsample453		0	1	1
+SRRsample454		0	1	1
+SRRsample455		0	1	1
+SRRsample456		0	1	1
+SRRsample457		0	1	1
+SRRsample458		1	1	1
+SRRsample459		0	1	1
+SRRsample460		1	1	1
+SRRsample461		1	1	1
+SRRsample462	0.0	0	0	0
+SRRsample463	0.0	0	0	0
+SRRsample464	0.0	0	0	0
+SRRsample465	0.0	0	0	0
+SRRsample466	0.0	0	0	0
+SRRsample467	0.0	0	0	0
+SRRsample468	0.0	0	0	0
+SRRsample469	0.0	0	0	0
+SRRsample470		0	0	1
+SRRsample471		0	0	1
+SRRsample472		0	0	1
+SRRsample473		0	0	1
+SRRsample474		0	0	1
+SRRsample475		0	0	1
+SRRsample476		0	0	1
+SRRsample477		0	0	1
+SRRsample478		0	0	1
+SRRsample479		0	0	1
+SRRsample480		0	1	1
+SRRsample481		0	0	1
+SRRsample482		0	0	1
+SRRsample483		0	0	1
+SRRsample484		0	0	1
+SRRsample485		0	0	1
+SRRsample486		0	0	1
+SRRsample487		0	0	1
+SRRsample488		0	0	1
+SRRsample489		0	0	1
+SRRsample490		0	0	1
+SRRsample491		0	0	1
+SRRsample492		0	0	1
+SRRsample493		0	0	1
+SRRsample494		0	0	1
+SRRsample495		0	1	1
+SRRsample496		0	0	1
+SRRsample497		0	0	1
+SRRsample498		0	0	1
+SRRsample499		0	0	1
+SRRsample500		0	0	1
+SRRsample501		0	0	1
+SRRsample502		0	0	1
+SRRsample503		0	0	1
+SRRsample504		0	0	1
+SRRsample505		0	0	1
+SRRsample506		0	0	1
+SRRsample507		0	0	1
+SRRsample508		0	0	1
+SRRsample509		0	0	1
+SRRsample510		0	0	1
+SRRsample511		0	0	1
+SRRsample512		0	0	1
+SRRsample513		0	0	1
+SRRsample514		0	0	1
+SRRsample515		0	0	1
+SRRsample516		0	0	1
+SRRsample517		0	0	1
+SRRsample518		0	0	1
+SRRsample519		0	0	1
+SRRsample520		0	0	1
+SRRsample521		0	0	1
+SRRsample522		0	0	1
+SRRsample523		0	0	1
+SRRsample524		0	0	1
+SRRsample525		0	0	1
+SRRsample526		0	0	1
+SRRsample527		0	0	1
+SRRsample528		0	0	1
+SRRsample529		0	0	1
+SRRsample530	0.0	0	0	0
+SRRsample531	0.0	0	0	0
+SRRsample532		0	0	1
+SRRsample533		0	0	1
+SRRsample534		0	0	1
+SRRsample535		0	0	1
+SRRsample536		0	0	1
+SRRsample537		0	0	1
+SRRsample538		0	0	1
+SRRsample539		0	1	1
+SRRsample540		0	1	1
+SRRsample541		0	1	1
+SRRsample542		0	1	1
+SRRsample543		0	1	1
+SRRsample544		0	1	1
+SRRsample545		1	1	1
+SRRsample546		1	1	1
+SRRsample547	1.0	1	1	1
+SRRsample548	1.0	1	1	1
+SRRsample549	1.0	1	1	1
+SRRsample550	1.0	1	1	1
+SRRsample551		0	1	1
+SRRsample552	0.0	0	0	0
+SRRsample553	0.0	0	0	0
+SRRsample554		0	1	1
+SRRsample555	0.0	0	0	0
+SRRsample556	0.0	0	0	0
+SRRsample557	0.0	0	0	0
+SRRsample558	0.0	0	0	0
+SRRsample559	0.0	0	0	0
+SRRsample560		0	0	1
+SRRsample561	1.0	1	1	1
+SRRsample562	1.0	1	1	1
+SRRsample563	1.0	1	1	1
+SRRsample564		0	0	1
+SRRsample565		0	0	1
+SRRsample566		0	0	1
+SRRsample567	1.0	1	1	1
+SRRsample568	1.0	1	1	1
+SRRsample569	1.0	1	1	1
+SRRsample570	1.0	1	1	1
+SRRsample571		0	1	1
+SRRsample572		0	1	1
+SRRsample573		0	1	1
+SRRsample574		0	1	1
+SRRsample575		0	1	1
+SRRsample576		0	1	1
+SRRsample577		0	1	1
+SRRsample578		0	1	1
+SRRsample579	1.0	1	1	1
+SRRsample580	1.0	1	1	1
+SRRsample581	1.0	1	1	1
+SRRsample582		1	1	1
+SRRsample583		1	1	1
+SRRsample584		1	1	1
+SRRsample585		0	1	1
+SRRsample586		0	1	1
+SRRsample587	0.0	0	0	0
+SRRsample588	1.0	1	1	1
+SRRsample589		1	1	1
+SRRsample590		1	1	1
+SRRsample591		1	1	1
+SRRsample592		1	1	1
+SRRsample593		1	1	1
+SRRsample594		1	1	1
+SRRsample595		1	1	1
+SRRsample596		1	1	1
+SRRsample597		1	1	1
+SRRsample598		1	1	1
+SRRsample599		1	1	1
+SRRsample600		1	1	1
+SRRsample601		1	1	1
+SRRsample602		1	1	1
+SRRsample603		1	1	1
+SRRsample604		1	1	1
+SRRsample605		1	1	1
+SRRsample606		0	1	1
+SRRsample607		0	1	1
+SRRsample608		0	1	1
+SRRsample609		0	1	1
+SRRsample610		0	1	1
+SRRsample611		0	1	1
+SRRsample612		0	1	1
+SRRsample613		0	1	1
+SRRsample614		0	1	1
+SRRsample615		0	1	1
+SRRsample616		0	1	1
+SRRsample617		0	1	1
+SRRsample618		0	1	1
+SRRsample619		0	1	1
+SRRsample620		0	1	1
+SRRsample621	0.0	0	0	0
+SRRsample622	0.0	0	0	0
+SRRsample623		0	0	1
+SRRsample624		0	0	1
+SRRsample625		0	1	1
+SRRsample626		0	1	1
+SRRsample627		0	1	1
+SRRsample628		0	1	1
+SRRsample629		0	1	1
+SRRsample630		0	1	1
+SRRsample631		0	1	1
+SRRsample632		0	0	1
+SRRsample633		0	0	1
+SRRsample634		0	0	1
+SRRsample635		0	0	1
+SRRsample636		0	0	1
+SRRsample637		0	0	1
+SRRsample638		0	0	1
+SRRsample639		0	0	1
+SRRsample640	0.0	0	0	0
+SRRsample641	0.0	0	0	0
+SRRsample642		1	1	1
+SRRsample643		1	1	1
+SRRsample644		1	1	1
+SRRsample645		1	1	1
+SRRsample646		1	1	1
+SRRsample647		1	1	1
+SRRsample648		1	1	1
+SRRsample649		1	1	1
+SRRsample650		1	1	1
+SRRsample651		1	1	1
+SRRsample652		1	1	1
+SRRsample653		1	1	1
+SRRsample654		1	1	1
+SRRsample655		1	1	1
+SRRsample656		1	1	1
+SRRsample657		0	1	1
+SRRsample658		1	1	1
+SRRsample659		0	1	1
+SRRsample660		1	1	1
+SRRsample661		1	1	1
+SRRsample662		0	0	1
+SRRsample663		0	1	1
+SRRsample664	1.0	1	1	1
+SRRsample665		0	1	1
+SRRsample666		0	0	1
+SRRsample667		0	0	1
+SRRsample668	0.0	0	0	0
+SRRsample669		0	0	1
+SRRsample670	1.0	1	1	1
+SRRsample671		0	1	1
+SRRsample672		0	1	1
+SRRsample673		0	1	1
+SRRsample674		0	0	1
+SRRsample675		0	1	1
+SRRsample676		0	0	1
+SRRsample677		0	1	1
+SRRsample678		0	1	1
+SRRsample679		0	1	1
+SRRsample680		0	1	1
+SRRsample681		0	0	1
+SRRsample682	1.0	1	1	1
+SRRsample683		0	1	1
+SRRsample684		0	1	1
+SRRsample685		0	1	1
+SRRsample686		1	1	1
+SRRsample687		1	1	1
+SRRsample688		0	1	1
+SRRsample689		1	1	1
+SRRsample690		0	1	1
+SRRsample691		1	1	1
+SRRsample692		0	0	1
+SRRsample693		1	1	1
+SRRsample694		1	1	1
+SRRsample695		0	1	1
+SRRsample696		1	1	1
+SRRsample697		1	1	1
+SRRsample698		1	1	1
+SRRsample699	1.0	1	1	1
+SRRsample700		1	1	1
+SRRsample701		1	1	1
+SRRsample702		1	1	1
+SRRsample703		0	1	1
+SRRsample704		1	1	1
+SRRsample705	1.0	1	1	1
+SRRsample706		1	1	1
+SRRsample707	1.0	1	1	1
+SRRsample708	0.0	0	0	0
+SRRsample709		1	1	1
+SRRsample710		0	1	1
+SRRsample711		1	1	1
+SRRsample712		1	1	1
+SRRsample713		0	1	1
+SRRsample714		0	0	1
+SRRsample715		0	1	1
+SRRsample716		1	1	1
+SRRsample717		1	1	1
+SRRsample718		0	1	1
+SRRsample719	0.0	0	0	0
+SRRsample720		0	0	1
+SRRsample721	1.0	1	1	1
+SRRsample722		1	1	1
+SRRsample723		0	0	1
+SRRsample724		0	0	1
+SRRsample725		0	0	1
+SRRsample726		0	0	1
+SRRsample727	1.0	1	1	1
+SRRsample728		0	0	1
+SRRsample729		0	0	1
+SRRsample730		0	0	1
+SRRsample731		0	0	1
+SRRsample732		1	1	1
+SRRsample733		0	0	1
+SRRsample734		1	1	1
+SRRsample735	0.0	0	0	0
+SRRsample736	0.0	0	0	0
+SRRsample737		0	0	1
+SRRsample738		0	0	1
+SRRsample739	1.0	1	1	1
+SRRsample740		0	0	1
+SRRsample741		0	0	1
+SRRsample742		0	0	1
+SRRsample743	1.0	1	1	1
+SRRsample744		0	0	1
+SRRsample745		0	0	1
+SRRsample746		0	0	1
+SRRsample747		1	1	1
+SRRsample748	0.0	0	0	0
+SRRsample749	0.0	0	0	0
+SRRsample750	0.0	0	0	0
+SRRsample751		0	0	1
+SRRsample752		0	0	1
+SRRsample753	0.0	0	0	0
+SRRsample754	0.0	0	0	0
+SRRsample755		0	0	1
+SRRsample756	0.0	0	0	0
+SRRsample757	0.0	0	0	0
+SRRsample758	0.0	0	0	0
+SRRsample759		0	0	1
+SRRsample760		1	1	1
+SRRsample761		1	1	1
+SRRsample762		1	1	1
+SRRsample763		1	1	1
+SRRsample764		1	1	1
+SRRsample765		1	1	1
+SRRsample766		1	1	1
+SRRsample767		1	1	1
+SRRsample768		1	1	1
+SRRsample769		1	1	1
+SRRsample770		1	1	1
+SRRsample771		1	1	1
+SRRsample772		1	1	1
+SRRsample773		1	1	1
+SRRsample774		1	1	1
+SRRsample775		1	1	1
+SRRsample776		1	1	1
+SRRsample777		1	1	1
+SRRsample778		1	1	1
+SRRsample779		1	1	1
+SRRsample780		1	1	1
+SRRsample781		1	1	1
+SRRsample782		1	1	1
+SRRsample783		1	1	1
+SRRsample784		1	1	1
+SRRsample785		1	1	1
+SRRsample786		1	1	1
+SRRsample787		1	1	1
+SRRsample788		1	1	1
+SRRsample789	0.0	0	0	0
+SRRsample790	0.0	0	0	0
+SRRsample791	0.0	0	0	0
+SRRsample792	0.0	0	0	0
+SRRsample793	0.0	0	0	0
+SRRsample794	0.0	0	0	0
+SRRsample795	0.0	0	0	0
+SRRsample796	0.0	0	0	0
+SRRsample797	0.0	0	0	0
+SRRsample798	0.0	0	0	0
