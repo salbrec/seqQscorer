@@ -29,7 +29,7 @@ sudo docker login
 sudo docker pull salbrec/seqqdocker
 sudo docker run -i -t -v "/home/:/home/" salbrec/seqqdocker /bin/bash
 ```
-#### Check out further installation guides for running Docker with Windows 10 or creating your own conda environment (on the bottom of this README)
+##### *Check out further installation guides for running Docker with Windows 10 or creating your own conda environment (on the bottom of this README)*
 
 ## Getting the first information from the software within your installation
 
@@ -185,6 +185,31 @@ From our preprocessed grid search, we already defined algorithms and parameter s
 By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
 
 During our investigations we also analyzed the impact of peak-type specification. When seqQscorer is applied to ChIP-seq data homogeneous for narrow or broad peaks, we recommend to use the corresponding ChIP-seq model. For broad-peak data from human biosamples we recommend to further specify the model by peak-type. This can be done with the `--peaktype` option.
+
+## Training a new model on your labeled data
+
+The basic idea of our machine learning approach can also be used on new data, of course. The most critical information needed are the quality labels. Having these, in best case manually curated, a supervised classification algorithm can train a model on this labeled data. This model can then be applied on new data in order to perform automatic quality control as demonstrated in our research article. 
+
+Based on your own data you can use the script `trainNewModel.py` to train and serialize a model that is afterwards applied on new samples to compute a quality probability (automatic quality control). The script does not run the whole grid search as we did for our investigations (it would require a lot of resources and time), but it uses classifier configurations that trained highly accurate models in our study.
+
+The requirements are essentially:
+* a folder containing the feature sets for the training samples (as preprocessed by the `deriveFeatureSets.py` script)
+* a tab-separated table that links the sample IDs (file names of the feature sets files) to a quality label 1 (low-quality) or 0 (high-quality). By default the column “quality” is used. However, if the column you created is not called “quality”, use the option `--column` to specify the name of the column that contains the labels. Note, the sample ID column has to be named "sampleID".
+* an output path to specify where to save the model
+
+Here we provide an use case from the ATAC-seq cistrome data for human biosamples that was also part of the external validation within our study. This use case contains  90 samples for training and 6 samples for the application of the model. As we use the cistrome flags for labeling, the data had to be anonymized.
+
+```
+python trainNewModel.py --training ./cistrome_ATAC_seq_use_case/training/ --labels ./cistrome_ATAC_seq_use_case/labels.tsv --column thresh3 --model ./model_ATAC_seq.model
+```
+
+The resulting model is trained on all samples within the directory given by `--training`. Before this model is trained and serialized, a 10-fold cross-validation is performed on the same input data and the same classifier specification. During the cross-validation useful information about the model performance and different metrics are derived for a varying decision threshold. This information is printed to the console to give more information to the user about the model performance. 
+
+The serialized model, trained on your data, can then be applied on new data. This is done again with the `seqQscorer.py` script and the `--model` option: 
+
+```
+python seqQscorer.py --indir ./cistrome_ATAC_seq_use_case/application/ --model model_ATAC_seq.model -nv
+```
 
 ## Further installation guides
 
