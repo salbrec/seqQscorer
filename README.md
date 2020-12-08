@@ -28,7 +28,10 @@ sudo docker login
 
 sudo docker pull salbrec/seqqdocker
 sudo docker run -i -t -v "/home/:/home/" salbrec/seqqdocker /bin/bash
+
+
 ```
+
 ##### *Check out further installation guides for running Docker with Windows 10 or creating your own conda environment (on the bottom of this README)*
 
 ## Getting the first information from the software within your installation
@@ -131,6 +134,35 @@ optional arguments:
 
 ```
 
+
+## Requirements: Indices and Annotations
+
+We provide a script, that produces the features for seqQscorer and drops them into the designated folder. 
+To produce the fatures, a bowtie index that matches the assembly used for your data is needed. You can obtain it as follows, the human GRCh38 is used as an example:
+
+```
+# change directory to utils and genome_index
+cd ./utils/genome_index
+
+wget https://genome-idx.s3.amazonaws.com/bt/GRCh38_noalt_as.zip     # for downloading
+unzip GRCh38_noalt_as.zip                                           # for unzipping
+```
+Additionally it is possible to download and use other annotations, which is mandatory when using another species as human or mouse. 
+For human or mouse the txdb as found in bioconductor is added at the current state. But it can also be substituted by another matching annotation:
+
+```
+# change directory to utils and gene_structure
+cd ./utils/gene_structure
+
+wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz 
+gzip Homo_sapiens.GRCh38.101.gtf.gz
+```
+Exemplary, the downloaded indices and annotations could be used as following:
+
+```
+python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/GRCh38_noalt_as/GRCh38_noalt_as --gtf ./utils/gene_structure/Homo_sapiens.GRCh38.101.gtf --assembly GRCh38
+```
+More detail on preprocessing and the used script below.
 
 ## Preprocessing for fastq files
 
