@@ -155,7 +155,7 @@ For human or mouse the txdb as found in bioconductor is added at the current sta
 cd ./utils/gene_structure
 
 wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz 
-gzip Homo_sapiens.GRCh38.101.gtf.gz
+gzip -d Homo_sapiens.GRCh38.101.gtf.gz
 ```
 Exemplary, the downloaded indices and annotations could be used as following:
 
