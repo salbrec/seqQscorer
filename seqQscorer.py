@@ -2,7 +2,9 @@
 
 Main script for seqQscorer. "python seqQscorer.py --help" will display
 a formatted help text on the console. A comprehensive description is provided
-in the GitHub README that includes examples as well.
+in the GitHub README that includes examples as well. In short, seqQscorer
+uses dedicated machine learning algorithms to train classification models
+to perform automatic NGS quality control.
 
 date:	2020-11-26
 author:	Steffen Albrecht
@@ -39,7 +41,7 @@ argsParser.add_argument('--species', '-s', type=str, default='generic',
 argsParser.add_argument('--assay', '-a', type=str, default='generic', 
 						choices=['generic','ChIP-seq','DNase-seq','RNA-seq'], help='Assay specifying the model used.')
 argsParser.add_argument('--runtype', '-r', type=str, default='generic',
-						choices=['generic','single-ended','paired-ended'], help='Run-Type specifying the model used.')
+						choices=['generic','single-end','paired-end'], help='Run-Type specifying the model used.')
 argsParser.add_argument('--model', '-m', type=str, default=None, help='Path to a serialized model, trained on own data. If used, the parameters --species, --assay, and --runtype have no impact on the classification model.')
 argsParser.add_argument('--noRAW', action='store_true', help='Ignore all RAW features.')
 argsParser.add_argument('--noMAP', action='store_true', help='Ignore all MAP features.')

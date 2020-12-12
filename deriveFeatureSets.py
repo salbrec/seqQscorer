@@ -2,7 +2,8 @@
 
 "python deriveFeatureSets.py --help" will display a formatted help text on 
 the console. A comprehensive description is provided in the GitHub README 
-that includes examples as well.
+that includes examples as well. In short, this script derives the quality
+features used by seqQscorer to perform automatic NGS quality control.
 
 date:	2020-11-26
 author:	Steffen Albrecht
@@ -62,8 +63,6 @@ if not os.path.exists(outdir):
 out_file_name = getFileName(args.fastq1)
 if args.name != None:
 	out_file_name = args.name
-
-print('outdir:', outdir)
 
 # run FastQC to derive the RAW features
 feaures_RAW = '%s%s.RAW'%(outdir, out_file_name)
@@ -179,7 +178,8 @@ else:
 		print('LOC and TSS features already exist!')
 		print('... therefore the ChIPseeker and ChIPpeakAnno calls are skipped.\n')
 
-
+# this PDF is automatically created by one of the bioconductor functions
+# it is not needed so it is automatically removed here
 if os.path.exists('./Rplots.pdf'):
 	os.system('rm ./Rplots.pdf')
 

@@ -17,7 +17,7 @@ get_readsAnno_features(feature_file_path)
 	parses the LOC features from ChIPseeker
 get_TSS_features(feature_file_path)
 	parses the TSS features from ChIPpeakAnno
-generate_input_data(indir, feature_sets, run_type, medians, noVerbose)
+generate_input_data(indir, feature_sets, run_type, medians, noVerbose=True, restrict=None)
 	given the input directory this function reads in the feature sets for 
 	all samples provided by the user
 
@@ -144,7 +144,7 @@ def generate_input_data(indir, feature_sets, run_type, medians, noVerbose=True, 
 	feature_prefix = {'RAW': 'FastQC', 'MAP': 'BowtieMI',
 					'LOC': 'readsAnno', 'TSS': 'TSS'}
 	if run_type != 'generic':
-		feature_prefix['MAP'] = 'BowtieSE' if run_type == 'single-ended' else 'BowtiePE'
+		feature_prefix['MAP'] = 'BowtieSE' if run_type == 'single-end' else 'BowtiePE'
 
 	feature_cols = []
 	for abbr in feature_sets:

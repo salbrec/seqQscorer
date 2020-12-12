@@ -163,12 +163,13 @@ stratifiedFold = StratifiedKFold(n_splits=args.cvFolds, random_state=args.seed, 
 cv_auROC = []
 cv_auPRC = []
 
+# collect important evaluation measures during the grid search to 
+# provide more information about which decision threshold to use
 metrics = {}
 metrics['Precision'] = dict( (dt, []) for dt in range(1,10) )
 metrics['Recall']    = dict( (dt, []) for dt in range(1,10) )
 metrics['F1']        = dict( (dt, []) for dt in range(1,10) )
 metrics['Accuracy']  = dict( (dt, []) for dt in range(1,10) )
-
 for train, test in stratifiedFold.split(X, y):
 	model = clf_setup.fit(X[train],y[train])
 	
