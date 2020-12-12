@@ -134,11 +134,11 @@ optional arguments:
 
 ```
 
+## Preprocessing for fastq files
 
-## Requirements: Indices and Annotations
+You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference to the download from the official Bowtie2 webpage.
 
-We provide a script, that produces the features for seqQscorer and drops them into the designated folder. 
-To produce the fatures, a bowtie index that matches the assembly used for your data is needed. You can obtain it as follows, the human GRCh38 is used as an example:
+To produce the fatures, a bowtie index that matches the assembly used for your data is needed. You can obtain it as follows, the human GRCh38 is used as an example (another example for mouse is in this [README](utils/genome_index/README.md))
 
 ```
 # change directory to utils and genome_index
@@ -147,26 +147,7 @@ cd ./utils/genome_index
 wget https://genome-idx.s3.amazonaws.com/bt/GRCh38_noalt_as.zip     # for downloading
 unzip GRCh38_noalt_as.zip                                           # for unzipping
 ```
-Additionally it is possible to download and use other annotations, which is mandatory when using another species as human or mouse. 
-For human or mouse the txdb as found in bioconductor is added at the current state. But it can also be substituted by another matching annotation:
 
-```
-# change directory to utils and gene_structure
-cd ./utils/gene_structure
-
-wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz 
-gzip -d Homo_sapiens.GRCh38.101.gtf.gz
-```
-Exemplary, the downloaded indices and annotations could be used as following:
-
-```
-python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/GRCh38_noalt_as/GRCh38_noalt_as --gtf ./utils/gene_structure/Homo_sapiens.GRCh38.101.gtf --assembly GRCh38
-```
-More detail on preprocessing and the used script below.
-
-## Preprocessing for fastq files
-
-You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference to the download from the official Bowtie2 webpage.
 If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Filees for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
@@ -192,10 +173,26 @@ The gtf file should be downloaded from Ensembl via their FTP Download website: [
 
 Of course, the Bowtie2 index and the gtf file have to represent data from the same genome assembly.
 
+The easiest is to have everything within this repository folder. We suggest to download the required gtf file into the gene structure folder in utils. Execute the following lines to download and properly extract the gtf files from the Ensembl FTP server.  The first example is for a human gtf file, the second is for a rat gtf file, also used in the next example.
+
+```
+# change directory to utils and gene_structure
+cd ./utils/gene_structure
+
+# for human
+wget ftp://ftp.ensembl.org/pub/release-101/gtf/homo_sapiens/Homo_sapiens.GRCh38.101.gtf.gz 
+gunzip Homo_sapiens.GRCh38.101.gtf.gz
+
+# for rat (Rattus norvegicus)
+wget ftp://ftp.ensembl.org/pub/release-101/gtf/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.101.gtf.gz
+gunzip Rattus_norvegicus.Rnor_6.0.101.gtf.gz
+
+```
+
 Having the index and gtf, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
 
 ```
-python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4
+python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4 
 ```
 
 ## Applying seqQscorer on preprocessed data
