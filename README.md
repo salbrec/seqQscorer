@@ -50,7 +50,7 @@ The expected output looks like this, for `python deriveFeatureSets.py --help`:
 usage: deriveFeatureSets.py [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] --btidx
                             BTIDX [--outdir OUTDIR] [--cores CORES]
                             [--fastqc {1,2}] [--assembly {GRCh38,GRCm38}]
-                            [--gtf GTF]
+                            [--gtf GTF] [--name NAME]
 
 seqQscorer Preprocessing - derives feature sets needed leveraged by seqQscorer
 
@@ -59,10 +59,18 @@ optional arguments:
   --fastq1 FASTQ1, -f1 FASTQ1
                         Input fastq file. Either the fastq file for a single-
                         end sample or the fastq file for read 1 of a paired-
-                        end sample.
+                        end sample. Using this default destination
+                        "./feature_sets/", all feature sets are computed and
+                        saved. The file names define the sampleID while the
+                        file endings define the feature sets RAW, MAP, LOC and
+                        TSS.
   --fastq2 FASTQ2, -f2 FASTQ2
                         In case of a paired-end sample, the fastq file for
-                        read 2.
+                        read 2. When the preprocessing is applied on paired-
+                        end samples, FastQC is applied to the read 1 by
+                        default. Also the sampleID for the output files are
+                        named by the file name of read1. These two aspects can
+                        be cahnged by using --fastqc respectively --name.
   --btidx BTIDX, -ix BTIDX
                         Filename prefix for Bowtie2 Genome Index (minus
                         trailing .X.bt2).
@@ -80,6 +88,10 @@ optional arguments:
                         be consistent with the species used in for Bowtie2)
   --gtf GTF, -g GTF     File path for a gtf file to be used to get the LOC and
                         TSS features. (--assembly will be ignored then)
+  --name NAME, -n NAME  By default the output files are named by the file name
+                        of --fastq1. In order to change this to a custom name,
+                        use this option.
+
 
 ```
 
@@ -89,23 +101,32 @@ Expected output for `python seqQscorer.py --help`:
 
 usage: seqQscorer.py [-h] --indir INDIR [--species {generic,human,mouse}]
                      [--assay {generic,ChIP-seq,DNase-seq,RNA-seq}]
-                     [--runtype {generic,single-ended,paired-ended}]
+                     [--runtype {generic,single-end,paired-end}]
                      [--model MODEL] [--noRAW] [--noMAP] [--noLOC] [--noTSS]
                      [--noFS] [--bestCalib] [--peaktype {narrow,broad}]
                      [--probOut PROBOUT] [--compOut COMPOUT]
-                     [--inputOut INPUTOUT]
+                     [--inputOut INPUTOUT] [--noVerbose] [--seed SEED]
+                     [--sampleID SAMPLEID]
 
 seqQscorer - A machine learning application for quality assessment of NGS data
 
 optional arguments:
   -h, --help            show this help message and exit
   --indir INDIR, -i INDIR
-                        Input directory containing the feature set files
+                        Input directory containing the feature set files. The
+                        feature set files are perfectly fomated by the script
+                        "deriveFeatures.py": the file names (until the ".")
+                        define the sample ID while the file endings define the
+                        corresponding feature set RAW, MAP, LOC, and TSS. By
+                        default seqQscorer applies the machine learning model
+                        to all samples from the given directory within
+                        milliseconds. However, it can be restricted to one
+                        sample using --sampleID.
   --species {generic,human,mouse}, -s {generic,human,mouse}
                         Species specifying the model used.
   --assay {generic,ChIP-seq,DNase-seq,RNA-seq}, -a {generic,ChIP-seq,DNase-seq,RNA-seq}
                         Assay specifying the model used.
-  --runtype {generic,single-ended,paired-ended}, -r {generic,single-ended,paired-ended}
+  --runtype {generic,single-end,paired-end}, -r {generic,single-end,paired-end}
                         Run-Type specifying the model used.
   --model MODEL, -m MODEL
                         Path to a serialized model, trained on own data. If
@@ -131,6 +152,17 @@ optional arguments:
   --inputOut INPUTOUT, -io INPUTOUT
                         To specify an out file that will contain the parsed
                         input. Output will be tab-separated.
+  --noVerbose, -nv      Turn off verboseness, without being quiet.
+  --seed SEED, -rs SEED
+                        Some classifiers apply randomization. Use --seed to
+                        make results reproducible. By default the seed 1 is
+                        used, set it to -1 if using a seed is not desired. For
+                        K-nearest neighbor and Naive Bayes the seed has no
+                        impact.
+  --sampleID SAMPLEID, -id SAMPLEID
+                        Restrict application of seqQscorer to only one sample
+                        defined by the ID.
+
 
 ```
 
@@ -138,7 +170,7 @@ optional arguments:
 
 You'll need a bowtie2 genome index as input for seqQscorer. If you don't have the genome index, check out the README in [genome index](utils/genome_index/) for a reference to the download from the official Bowtie2 webpage.
 
-To produce the fatures, a bowtie index that matches the assembly used for your data is needed. You can obtain it as follows, the human GRCh38 is used as an example (another example for mouse is in this [README](utils/genome_index/README.md))
+To produce the features, a bowtie index that matches the assembly used for your data is needed. You can obtain it as follows, the human GRCh38 is used as an example (more examples are described in this [README](utils/genome_index/README.md))
 
 ```
 # change directory to utils and genome_index
@@ -148,7 +180,7 @@ wget https://genome-idx.s3.amazonaws.com/bt/GRCh38_noalt_as.zip     # for downlo
 unzip GRCh38_noalt_as.zip                                           # for unzipping
 ```
 
-If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Filees for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
+If you would like to use a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Files for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
 
@@ -173,7 +205,7 @@ The gtf file should be downloaded from Ensembl via their FTP Download website: [
 
 Of course, the Bowtie2 index and the gtf file have to represent data from the same genome assembly.
 
-The easiest is to have everything within this repository folder. We suggest to download the required gtf file into the gene structure folder in utils. Execute the following lines to download and properly extract the gtf files from the Ensembl FTP server.  The first example is for a human gtf file, the second is for a rat gtf file, also used in the next example.
+The easiest is to have everything within this repository folder. We suggest to download the required gtf file into the gene structure folder in utils. Execute the following lines to download and properly extract the gtf files from the Ensembl FTP server.  The first example is for a human gtf file, the second is for a rat gtf file, also used in the next example run.
 
 ```
 # change directory to utils and gene_structure
@@ -214,6 +246,20 @@ From our preprocessed grid search, we already defined algorithms and parameter s
 By default the model is selected that achieved the highest predictive performance, thus the highest auROC. You can also tell seqQscorer to use the model that achieved the best calibration with respect to the probabilities. This is done by `--bestCalib`. Note that sometimes the calibration (expressed by the Brier-loss) could not be drastically improved by another model that differs from the model that achieved the highest auROC.
 
 During our investigations we also analyzed the impact of peak-type specification. When seqQscorer is applied to ChIP-seq data homogeneous for narrow or broad peaks, we recommend to use the corresponding ChIP-seq model. For broad-peak data from human biosamples we recommend to further specify the model by peak-type. This can be done with the `--peaktype` option.
+
+## Guideline Reports
+
+For our study we derived different types of features used for quality prediction as described above and more comprehensively in our research article. These features were shown to be very informative for automatic quality control and we derived these features for a large dataset containing more than 2000 NGS samples from ENCODE. In addition to seqQscorer, that applies machine learning models to derive a single value describing the samples probability of being of low quality, we found it very interesting to have an opportunity to inspect further those samples in comparison to the reference ENCODE dataset. 
+
+In order to address this we provide the script `guidelineReports.py` that creates a single report showing the distribution of all quality feature values from the ENCODE samples together with the feature values from a given sample. These reports serve as guidelines to support manual NGS quality control of single samples of interest or even for a set of samples.
+
+Having all feature sets for several samples in one folder as it is done by the `deriveFeatureSets.py` script, the guideline reports can be created in this way:
+
+```
+python guidelineReports.py --indir ./feature_set_examples/
+```
+
+Similar to seqQscorer the application can be restricted to a single sampleID with `--sampleID`. The reference ENCODE data can also be specified `--species`, `--assay`, and `--runtype`. By default the reports are written into this folder `./guideline_reports/` in `PDF` format. The destination can be changed with`--outdir` and also the file format can be changed to `PNG` or `SVG`.
 
 ## Training a new model on your labeled data
 
