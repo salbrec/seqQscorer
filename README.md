@@ -249,7 +249,7 @@ During our investigations we also analyzed the impact of peak-type specification
 
 ## Guideline Reports
 
-For our study we derived different types of features used for quality prediction as described above and more comprehensively in our research article. These features were shown to be very informative for automatic quality control and we derived these features for a large dataset containing more than 2000 NGS samples from ENCODE. In addition to seqQscorer, that applies machine learning models to derive a single value describing the samples probability of being of low quality, we found it very interesting to have an opportunity to inspect further those samples in comparison to the reference ENCODE dataset. 
+For our study we derived different types of features used for quality prediction as described above and more comprehensively in our research article. These features were shown to be very informative for automatic quality control and we derived these features for a large dataset containing more than 2000 NGS samples from ENCODE. In addition to seqQscorer, that applies machine learning models to derive a single value describing the samples probability of being of low quality, we found it very interesting to have an opportunity to manually inspect NGS samples in comparison to this precious reference ENCODE dataset. 
 
 In order to address this we provide the script `guidelineReports.py` that creates a single report showing the distribution of all quality feature values from the ENCODE samples together with the feature values from a given sample. These reports serve as guidelines to support manual NGS quality control of single samples of interest or even for a set of samples.
 
@@ -259,7 +259,7 @@ Having all feature sets for several samples in one folder as it is done by the `
 python guidelineReports.py --indir ./feature_set_examples/
 ```
 
-Similar to seqQscorer the application can be restricted to a single sampleID with `--sampleID`. The reference ENCODE data can also be specified `--species`, `--assay`, and `--runtype`. By default the reports are written into this folder `./guideline_reports/` in `PDF` format. The destination can be changed with`--outdir` and also the file format can be changed to `PNG` or `SVG`.
+Similar to seqQscorer the application can be restricted to a single sampleID with `--sampleID`. The reference ENCODE data can also be specified using `--species`, `--assay`, and `--runtype`. By default the reports are written into this folder `./guideline_reports/` in `PDF` format. The destination can be changed with`--outdir` and also the file format can be changed to `PNG` or `SVG`.
 
 ## Training a new model on your labeled data
 
