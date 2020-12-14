@@ -319,9 +319,27 @@ You can copy files from the windows side (like your fastq's) and compute from th
 Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for windows also needs to be done.
 
 ### Installation with ANACONDA  
-We provide a yaml file that contains the necessary python and R packages. A conda environment can be created using this file: `conda env create -f conda_env_bioconductor.yml`. However, yaml files of this length and in combination with bioconductor packages often lead to problems when using conda. Mamba is a front-end for conda, that circumvents these problems and thereby allows a simpler installation with less complications using the same command: 
-`mamba env create -f conda_env_bioconductor.yml`
-To install mamba see their github page:
-https://github.com/mamba-org/mamba
 
+First, install anaconda in case you do not have it in your linux machine. We recommend to use the one that is suggested here. For the installation of Anaconda run the following two lines in your terminal.
 
+```
+wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+bash Anaconda3-2020.11-Linux-x86_64.sh
+
+```
+Accept licence and installation requirements with "return" and "yes", but follow the instructions, you might like to change the directory for anaconda. After installation it is necessary to initialize conda with:
+```
+source ~/.bashrc
+```
+
+You can use our yml file `conda_env.yml` to create the conda environment with this call: `conda env create -f conda_env.yml`.
+Afterwards the R packages are installed by running thses lines within R.
+
+```
+# Within R run the following lines to install the R packages needed
+install.packages("BiocManager")
+BiocManager::install("ChIPpeakAnno")
+BiocManager::install("ChIPseeker")
+BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
+BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
+```
