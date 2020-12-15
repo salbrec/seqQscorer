@@ -236,7 +236,7 @@ After deriving the feature sets the application of seqQscorer can be as simple a
 python seqQscorer.py --indir ./feature_set_examples/
 ```
 
-By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. Furthermore the generic model is the most reliable one as it was trained on the largest dataset. However, depending on the data that was available for our investigations, some specialized models are available. You can specify the model with the parameters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve). Besides the generic model, specialized models are available for all feature set combinations out of RAW, MAP, LOC, and TSS and for these specifications: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
+By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. Furthermore the generic model is the most reliable one as it was trained on the largest dataset. However, depending on the data that was available for our investigations, some specialized models are available. You can specify the model with the parameters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve) for this subset. Besides the generic model, specialized models are available for all feature set combinations out of RAW, MAP, LOC, and TSS and for these specifications: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
 
 By default, seqQscorer uses all feature sets, but there are also parameters to be used if certain feature sets should be ignored. For instance, the LOC features can be ignored by using the flag `--noLOC`.
 
@@ -329,7 +329,7 @@ In this example the SeqQscorer folder that is on windows is to find in the root 
 The docker image is named SeqQscorer and can be invoked by this name in the future.
 You can copy files from the windows side (like your fastq's) and compute from the docker side.
 
-Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for windows also needs to be done.
+Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for Windows also needs to be done.
 
 ### Installation with ANACONDA  
 
