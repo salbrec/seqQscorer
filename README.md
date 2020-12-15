@@ -370,6 +370,6 @@ BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 
 ```
 
-##### The second release of this software is citable:
+#### The second release of seqQscorer is citable:
 <img src="https://zenodo.org/badge/doi/10.5281/zenodo.4323083.svg">
 
