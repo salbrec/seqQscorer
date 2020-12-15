@@ -349,16 +349,16 @@ conda config --add channels bioconda
 
 ```
 
-Now use the yml file `conda_env.yml` to create the conda environment with this call:
+Now use the yml file `conda_env.yml` to create the conda environment and activate it.
 
 ```
 conda env create -f conda_env.yml
+conda activate seqQscorer
 ```
 
 For the installation of the Bioconductor packages we made the experience that the best way is to install them separately within R using the BiocManager. This procedure successfully installed all dependencies in several tests.
 
 ```
-conda activate seqQscorer
 R
 
 # Within R run the following lines to install the R packages needed:
