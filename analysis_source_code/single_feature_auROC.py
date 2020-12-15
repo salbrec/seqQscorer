@@ -34,11 +34,9 @@ def print_nice_table(table):
 def get_auROC(values_raw, labels):
 	auROC = -1.0
 	try:
-		normed = [float(v)/max(values_raw) for v in values_raw]
-		AUCs = []
-		AUCs.append(roc_auc_score(labels, normed))
-		normed.reverse()
-		AUCs.append(roc_auc_score(labels, normed))
+		AUCs = [roc_auc_score(labels, values_raw)]
+		inverted = [1 if l == 0.0 else 0 for l in labels]
+		AUCs.append(roc_auc_score(inverted, values_raw))
 		auROC = max(AUCs)
 	except Exception:
 		print('Error / Warning in claculating the area under ROC curve')
@@ -50,10 +48,11 @@ feature_abbr_ls, feature_abbr_sl = utils.get_abbr_maps()
 # settings with the same run type can be applied together.
 # tables were manually merged later 
 settings = []
-#settings.append(('None', 'None', 'None'))
-#settings.append(('human', 'RNA-seq', 'single-ended'))
-#settings.append(('human', 'ChIP-seq', 'single-ended'))
-#settings.append(('mouse', 'ChIP-seq', 'single-ended'))
+settings.append(('None', 'None', 'None'))
+settings.append(('human', 'RNA-seq', 'single-ended'))
+settings.append(('human', 'ChIP-seq', 'single-ended'))
+settings.append(('human', 'ChIP-seq', 'paired-ended'))
+settings.append(('mouse', 'ChIP-seq', 'single-ended'))
 settings.append(('human', 'DNase-seq', 'paired-ended'))
 settings.append(('mouse', 'DNase-seq', 'paired-ended'))
 
@@ -107,7 +106,7 @@ table = [header]
 for feature in all_features:
 	temp = [feature]
 	for case in cases:
-		auROC = auROCs[case].get(feature, 0.0)
+		auROC = auROCs[case].get(feature, -1.0)
 		temp.append('%.3f'%(auROC))
 	table.append(temp)
 
