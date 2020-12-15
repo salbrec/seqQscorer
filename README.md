@@ -265,7 +265,7 @@ python guidelineReports.py --indir ./feature_set_examples/
 
 Similar to seqQscorer the application can be restricted to a single sampleID with `--sampleID`. The reference ENCODE data can also be specified using `--species`, `--assay`, and `--runtype`. For example, when `--species human` is used, the reference dataset will contain a mix of assays and runtypes but only for human samples. Or with `--assay ChIP-seq` the reference plots are created only for ChIP-seq samples. By default the reports are written into this folder `./guideline_reports/` in `PDF` format. The destination can be changed with`--outdir` and also the file format can be changed to `PNG` or `SVG` by using the `--format` parameter (e.g. `--format png`).
 
-The following example demonstrates the usage of all these parameters. It specifies the reference samples for human, paired-end ChIP-seq and creates the report only for ENCFF165NJF in the folder ./feature_set_examples/. The output directory is changed to `./svg_report/` and the report file format will be `svg`.
+The following example demonstrates the usage of all these parameters. It specifies the reference samples for human, paired-end ChIP-seq and creates the report only for ENCFF165NJF in the folder `./feature_set_examples/`. The output directory is changed to `./svg_report/` and the report file format will be `svg`.
 
 ```
 python guidelineReports.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --outdir ./svg_report/ --format svg --sampleID ENCFF165NJF
