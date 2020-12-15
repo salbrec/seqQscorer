@@ -12,11 +12,7 @@ Additionally the script `deriveFeatureSets.py` is available in this repository. 
 
 ## Software installation
 
-Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually (see further installation guides at the bottom of this README). To be up-to-date we recommend to clone the git repository outside the docker. Especially the seqQscorer script does not require non-standard python packages and some users might prefer to work outside of docker.
-
-```
-git clone https://github.com/salbrec/seqQscorer.git
-```
+Especially the preprocessing requires several bioinformatic tools and software packages. The easiest and fastest way to get ready for seqQscorer is pulling the docker and running the scripts inside the docker. The following descriptions explain how to get started with docker. However, it is also possible to install everything manually (see further installation guides at the bottom of this README). 
 
 To start with docker, please open a Linux terminal and run the following commands to first install docker, then pull, and finally run the image.
 
@@ -29,7 +25,14 @@ sudo docker login
 sudo docker pull salbrec/seqqdocker
 sudo docker run -i -t -v "/home/:/home/" salbrec/seqqdocker /bin/bash
 
+```
 
+When using the docker you’ll be directly within the right directory and able to use the scripts right away. Note, that you might save the output to your project directories and you might also prefer to use the updated github repository. Simply type `git pull` to update the repository within the docker.
+
+We recommend to clone the git repository outside the docker. Especially the seqQscorer script does not require non-standard python packages and some users might prefer to work without the docker or even use an own installation. To clone the repository into your desired destination, change directory with `cd` and run:
+
+```
+git clone https://github.com/salbrec/seqQscorer.git
 ```
 
 #### *Check out further installation guides for running Docker with Windows 10 or creating your own conda environment (on the bottom of this README)*
