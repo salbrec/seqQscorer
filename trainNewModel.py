@@ -50,7 +50,7 @@ argsParser.add_argument('--species', '-s', type=str, default='generic',
 argsParser.add_argument('--assay', '-a', type=str, default='generic', 
 						choices=['generic','ChIP-seq','DNase-seq','RNA-seq'], help='Assay specifying the model used.')
 argsParser.add_argument('--runtype', '-r', type=str, default='generic',
-						choices=['generic','single-ended','paired-ended'], help='Run-Type specifying the model used.')
+						choices=['generic','single-end','paired-end'], help='Run-Type specifying the model used.')
 argsParser.add_argument('--bestCalib', action='store_true', help='Classifier setting is used that achieved the lowest brier score, hence the best calibration of the probabilities.')
 argsParser.add_argument('--inputOut', '-io', type=str, default=None,
 						help='To specify an out file that will contain the parsed input together with the quaity labels. The output file is exactly the data used to train the model Output will be tab-separated.')
