@@ -150,7 +150,7 @@ for index, row in input_data.iterrows():
 					# substrackt data needed for the boxplots
 					bp_data = {'Quality': ['Low' if s == 1 else 'High' for s in data['status']]}
 					bp_data[x_label] = data[feature]
-					bp_data['fake_y'] = data.shape[0] * ['']
+					bp_data['fake_y'] = data.shape[0] * ['low\nhigh']
 					bp_data = pd.DataFrame(bp_data)
 					
 					# plot boxplot that describe the distribution of the feature values in the 
@@ -166,8 +166,16 @@ for index, row in input_data.iterrows():
 					plt.scatter(x=[row[feature]], y=[0], label='Values for '+sampleID, c=diamond_color, s=diamond_size, marker='d', zorder=2)
 					
 					ax.set_xlabel(x_label + ' (achieved value)', fontsize=fs_xlabel)
-					ax.set_ylabel('low /\nhigh', fontsize=fs_ylabel, rotation=90)
+					ax.set_ylabel('', fontsize=1, rotation=0)
 					ax.get_legend().set_visible(False)
+					
+					# adjust the y labels slightly
+					locs, y_labels = plt.yticks(fontsize=fs_ylabel)
+					for i, l in enumerate(y_labels):
+						l.set_horizontalalignment('right')
+						l.set_verticalalignment('center')
+						l.set_position((-0.003, i))
+						
 				subplot_position += 1
 	# finalize figure
 	plt.tight_layout()

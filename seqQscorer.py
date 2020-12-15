@@ -86,7 +86,7 @@ fs_suffix = '_noFS' if args.noFS else ''
 species, assay, run_type = args.species, args.assay, args.runtype
 
 if args.peaktype != None:
-	if args.assay != 'ChIP-seq' or args.runtype != 'single-ended':
+	if args.assay != 'ChIP-seq' or args.runtype != 'single-end':
 		raise myExceptions.WrongSettingException(
 			'Peak-type specification can only be used for single-ended ChIP-seq.')
 	assay = args.peaktype + assay
