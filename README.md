@@ -370,6 +370,10 @@ BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 
 ```
 
-#### The second release of seqQscorer is citable:
-<img src="https://zenodo.org/badge/doi/10.5281/zenodo.4323083.svg">
+## How to cite seqQscorer
+
+If you use seqQscorer for your study, research, analyses, or investigations, please cite our [article in Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186
+
+Albrecht, S., Sprang, M., Andrade-Navarro, M. A., & Fontaine, J. F. (2021). seqQscorer: automated quality control of next-generation sequencing data using machine learning. *Genome Biology*, 22(1), 1-20.
+
 
