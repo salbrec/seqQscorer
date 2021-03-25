@@ -372,8 +372,22 @@ BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 
 ## How to cite seqQscorer
 
-If you use seqQscorer for your study, research, analyses, or investigations, please cite our [article in Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186
+If you use seqQscorer for your studies, research, analyses, or investigations, please cite the associated [article in Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02294-2). The article also provides detailed descriptions about the software, comprehensive validation analyses, and insights into the underlying dataset.
 
-Albrecht, S., Sprang, M., Andrade-Navarro, M. A., & Fontaine, J. F. (2021). seqQscorer: automated quality control of next-generation sequencing data using machine learning. *Genome Biology*, 22(1), 1-20.
+APA:
+Albrecht, S., Sprang, M., Andrade-Navarro, M. A., & Fontaine, J. F. (2021). seqQscorer: automated quality control of next-generation sequencing data using machine learning. *Genome Biology*, 22(1), 1-20. 
+
+BibTeX:
+@article{albrecht2021seqqscorer,
+  title={seqQscorer: automated quality control of next-generation sequencing data using machine learning},
+  author={Albrecht, Steffen and Sprang, Maximilian and Andrade-Navarro, Miguel A and Fontaine, Jean-Fred},
+  journal={Genome biology},
+  volume={22},
+  number={1},
+  pages={1--20},
+  year={2021},
+  publisher={BioMed Central}
+}
+
 
 
