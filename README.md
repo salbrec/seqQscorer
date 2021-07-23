@@ -365,6 +365,7 @@ R
 install.packages("BiocManager")
 BiocManager::install("ChIPpeakAnno")
 BiocManager::install("ChIPseeker")
+BiocManager::install("diffloop")
 BiocManager::install("TxDb.Hsapiens.UCSC.hg38.knownGene")
 BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
 
