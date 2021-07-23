@@ -225,7 +225,7 @@ gunzip Rattus_norvegicus.Rnor_6.0.101.gtf.gz
 Having the index and gtf, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
 
 ```
-python deriveFeatureSets.py --fastq1 /var/examples/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4 
+python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4 
 ```
 
 ## Applying seqQscorer on preprocessed data
