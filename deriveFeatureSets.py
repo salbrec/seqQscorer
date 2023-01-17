@@ -38,8 +38,8 @@ def getFileName(file_path):
 		file_name = file_name[:-3]
 	if file_name[-6:] == '.fastq':
 		file_name = file_name[:-6]
-	elif file_name[-6:] == '.fq':
-		file_name = file_name[:-2]
+	elif file_name[-3:] == '.fq':
+		file_name = file_name[:-3]
 	return file_name
 
 script_dir = './'
