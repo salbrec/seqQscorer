@@ -14,7 +14,6 @@ import os
 import sys
 import argparse
 from subprocess import call
-from terminaltables import AsciiTable
 import subprocess
 import locale
 
