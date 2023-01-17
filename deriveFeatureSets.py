@@ -33,6 +33,7 @@ def getSystemCall(call):
 	return out, err
 
 def getFileName(file_path):
+	# TODO: use endswith string functions.
 	file_name = file_path[ -file_path[::-1].find('/') : ]
 	if file_name[-3:] == '.gz':
 		file_name = file_name[:-3]
