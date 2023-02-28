@@ -12,7 +12,7 @@ out_file_base = args[3]
 custom_TxDb = makeTxDbFromGFF(gtf_file)
 
 
-# run the TSS annotaions to derive the TSS features
+# run the TSS annotations to derive the TSS features
 reads <- toGRanges(bed_file, format="BED", header=FALSE)
 
 annoDataTSS <- toGRanges(custom_TxDb, feature="gene")
@@ -27,7 +27,7 @@ tss_out = paste(out_file_base, ".TSS", sep="")
 write.table(tssAnno,file=tss_out, sep="\t", row.names = FALSE)
 
 
-# run the peak annotation to dreive the LOC features
+# run the peak annotation to derive the LOC features
 seqlevelsStyle(reads) <- "NCBI"
 readsAnno = annotatePeak(reads, tssRegion=c(-1000, 150), TxDb=custom_TxDb, verbose=TRUE)
 

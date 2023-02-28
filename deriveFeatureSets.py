@@ -1,7 +1,7 @@
 """Provides the full preprocessing needed for seqQscorer
 
-"python deriveFeatureSets.py --help" will display a formatted help text on 
-the console. A comprehensive description is provided in the GitHub README 
+"python deriveFeatureSets.py --help" will display a formatted help text on
+the console. A comprehensive description is provided in the GitHub README
 that includes examples as well. In short, this script derives the quality
 features used by seqQscorer to perform automatic NGS quality control.
 
@@ -28,17 +28,17 @@ def getSystemCall(call):
 		print("call failed, call was: %s" % ' '.join(call), file=sys.stderr)
 		print("Message was: %s" % str(out), file=sys.stderr)
 		print("Error code was %s, stderr: %s" % (process.returncode, err), file=sys.stderr, end='')
-		raise Exception('runSystemCall Exception') 
+		raise Exception('runSystemCall Exception')
 	return out, err
 
 def getFileName(file_path):
 	# TODO: use endswith string functions.
 	file_name = file_path[ -file_path[::-1].find('/') : ]
-	if file_name[-3:] == '.gz':
+	if file_name.endswith('.gz'):
 		file_name = file_name[:-3]
-	if file_name[-6:] == '.fastq':
+	if file_name.endswith('.fastq'):
 		file_name = file_name[:-6]
-	elif file_name[-3:] == '.fq':
+	elif file_name.endswith('.fq'):
 		file_name = file_name[:-3]
 	return file_name
 
@@ -76,7 +76,7 @@ if not os.path.exists(feaures_RAW):
 		input_fastq = args.fastq2
 	fastqc_file_name = getFileName(input_fastq)
 	print('Running FastQC on %s (read %s)...'%(fastqc_file_name, args.fastqc))
-	
+
 	reports_FastQC = '%sFastQC_report_%s/'%(outdir, out_file_name)
 	os.mkdir(reports_FastQC) if not os.path.exists(reports_FastQC) else None
 
@@ -110,10 +110,10 @@ if not os.path.exists(features_MAP) or not os.path.exists(bam_file_path):
 	bowtie2_call += ['-S', sam_file_path]
 	if args.cores != None:
 		bowtie2_call += ['-p', str(args.cores)]
-	
+
 	out, err = getSystemCall(bowtie2_call)
 	mapping_stats = err
-	
+
 	open(features_MAP, 'w').write(mapping_stats)
 	print('Mapping is done!\n')
 	print('Now creating the sorted bam file...')
@@ -124,7 +124,7 @@ if not os.path.exists(features_MAP) or not os.path.exists(bam_file_path):
 	samtools_sort = ['samtools', 'sort', unsorted_bam, '-o', bam_file_path] + multi_thread
 	output, error = getSystemCall(samtools_sort)
 	print('bam file processed!\n')
-	
+
 	os.system('rm ' + unsorted_bam)
 	os.system('rm ' + sam_file_path)
 else:
@@ -136,12 +136,12 @@ subsampled_1Mb_bed = bam_file_path.replace('.bam','_1Mb.bed')
 if not os.path.exists(subsampled_1Mb_bed):
 	print('Some preprocessing is needed before LOC and TSS features are derived.')
 	print('Subsampling 1.000.000 mapped reads...')
-	
+
 	# converting bam to bed
 	mapping_bed_file_path = bam_file_path.replace('.bam', '.bed')
 	bedtools = ['bedtools', 'bamtobed', '-i', bam_file_path, '>', mapping_bed_file_path]
 	os.system(' '.join(bedtools))
-	
+
 	# subsampling 1.000.000 reads
 	reads_sampling = ['shuf', '-n', '1000000', mapping_bed_file_path, '>', subsampled_1Mb_bed]
 	os.system(' '.join(reads_sampling))
