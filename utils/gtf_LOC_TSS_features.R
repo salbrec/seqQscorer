@@ -10,13 +10,13 @@ out_file_base = args[3]
 
 # create TxDb from given gtf file
 custom_TxDb = makeTxDbFromGFF(gtf_file)
-if (seqlevelsStyle(custom_TxDb)[1] != 'UCSC') {
+if (seqlevelsStyle(custom_TxDb)[1] != "UCSC") {
   seqlevelsStyle(custom_TxDb) <- "UCSC"
 }
 
 # run the TSS annotations to derive the TSS features
 reads <- toGRanges(bed_file, format="BED", header=FALSE)
-if (seqlevelsStyle(reads)[1] != 'UCSC') {
+if (seqlevelsStyle(reads)[1] != "UCSC") {
   seqlevelsStyle(reads) <- "UCSC"
 }
 

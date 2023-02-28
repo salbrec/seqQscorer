@@ -16,7 +16,7 @@ if (assembly == 'GRCm38') {
 }
 
 reads = readPeakFile(bed_file)
-if (seqlevelsStyle(reads)[1] != 'UCSC') {
+if (seqlevelsStyle(reads)[1] != "UCSC") {
   seqlevelsStyle(reads) <- "UCSC"
 }
 
