@@ -14,13 +14,10 @@ if (assembly == 'GRCm38') {
 	library(TxDb.Mmusculus.UCSC.mm10.knownGene)
 	txdb = TxDb.Mmusculus.UCSC.mm10.knownGene
 }
-reads = readPeakFile(bed_file)
 
-# added a check, if the levels of seqnames contain "chr"
-# (only the first is checks since they are expected to be uniform)
-# if chr is not present, it is added
-if (!grepl("chr", levels(reads@seqnames), fixed=TRUE)[1]){
-	seqlevelsStyle(reads) <- "UCSC"
+reads = readPeakFile(bed_file)
+if (seqlevelsStyle(reads)[1] != 'UCSC') {
+  seqlevelsStyle(reads) <- "UCSC"
 }
 
 readsAnno = annotatePeak(reads, tssRegion=c(-1000, 150), TxDb=txdb, verbose=TRUE)

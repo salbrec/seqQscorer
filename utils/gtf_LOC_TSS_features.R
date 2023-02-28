@@ -10,10 +10,15 @@ out_file_base = args[3]
 
 # create TxDb from given gtf file
 custom_TxDb = makeTxDbFromGFF(gtf_file)
-
+if (seqlevelsStyle(custom_TxDb)[1] != 'UCSC') {
+  seqlevelsStyle(custom_TxDb) <- "UCSC"
+}
 
 # run the TSS annotations to derive the TSS features
 reads <- toGRanges(bed_file, format="BED", header=FALSE)
+if (seqlevelsStyle(reads)[1] != 'UCSC') {
+  seqlevelsStyle(reads) <- "UCSC"
+}
 
 annoDataTSS <- toGRanges(custom_TxDb, feature="gene")
 
@@ -28,7 +33,6 @@ write.table(tssAnno,file=tss_out, sep="\t", row.names = FALSE)
 
 
 # run the peak annotation to derive the LOC features
-seqlevelsStyle(reads) <- "NCBI"
 readsAnno = annotatePeak(reads, tssRegion=c(-1000, 150), TxDb=custom_TxDb, verbose=TRUE)
 
 percentages = data.frame(show(readsAnno))
