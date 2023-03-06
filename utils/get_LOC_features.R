@@ -1,3 +1,4 @@
+library(GenomicFeatures)
 library(ChIPseeker)
 
 args <- commandArgs(trailingOnly = TRUE)
