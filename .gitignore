@@ -1,0 +1,7 @@
+/illumina_mutants/
+/unchanged_code_test/
+utils/genome_index/GRCh38_noalt_as.zip.1
+utils/genome_index/GRCh38_noalt_as/
+utils/genome_index/mm10/
+utils/__pycache__/
+*.pyc
