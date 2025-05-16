@@ -319,14 +319,14 @@ Both work fine and can be accessed via powershell from the windows side or from 
 Below is an example from powershell, for linux just add sudo in front.
 ```
 docker pull salbrec/seqqdocker
-docker run -i -t --name seqQscorer -v "C:/Users/User/seqQscorer:/seqQscorer" salbrec/seqqdocker 
+docker run -i -t --name seqQscorer -v "C:/Users/User/path/to/desired/directory:/dir_seqQscorer" salbrec/seqqdocker 
 ```
-Now you can just change to the newqscorer folder and start using the software!
+Now you can just change to the dir_seqQscorer folder and start using the software!
 ```
-(SeqQscorer) root@ xxx : cd seqQscorer
+(seqQscorer) root@ xxx : cd /dir_seqQscorer
 ```
-In this example the SeqQscorer folder that is on windows is to find in the root of the docker image.
-The docker image is named SeqQscorer and can be invoked by this name in the future.
+In this example the `dir_seqQscorer` folder that is on windows is to find in the root of the docker image.
+The docker image is named seqQscorer and can be invoked by this name in the future.
 You can copy files from the windows side (like your fastq's) and compute from the docker side.
 
 Docker advises to use WSL, the mounted Linux System for Windows. If you want to use this, the installation and handling would be similar to the normal Linux installation, but the Installation of Docker Desktop for Windows also needs to be done.
