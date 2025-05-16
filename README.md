@@ -319,13 +319,13 @@ Both work fine and can be accessed via powershell from the windows side or from 
 Below is an example from powershell, for linux just add sudo in front.
 ```
 docker pull salbrec/seqqdocker
-docker run -i -t --name seqQscorer -v "C:/Users/User/path/to/desired/directory:/dir_seqQscorer" salbrec/seqqdocker 
+docker run -i -t --name seqQscorer -v "C:/Users/User/path/to/desired/directory:/seqQscorer_dir" salbrec/seqqdocker 
 ```
-Now you can just change to the dir_seqQscorer folder and start using the software!
+Now you can just change to the `seqQscorer_dir` folder and start using the software!
 ```
-(seqQscorer) root@ xxx : cd /dir_seqQscorer
+(seqQscorer) root@ xxx : cd /seqQscorer_dir
 ```
-In this example the `dir_seqQscorer` folder that is on windows is to find in the root of the docker image.
+In this example the `seqQscorer_dir` folder that is on windows is to find in the root of the docker image.
 The docker image is named seqQscorer and can be invoked by this name in the future.
 You can copy files from the windows side (like your fastq's) and compute from the docker side.
 
