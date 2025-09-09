@@ -11,6 +11,7 @@ dependencies:
   - bzip2=1.0.8=h4bc722e_7
   - c-ares=1.34.5=hb9d3cd8_0
   - ca-certificates=2025.8.3=hbd8a1cb_0
+  - curl=8.14.1=h332b0f4_0
   - htslib=1.22.1=h566b1c6_0
   - joblib=1.5.1=pyhd8ed1ab_0
   - keyutils=1.6.3=hb9d3cd8_0
@@ -29,6 +30,7 @@ dependencies:
   - libgfortran=15.1.0=h69a702a_4
   - libgfortran5=15.1.0=hcea5267_4
   - libgomp=15.1.0=h767d61c_4
+  - libiconv=1.18=h3b78370_2
   - liblapack=3.9.0=34_h7ac8fdf_openblas
   - liblzma=5.8.1=hb9d3cd8_2
   - libnghttp2=1.64.0=h161d5f1_0
@@ -40,12 +42,46 @@ dependencies:
   - libstdcxx-ng=15.1.0=h4852527_4
   - libuuid=2.38.1=h0b41bf4_0
   - libxcrypt=4.4.36=hd590300_1
+  - libxml2=2.14.5=hfac4753_0
   - libzlib=1.3.1=hb9d3cd8_2
+  - ncbi-vdb=3.2.1=h9948957_0
   - ncurses=6.5=h2d0b736_3
   - numpy=2.3.2=py312hf476fde_1
   - openssl=3.5.2=h26f9b46_0
+  - ossuuid=1.6.2=h5888daf_1001
   - pandas=2.3.2=py312hf79963d_0
   - perl=5.32.1=7_hd590300_perl5
+  - perl-alien-build=2.84=pl5321h7b50bb2_1
+  - perl-alien-build-plugin-download-gitlab=0.01=pl5321hdfd78af_0
+  - perl-alien-libxml2=0.20=pl5321hd2ab53c_0
+  - perl-business-isbn=3.007=pl5321hd8ed1ab_0
+  - perl-business-isbn-data=20210112.006=pl5321hd8ed1ab_0
+  - perl-capture-tiny=0.48=pl5321ha770c72_1
+  - perl-carp=1.50=pl5321hd8ed1ab_0
+  - perl-constant=1.33=pl5321hd8ed1ab_0
+  - perl-exporter=5.74=pl5321hd8ed1ab_0
+  - perl-extutils-makemaker=7.70=pl5321hd8ed1ab_0
+  - perl-ffi-checklib=0.28=pl5321hdfd78af_0
+  - perl-file-chdir=0.1011=pl5321hd8ed1ab_0
+  - perl-file-path=2.18=pl5321hd8ed1ab_0
+  - perl-file-temp=0.2304=pl5321hd8ed1ab_0
+  - perl-file-which=1.24=pl5321hd8ed1ab_0
+  - perl-importer=0.026=pl5321hd8ed1ab_0
+  - perl-parent=0.243=pl5321hd8ed1ab_0
+  - perl-path-tiny=0.124=pl5321hd8ed1ab_0
+  - perl-pathtools=3.75=pl5321hb9d3cd8_2
+  - perl-scope-guard=0.21=pl5321hd8ed1ab_0
+  - perl-sub-info=0.002=pl5321hd8ed1ab_0
+  - perl-term-table=0.024=pl5321hdfd78af_0
+  - perl-test-fatal=0.016=pl5321ha770c72_0
+  - perl-test-warnings=0.031=pl5321ha770c72_0
+  - perl-test2-suite=0.000163=pl5321hdfd78af_0
+  - perl-try-tiny=0.31=pl5321ha770c72_0
+  - perl-uri=5.32=pl5321ha770c72_1
+  - perl-xml-libxml=2.0210=pl5321hd2ab53c_1
+  - perl-xml-namespacesupport=1.12=pl5321hd8ed1ab_0
+  - perl-xml-sax=1.02=pl5321hd8ed1ab_0
+  - perl-xml-sax-base=1.09=pl5321hd8ed1ab_0
   - pip=25.2=pyh8b19718_0
   - python=3.12.11=h9e4cc4f_0_cpython
   - python-dateutil=2.9.0.post0=pyhe01879c_2
@@ -58,6 +94,8 @@ dependencies:
   - scipy=1.16.1=py312h4ebe9ca_0
   - setuptools=80.9.0=pyhff2d567_0
   - six=1.17.0=pyhe01879c_1
+  - sra-tools=3.2.1=h4304569_1
+  - terminaltables=3.1.10=pyhd8ed1ab_1
   - threadpoolctl=3.6.0=pyhecae5ae_0
   - tk=8.6.13=noxft_hd72426e_102
   - tzdata=2025b=h78e105d_0
