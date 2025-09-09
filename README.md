@@ -254,6 +254,20 @@ The following example demonstrates the usage of all these parameters. It uses th
 python seqQscorer.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --peaktype narrow --noLOC --noTSS --bestCalib --noFS --probOut ./the_probability.tsv --compOut ./comprehensive_output.txt --seed 42 -nv --sampleID ENCFF137DWP
 ```
 
+## Integrating the ENCODE blocklist - seqBLQ extension
+
+Text, text.
+
+```
+python deriveBLfeatures.py 
+```
+
+Text, text.
+
+```
+python seqBLQscorer.py --indir ./feature_set_examples/ 
+```
+
 ## Guideline Reports
 
 For our study we derived different types of features used for quality prediction as described above and more comprehensively in our research article. These features were shown to be very informative for automatic quality control and we derived these features for a large dataset containing more than 2000 NGS samples from ENCODE. In addition to seqQscorer, that applies machine learning models to derive a single value describing the samples probability of being of low quality, we found it very interesting to have an opportunity to manually inspect NGS samples in comparison to this precious reference ENCODE dataset. 
