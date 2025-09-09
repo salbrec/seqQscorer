@@ -42,6 +42,7 @@ from sklearn.tree import ExtraTreeClassifier
 import os
 import json
 import pandas as pd
+import subprocess
 from terminaltables import AsciiTable
 
 bl_type_map = {'LM':1, 'HSR':2}
