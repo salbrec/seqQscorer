@@ -43,6 +43,8 @@ import json
 import pandas as pd
 from terminaltables import AsciiTable
 
+bl_type_map = {'LM':1, 'HSR':2}
+
 def getFileName(file_path):
 	file_name = file_path[ -file_path[::-1].find('/') : ]
 	if file_name.endswith('.gz'):
