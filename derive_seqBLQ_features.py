@@ -69,7 +69,7 @@ if not exists(mapping_stats) or not exists(bam_file):
 
 # check if mapping was successful
 stats_Bowtie2, stat_lines = utils.read_Bowtie_stats(mapping_stats)
-if stats == None:
+if stats_Bowtie2 == None:
 	print('Could not read in Bowtie2 mapping statistics. Here is the content of the file:')
 	print(stat_lines)
 	exit(-1)
