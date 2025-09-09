@@ -40,6 +40,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import ExtraTreeClassifier
 
 import json
+import pandas as pd
 from terminaltables import AsciiTable
 
 def getFileName(file_path):
