@@ -42,7 +42,7 @@ argsParser.add_argument('--indir', '-i', type=str, required=True,
 argsParser.add_argument('--assembly', type=str, required=True, choices=['hg38', 'mm10'], 
 						help='Species assembly defines the blocklist to be used.')
 argsParser.add_argument('--assay', type=str, required=True, 
-						choices=['generic','ChIP-seq','DNase-seq','RNA-seq'], 
+						choices=['ChIP-seq','DNase-seq','RNA-seq'], 
 						help='Assay specifying the model used.')
 argsParser.add_argument('--runtype', '-r', type=str, required=True,
 						choices=['se','pe'], help='Run-Type specifying the model used.')
