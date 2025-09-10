@@ -35,7 +35,7 @@ if argv[0].find('/') >= 0:
 utils_dir = '%sutils/'%(script_dir)
 
 argsParser = argparse.ArgumentParser(description='seqQscorer - A machine learning application for quality assessment of NGS data')
-argsParser.add_argument('--indir', '-i', type=str, required=True, help='Input directory containing the feature set files. The feature set files are perfectly fomated by the script "deriveFeatures.py": the file names (until the ".") define the sample ID while the file endings define the corresponding feature set RAW, MAP, LOC, and TSS. By default seqQscorer applies the machine learning model to all samples from the given directory within milliseconds. However, it can be restricted to one sample using --sampleID.')
+argsParser.add_argument('--indir', '-i', type=str, required=True, help='Input directory containing the feature set files. The feature set files are perfectly fomated by the script "derive_conv_seqQ_features.py": the file names (until the ".") define the sample ID while the file endings define the corresponding feature set RAW, MAP, LOC, and TSS. By default seqQscorer applies the machine learning model to all samples from the given directory within milliseconds. However, it can be restricted to one sample using --sampleID.')
 argsParser.add_argument('--species', '-s', type=str, default='generic', 
 						choices=['generic','human', 'mouse'],  help='Species specifying the model used.')
 argsParser.add_argument('--assay', '-a', type=str, default='generic', 
