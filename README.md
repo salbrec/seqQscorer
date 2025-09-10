@@ -42,15 +42,15 @@ git clone https://github.com/salbrec/seqQscorer.git
 Change directory into the seqQscorer repository and run the usage information:
 
 ```
-python deriveFeatureSets.py --help
+python derive_conv_seqQ_features.py --help
 python seqQscorer.py --help
 ```
 
-The expected output looks like this, for `python deriveFeatureSets.py --help`:
+The expected output looks like this, for `python derive_conv_seqQ_features.py --help`:
 
 ```
 
-usage: deriveFeatureSets.py [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] --btidx
+usage: derive_conv_seqQ_features.py [-h] --fastq1 FASTQ1 [--fastq2 FASTQ2] --btidx
                             BTIDX [--outdir OUTDIR] [--cores CORES]
                             [--fastqc {1,2}] [--assembly {GRCh38,GRCm38}]
                             [--gtf GTF] [--name NAME]
@@ -118,7 +118,7 @@ optional arguments:
   --indir INDIR, -i INDIR
                         Input directory containing the feature set files. The
                         feature set files are perfectly fomated by the script
-                        "deriveFeatures.py": the file names (until the ".")
+                        "derive_conv_seqQ_features.py": the file names (until the ".")
                         define the sample ID while the file endings define the
                         corresponding feature set RAW, MAP, LOC, and TSS. By
                         default seqQscorer applies the machine learning model
@@ -182,19 +182,19 @@ wget https://genome-idx.s3.amazonaws.com/bt/GRCh38_noalt_as.zip     # for downlo
 unzip GRCh38_noalt_as.zip                                           # for unzipping
 ```
 
-If you would like to test the `deriveFeatureSets.py` for a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Files for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
+If you would like to test the `derive_conv_seqQ_features.py` for a small example file right away, there is one in the docker: `/var/examples/single/ENCFF165NJF.fastq.gz`. Files for a paired-end test can be found here: `/var/examples/paired/`. Note, these are examples just for testing the installation, the files were reduced to randomly picked reads. Especially the paired-end example has only ~100k reads which is far less than a real NGS sample.
 
 All seqQscorer feature sets can be derived by using the provided python script applied on an input fastq file or a pair of fastq files in case of paired-end sequencing. 
 
 ```
-python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/GRCh38_noalt_as/GRCh38_noalt_as --assembly GRCh38
+python derive_conv_seqQ_features.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/GRCh38_noalt_as/GRCh38_noalt_as --assembly GRCh38
 ```
 The results will be in the default output folder `./feature_sets/`, use `--outdir` to specify the destination of the feature sets.
 
 The following run represents a paired-end example using the genome index for *Mus musculus*. The parameter `--cores` allows the usage of multiple CPUs to accelarate computation, especially the mapping. In this example the feature set files are written to this folder: `./mouse_pe/`.
 
 ```
-python deriveFeatureSets.py --fastq1 /var/examples/paired/ENCFF310LVJ.fastq.gz --fastq2 /var/examples/paired/ENCFF410LTA_r2.fastq.gz --cores 4 --btidx ./utils/genome_index/mm10/mm10 --assembly GRCm38 --outdir ./mouse_pe/
+python derive_conv_seqQ_features.py --fastq1 /var/examples/paired/ENCFF310LVJ.fastq.gz --fastq2 /var/examples/paired/ENCFF410LTA_r2.fastq.gz --cores 4 --btidx ./utils/genome_index/mm10/mm10 --assembly GRCm38 --outdir ./mouse_pe/
 ```
 
 ### Preprocessing with own gene structure files
@@ -225,7 +225,7 @@ gunzip Rattus_norvegicus.Rnor_6.0.101.gtf.gz
 Having the index and gtf, it is straight forward to preprocess fastq files for other organisms. An example for *Rattus norvegicus*:
 
 ```
-python deriveFeatureSets.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4 
+python derive_conv_seqQ_features.py --fastq1 /var/examples/single/ENCFF165NJF.fastq.gz --btidx ./utils/genome_index/Rnor_6.0/Rnor_6.0 --outdir ./rat_data/ --gtf ./utils/gene_structure/Rattus_norvegicus.Rnor_6.0.101.gtf -c 4 
 ```
 
 ## Applying seqQscorer on preprocessed data
@@ -256,17 +256,33 @@ python seqQscorer.py --indir ./feature_set_examples/ --species human --assay ChI
 
 ## Integrating the ENCODE blocklist - seqBLQ extension
 
-Text, text.
+Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our paper [link to preprint](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v1). 
+
+Preprocessing samples for the seqBLQ extension and using the extension to receive quality scores for these samples, follows a two-step approach. Firts, the seqBLQ features are derived. The scorer can then be applied to a whole folder keeping the feature files for several samples.
+
+The preprocessing is done by separate script to derive the blocklist features. This script can be used like a command line tool. 
+Use `python derive_seqBLQ_features.py --help` to get an overview of the parameters available and those required.
+
+Example for creating the blocklist features:
+```
+python derive_seqBLQ_features.py --fastq /var/examples/single/ENCFF165NJF.fastq.gz --assembly hg38
+```
+One big advantage coming with this extension is that the Bowtie2 index files for the whole reference genome are not needed. The blocklist features can be created using a blocklist-restricted reference genome, which comes with this repository and does not need to be provided by the user. It is still possible to use an own index via the parameter `--btidx`.  
 
 ```
-python deriveBLfeatures.py 
+python seqBLQscorer.py --indir ./features_BL/ --assembly hg38 --assay ChIP-seq --runtype se
+```
+Note that this is just an example and the assembly might not necessarily be the correct one for the small example FASTQ file provided within the docker image.
+
+### Installation for the seqBLQ extension
+
+Besides a simplified preprocessing, less installation effort is required for seqBLQ in comparison to the conventional seqQscorer. We still provide the up-to-date docker that comes with the full setup. However, if users would like to have an own installation, we recommed using a recent Anaconda installation and simply run:
+
+```
+conda env create -f conda_env_seqBLQ.yml
 ```
 
-Text, text.
-
-```
-python seqBLQscorer.py --indir ./feature_set_examples/ 
-```
+With this you will get the `seqq` environment that has `bowtie2`, `samtools`, and `bedtools` and all the Python packages you need.
 
 ## Guideline Reports
 
@@ -274,7 +290,7 @@ For our study we derived different types of features used for quality prediction
 
 In order to address this we provide the script `guidelineReports.py` that creates a single report showing the distribution of all quality feature values from the ENCODE samples together with the feature values from a given sample. These reports serve as guidelines to support manual NGS quality control of single samples of interest or even for a set of samples.
 
-Having all feature sets for several samples in one folder as it is done by the `deriveFeatureSets.py` script, the guideline reports can be created in this way:
+Having all feature sets for several samples in one folder as it is done by the `derive_conv_seqQ_features.py` script, the guideline reports can be created in this way:
 
 ```
 python guidelineReports.py --indir ./feature_set_examples/
@@ -295,7 +311,7 @@ The basic idea of our machine learning approach can also be used on new data, of
 Based on your own data you can use the script `trainNewModel.py` to train and serialize a model that is afterwards applied on new samples to compute a quality probability (automatic quality control). The script does not run the whole grid search as we did for our investigations (it would require a lot of resources and time), but it uses classifier configurations that trained highly accurate models in our study.
 
 The requirements are essentially:
-* a folder containing the feature sets for the training samples (as preprocessed by the `deriveFeatureSets.py` script)
+* a folder containing the feature sets for the training samples (as preprocessed by the `derive_conv_seqQ_features.py` script)
 * a tab-separated table that links the sample IDs (file names of the feature sets files) to a quality label 1 (low-quality) or 0 (high-quality). By default the column “quality” is used. However, if the column you created is not called “quality”, use the option `--column` to specify the name of the column that contains the labels. Note, the sample ID column has to be named "sampleID".
 * an output path to specify where to save the model
 
