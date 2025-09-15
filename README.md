@@ -256,7 +256,7 @@ python seqQscorer.py --indir ./feature_set_examples/ --species human --assay ChI
 
 ## Integrating the ENCODE blocklist - seqBLQ extension
 
-Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our paper [link to preprint](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v1). 
+Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our paper [link to preprint](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v2).
 
 Preprocessing samples for the seqBLQ extension and using the extension to receive quality scores for these samples, follows a two-step approach. Firts, the seqBLQ features are derived. The scorer can then be applied to a whole folder keeping the feature files for several samples.
 
@@ -284,7 +284,7 @@ conda env create -f conda_env_seqBLQ.yml
 
 With this you will get the `seqq` environment that has `bowtie2`, `samtools`, and `bedtools` and all the Python packages you need.
 
-## Guideline Reports
+## Guideline Reports for the seqQscorer features RAW, MAP, LOC, and TSS
 
 For our study we derived different types of features used for quality prediction as described above and more comprehensively in our research article. These features were shown to be very informative for automatic quality control and we derived these features for a large dataset containing more than 2000 NGS samples from ENCODE. In addition to seqQscorer, that applies machine learning models to derive a single value describing the samples probability of being of low quality, we found it very interesting to have an opportunity to manually inspect NGS samples in comparison to this precious reference ENCODE dataset. 
 
@@ -304,7 +304,7 @@ The following example demonstrates the usage of all these parameters. It specifi
 python guidelineReports.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --outdir ./svg_report/ --format svg --sampleID ENCFF165NJF
 ```
 
-## Training a new model on your labeled data
+## Training a new model on your labeled data (seqQscorer)
 
 The basic idea of our machine learning approach can also be used on new data, of course. The most critical information needed are the quality labels. Having these, in best case manually curated, a supervised classification algorithm can train a model on this labeled data. This model can then be applied on new data in order to perform automatic quality control as demonstrated in our research article. 
 
