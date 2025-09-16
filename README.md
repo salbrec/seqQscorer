@@ -8,7 +8,7 @@ For more details we refer to our research article, however, this paragraph provi
 
 Additionally the script `deriveFeatureSets.py` is available in this repository. It allows the user to preprocess all quality feature sets that are needed to properly run seqQscorer and provides the results in an already readable way for seqQscorer. An example for its usage is provided below. 
 
-<img src="figures/workflow.png" width="850">
+<img src="figures/seqQ.png" width="850">
 
 ## Software installation
 
@@ -254,13 +254,16 @@ The following example demonstrates the usage of all these parameters. It uses th
 python seqQscorer.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --peaktype narrow --noLOC --noTSS --bestCalib --noFS --probOut ./the_probability.tsv --compOut ./comprehensive_output.txt --seed 42 -nv --sampleID ENCFF137DWP
 ```
 
-## Integrating the ENCODE blocklist - seqBLQ extension
+## Integrating the ENCODE blocklist - *seqBLQ* extension
 
-Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our paper [link to preprint](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v2).
+Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v2).
 
 Preprocessing samples for the seqBLQ extension and using the extension to receive quality scores for these samples, follows a two-step approach. Firts, the seqBLQ features are derived. The scorer can then be applied to a whole folder keeping the feature files for several samples.
 
-The preprocessing is done by separate script to derive the blocklist features. This script can be used like a command line tool. 
+<img src="figures/seqBLQ.png" width="850">
+*This figure shows a simplified comparison of the preprocessing for the conventional seqQ features and the new seqBLQ features.*
+
+The preprocessing is done by a separate script to derive the blocklist features. This script can be used like a command line tool. 
 Use `python derive_seqBLQ_features.py --help` to get an overview of the parameters available and those required.
 
 Example for creating the blocklist features:
