@@ -130,128 +130,133 @@ def get_clf_algos():
 	algorithms['SVC'] = SVC(kernel='rbf', probability=True, random_state=1)
 	algorithms['GNB'] = GaussianNB()
 	algorithms['MLP'] = MLPClassifier(random_state=1)
-	DTC = DecisionTreeClassifier(random_state = 1, max_features = "auto", class_weight = "balanced",max_depth = None)
-	algorithms['ADT'] = AdaBoostClassifier(base_estimator = DTC)
+	algorithms['KNN'] = KNeighborsClassifier()
 	algorithms['ETC'] = ExtraTreeClassifier(random_state=1)
+
+	DTC = DecisionTreeClassifier(random_state = 1, max_features = "auto", class_weight = "balanced",max_depth = None)
+	try:
+		algorithms['ADT'] = AdaBoostClassifier(base_estimator = DTC)
+	except:
+		algorithms['ADT'] = AdaBoostClassifier(estimator = DTC)
 	return algorithms
 
 def read_Bowtie_stats(fp):
-    """
-    Reads a Bowtie2 report and returns the feature values in a dict.
+	"""
+	Reads a Bowtie2 report and returns the feature values in a dict.
 
-    Args:
-        fp (str): File path to FastQC summary.txt.
+	Args:
+		fp (str): File path to FastQC summary.txt.
 
-    Returns:
-        dict: a map of MAP feature names and feature values.
-        str: unparsed file content or "not exist" message.
-    """
-    if not os.path.exists(fp):
-        return None, 'File does not exist.'
-    lines = open(fp,'r').read().split('\n')
-    if len(lines) != 7:
-        return None, lines
-    stats = {'total': int(lines[0].split()[0]) }
-    stats['unpaired'] = int(lines[1].split()[0])
-    stats['0times'] = int(lines[2].split()[0])
-    stats['1time'] = int(lines[3].split()[0])
-    stats['multi'] = int(lines[4].split()[0])
-    stats['overall'] = stats['1time'] + stats['multi']
-    percentages = {}
-    for key in stats:
-        if key != 'total':
-            percentages['perc_'+key] = stats[key] / stats['total'] * 100.0
-    stats.update(percentages)
-    return stats, lines
+	Returns:
+		dict: a map of MAP feature names and feature values.
+		str: unparsed file content or "not exist" message.
+	"""
+	if not os.path.exists(fp):
+		return None, 'File does not exist.'
+	lines = open(fp,'r').read().split('\n')
+	if len(lines) != 7:
+		return None, lines
+	stats = {'total': int(lines[0].split()[0]) }
+	stats['unpaired'] = int(lines[1].split()[0])
+	stats['0times'] = int(lines[2].split()[0])
+	stats['1time'] = int(lines[3].split()[0])
+	stats['multi'] = int(lines[4].split()[0])
+	stats['overall'] = stats['1time'] + stats['multi']
+	percentages = {}
+	for key in stats:
+		if key != 'total':
+			percentages['perc_'+key] = stats[key] / stats['total'] * 100.0
+	stats.update(percentages)
+	return stats, lines
 
 def get_file_length(fp):
-    """
-    Use the linux function to get the number of lines in a file.
+	"""
+	Use the linux function to get the number of lines in a file.
 
-    Args:
-        fp (str): File path
+	Args:
+		fp (str): File path
 
-    Returns:
-        int: number of lines
-    """
-    wc = None
-    try:
-        call = 'wc -l %s'%(fp)
-        res = subprocess.check_output(call, shell=True, text=True)
-        wc = int(res.split()[0])
-    except:
-        print('Could not get the wc -l here:',fp)
-    return wc
+	Returns:
+		int: number of lines
+	"""
+	wc = None
+	try:
+		call = 'wc -l %s'%(fp)
+		res = subprocess.check_output(call, shell=True, text=True)
+		wc = int(res.split()[0])
+	except:
+		print('Could not get the wc -l here:',fp)
+	return wc
 
 def read_blocklist(bl_file):
-    """
-    Reads in a blocklist file and uses a certain format that allows for 
-    using the regions efficiently in read counting procedure
+	"""
+	Reads in a blocklist file and uses a certain format that allows for 
+	using the regions efficiently in read counting procedure
 
-    Args:
-        bl_file (str): File path to the blocklist regions file.
+	Args:
+		bl_file (str): File path to the blocklist regions file.
 
-    Returns:
-        dict: dictionary containing lists of regions for each chromosome used as key
-    """
-    df_blocklist = pd.read_csv(bl_file, sep='\t', names=['chr','start','end','ID'])
-    blocklist = {}
-    for index, row in df_blocklist.iterrows():
-        if not row['chr'] in blocklist:
-            blocklist[row['chr']] = []
-        bl_type = row['ID'].split('_')[0][2:]
-        blocklist[row['chr']].append( (index+1, row['chr'], row['start'], row['end'],
-            bl_type_map[bl_type], row['ID']) )
-    return blocklist
+	Returns:
+		dict: dictionary containing lists of regions for each chromosome used as key
+	"""
+	df_blocklist = pd.read_csv(bl_file, sep='\t', names=['chr','start','end','ID'])
+	blocklist = {}
+	for index, row in df_blocklist.iterrows():
+		if not row['chr'] in blocklist:
+			blocklist[row['chr']] = []
+		bl_type = row['ID'].split('_')[0][2:]
+		blocklist[row['chr']].append( (index+1, row['chr'], row['start'], row['end'],
+			bl_type_map[bl_type], row['ID']) )
+	return blocklist
 
 def count_reads_in_regions(summits, regions, chrom_size_map, bl_mapping):
-    """
-    For each region, counting the summits within the region. 
-    An overlap is only given if the summit is in the region, hence, 
-    if more than half of the read overlaps with the blocklist region
-    Args:
-        summits (dict): dictionary with chromosome as key. The values
-                        are lists of summits for the chromosome. The summits 
-                        describe the center of the reads in this application.
-        regions (dict): dictionary with chromosome as key. The values 
-                        are lists of blocklist regions. 
-        chrom_size_map (dict): dictionary with chromosome as key. The values
-                                describe the chromosome length.
-    Returns:
-        pd.DataFrame: 
-    """
-    bincov = {'binID':[], 'chr':[], 'start':[], 'end':[], 'count':[],
-        'blID':[], 'blType':[]}
+	"""
+	For each region, counting the summits within the region. 
+	An overlap is only given if the summit is in the region, hence, 
+	if more than half of the read overlaps with the blocklist region
+	Args:
+		summits (dict): dictionary with chromosome as key. The values
+						are lists of summits for the chromosome. The summits 
+						describe the center of the reads in this application.
+		regions (dict): dictionary with chromosome as key. The values 
+						are lists of blocklist regions. 
+		chrom_size_map (dict): dictionary with chromosome as key. The values
+								describe the chromosome length.
+	Returns:
+		pd.DataFrame: 
+	"""
+	bincov = {'binID':[], 'chr':[], 'start':[], 'end':[], 'count':[],
+		'blID':[], 'blType':[]}
 
-    if bl_mapping:
-        for chrom in chrom_size_map:
-            if not chrom in regions:
-                continue
-            for binID, reg_chrom, reg_start, reg_end, reg_type, reg_ID in regions[chrom]:
-                if reg_ID in summits:
-                    bincov['binID'].append( binID ); bincov['chr'].append( reg_chrom );
-                    bincov['start'].append( reg_start ); bincov['end'].append( reg_end );
-                    bincov['count'].append( len(summits[reg_ID]) ); 
-                    bincov['blType'].append( reg_type ); bincov['blID'].append( reg_ID );
-        return pd.DataFrame(bincov)
-    else:
-        for chrom in chrom_size_map:
-            if not chrom in summits or not chrom in regions:
-                continue
+	if bl_mapping:
+		for chrom in chrom_size_map:
+			if not chrom in regions:
+				continue
+			for binID, reg_chrom, reg_start, reg_end, reg_type, reg_ID in regions[chrom]:
+				if reg_ID in summits:
+					bincov['binID'].append( binID ); bincov['chr'].append( reg_chrom );
+					bincov['start'].append( reg_start ); bincov['end'].append( reg_end );
+					bincov['count'].append( len(summits[reg_ID]) ); 
+					bincov['blType'].append( reg_type ); bincov['blID'].append( reg_ID );
+		return pd.DataFrame(bincov)
+	else:
+		for chrom in chrom_size_map:
+			if not chrom in summits or not chrom in regions:
+				continue
 
-            for binID, reg_chrom, reg_start, reg_end, reg_type, reg_ID in regions[chrom]:
-                if chrom != reg_chrom:
-                    print('!!! Something is WRONG here: ', reg_chrom, chrom)
-                    return None
-            
-                count = len(list(filter( lambda x: x > reg_start and x < reg_end, summits[chrom] )))
-            
-                if count != 0:
-                    bincov['binID'].append( binID ); bincov['chr'].append( reg_chrom );
-                    bincov['start'].append( reg_start ); bincov['end'].append( reg_end );
-                    bincov['count'].append( count ); bincov['blType'].append( reg_type );
-                    bincov['blID'].append( reg_ID )
-        return pd.DataFrame(bincov)
+			for binID, reg_chrom, reg_start, reg_end, reg_type, reg_ID in regions[chrom]:
+				if chrom != reg_chrom:
+					print('!!! Something is WRONG here: ', reg_chrom, chrom)
+					return None
+			
+				count = len(list(filter( lambda x: x > reg_start and x < reg_end, summits[chrom] )))
+			
+				if count != 0:
+					bincov['binID'].append( binID ); bincov['chr'].append( reg_chrom );
+					bincov['start'].append( reg_start ); bincov['end'].append( reg_end );
+					bincov['count'].append( count ); bincov['blType'].append( reg_type );
+					bincov['blID'].append( reg_ID )
+		return pd.DataFrame(bincov)
 
 
 

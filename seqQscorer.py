@@ -137,6 +137,10 @@ if not os.path.exists(model_file_path) and args.model == None:
 		if args.seed != -1:
 			parameters['random_state'] = args.seed
 	
+	if 'max_features' in parameters:
+		if parameters['max_features'] == 'auto':
+			parameters['max_features'] = 'sqrt'
+	
 	clf_setup = clf.set_params(**parameters)
 	
 	data_file_path = '%sutils/datasets/%s_%s_%s.tsv'%(script_dir, assay, species, run_type)
