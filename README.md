@@ -1,6 +1,11 @@
 # Machine Learning Quality Assessment of NGS Data
 
-seqQscorer is a python implementation that takes quality statistics or report summaries (quality features) as input to calculate a probability of an input NGS sample to be of low quality. This probability is calculated with classification models from supervised machine learning. The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [article in Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02294-2). 
+seqQscorer is a python implementation that takes quality statistics or report summaries (quality features) as input to calculate a probability of an input NGS sample to be of low quality. This probability is calculated with classification models from supervised machine learning (ML). The quality features are derived from FastQ and BAM files as shown in the Figure below and described in detail in our [article in Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02294-2).
+
+> [!IMPORTANT]
+> **For users working with ChIP-seq data from human biosamples:**
+> 
+> We recently implemented *seqBLQ*, an extension for this ML approach that leverages the [ENCODE blocklist](https://www.nature.com/articles/s41598-019-45839-z) to create quality-related features used by the ML models. These features are easier to create and improve the quality assessment for human ChIP-seq data. For more details see our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v2) and the more detailed description below.
 
 The following figure describes the workflow implemented to receive and preprocess NGS data from ENCODE and applying a grid-search to find the optimal classification model. The optimization depends on the experimental context (species or assay) and the quality features that are provided by the user. Already computed classification models are not available in the github repository. However, the software contains settings for an over all well-performing generic model and multiple more specialized models, that can be trained with the ENCODE data given or new data. The first time a model is needed, it is trained and serialized into the folder `models`. Note, the model training is done within seconds and afterwards it is not necessary to train again. The models are trained on the preprocessed ENCODE data (in utils) as described in the article.
 
@@ -233,7 +238,7 @@ python derive_conv_seqQ_features.py --fastq1 /var/examples/single/ENCFF165NJF.fa
 After deriving the feature sets the application of seqQscorer can be as simple as the following line. Check out the parameters that allow you to specify the feature sets used and especially the classification model that is applied.
 
 ```
-python seqQscorer.py --indir ./feature_set_examples/
+python seqQscorer.py --indir ./seqQ_feature_set_examples/
 ```
 
 By default the generic classification model is (trained and) used to calculate the quality probabilities. According to our analyses, its performance is comparable to the more specialized models. Furthermore the generic model is the most reliable one as it was trained on the largest dataset. However, depending on the data that was available for our investigations, some specialized models are available. You can specify the model with the parameters `--species`, `--assay`, and `--runtype`. seqQscorer will then automatically select the model that achieved the highest auROC (area under ROC curve) for this subset. Besides the generic model, specialized models are available for all feature set combinations out of RAW, MAP, LOC, and TSS and for these specifications: (human, ChIP-seq, single-ended), (mouse, ChIP-seq, single-ended), (human, ChIP-seq, paired-ended), (human, DNase-seq, paired-ended), (mouse, DNase-seq, paired-ended), (human, RNA-seq, single-ended).
@@ -248,19 +253,22 @@ By default the model is selected that achieved the highest predictive performanc
 
 During our investigations we also analyzed the impact of peak-type specification. When seqQscorer is applied to ChIP-seq data homogeneous for narrow or broad peaks, we recommend to use the corresponding ChIP-seq model. For broad-peak data from human biosamples we recommend to further specify the model by peak-type. This can be done with the `--peaktype` option, e.g. `--peaktype narrow`.
 
-The following example demonstrates the usage of all these parameters. It uses the optimal model for human, paired-end ChIP-seq for narrow peak-type without feature selection and the model is selected by best calibration. The LOC and TSS feature sets are ignored and the model is trained with selected seed. Furthermore, output files are defined to save both the probabilities and the comprehensive output. In this example seqQscorer runs without verboseness and only for the sample ENCFF137DWP in the folder `./feature_set_examples/`.
+The following example demonstrates the usage of all these parameters. It uses the optimal model for human, paired-end ChIP-seq for narrow peak-type without feature selection and the model is selected by best calibration. The LOC and TSS feature sets are ignored and the model is trained with selected seed. Furthermore, output files are defined to save both the probabilities and the comprehensive output. In this example seqQscorer runs without verboseness and only for the sample ENCFF137DWP in the folder `./seqQ_feature_set_examples/`.
 
 ```
-python seqQscorer.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --peaktype narrow --noLOC --noTSS --bestCalib --noFS --probOut ./the_probability.tsv --compOut ./comprehensive_output.txt --seed 42 -nv --sampleID ENCFF137DWP
+python seqQscorer.py --indir ./seqQ_feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --peaktype narrow --noLOC --noTSS --bestCalib --noFS --probOut ./the_probability.tsv --compOut ./comprehensive_output.txt --seed 42 -nv --sampleID ENCFF137DWP
 ```
 
 ## Integrating the ENCODE blocklist - *seqBLQ* extension
 
 Integrating the ENCODE blocklist to create quality-related features for the seqQscorer machine learninig approach results in more accurate quality assessment of NGS data from human ChIP-seq samples. For more details we refer to our [preprint on bioRxiv](https://www.biorxiv.org/content/10.1101/2025.05.12.653555v2).
 
+### Creating the seqBLQ features 
+
 Preprocessing samples for the seqBLQ extension and using the extension to receive quality scores for these samples, follows a two-step approach. Firts, the seqBLQ features are derived. The scorer can then be applied to a whole folder keeping the feature files for several samples.
 
-<img src="figures/seqBLQ.png" width="850">
+<img src="figures/seqBLQ.png" width="1000">
+
 *This figure shows a simplified comparison of the preprocessing for the conventional seqQ features and the new seqBLQ features.*
 
 The preprocessing is done by a separate script to derive the blocklist features. This script can be used like a command line tool. 
@@ -270,12 +278,16 @@ Example for creating the blocklist features:
 ```
 python derive_seqBLQ_features.py --fastq /var/examples/single/ENCFF165NJF.fastq.gz --assembly hg38
 ```
-One big advantage coming with this extension is that the Bowtie2 index files for the whole reference genome are not needed. The blocklist features can be created using a blocklist-restricted reference genome, which comes with this repository and does not need to be provided by the user. It is still possible to use an own index via the parameter `--btidx`.  
+
+One big advantage coming with this extension is that the *Bowtie2* index files for the whole reference genome are not needed. The blocklist features can be created using a blocklist-restricted reference genome, which comes with this repository and does not need to be provided by the user. It is still possible to use an own index via the parameter `--btidx`. Note that the file path used here is for a small example that comes within the docker image and does not represent a full sequencing sample.
+
+### Applying the seqBLQ extension on preprocessed samples
 
 ```
-python seqBLQscorer.py --indir ./features_BL/ --assembly hg38 --assay ChIP-seq --runtype se
+python seqBLQscorer.py --indir ./seqBLQ_feature_examples/ --assembly hg38 --assay ChIP-seq --runtype se
 ```
-Note that this is just an example and the assembly might not necessarily be the correct one for the small example FASTQ file provided within the docker image.
+
+The preprocessed examples that come with the repository in folder `seqBLQ_feature_examples` are samples from the *CistromeDB* project. CistromeDB does not provide a quality label comparable to the ENCODE status based on a semi-manual curation procedure. However, samples in CistromeDB are assigned to different *quality flags* as indicated in the file names by *cisQF*. For examples, 3 quality flags have been raised for the sample `SRR946845_cisQF_3`. Samples with more flags are expected to be of lower quality than those with fewer (or even 0) quality flags.
 
 ### Installation for the seqBLQ extension
 
@@ -296,15 +308,15 @@ In order to address this we provide the script `guidelineReports.py` that create
 Having all feature sets for several samples in one folder as it is done by the `derive_conv_seqQ_features.py` script, the guideline reports can be created in this way:
 
 ```
-python guidelineReports.py --indir ./feature_set_examples/
+python guidelineReports.py --indir ./seqQ_feature_set_examples/
 ```
 
 Similar to seqQscorer the application can be restricted to a single sampleID with `--sampleID`. The reference ENCODE data can also be specified using `--species`, `--assay`, and `--runtype`. For example, when `--species human` is used, the reference dataset will contain a mix of assays and runtypes but only for human samples. Or with `--assay ChIP-seq` the reference plots are created only for ChIP-seq samples. By default the reports are written into this folder `./guideline_reports/` in `PDF` format. The destination can be changed with`--outdir` and also the file format can be changed to `PNG` or `SVG` by using the `--format` parameter (e.g. `--format png`).
 
-The following example demonstrates the usage of all these parameters. It specifies the reference samples for human, paired-end ChIP-seq and creates the report only for ENCFF165NJF in the folder `./feature_set_examples/`. The output directory is changed to `./svg_report/` and the report file format will be `svg`.
+The following example demonstrates the usage of all these parameters. It specifies the reference samples for human, paired-end ChIP-seq and creates the report only for ENCFF165NJF in the folder `./seqQ_feature_set_examples/`. The output directory is changed to `./svg_report/` and the report file format will be `svg`.
 
 ```
-python guidelineReports.py --indir ./feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --outdir ./svg_report/ --format svg --sampleID ENCFF165NJF
+python guidelineReports.py --indir ./seqQ_feature_set_examples/ --species human --assay ChIP-seq --runtype single-end --outdir ./svg_report/ --format svg --sampleID ENCFF165NJF
 ```
 
 ## Training a new model on your labeled data (seqQscorer)
